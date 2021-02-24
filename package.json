@@ -14,8 +14,6 @@
   "author": "Kasun Vithanage",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-http": "^4.3.0",
     "cross-env": "^5.1.3",
     "eslint": "^4.17.0",
     "eslint-config-standard": "^11.0.0-beta.0",
@@ -23,7 +21,6 @@
     "eslint-plugin-node": "^6.0.0",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "mocha": "^7.2.0",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
@@ -35,7 +32,7 @@
     "express": "^4.16.2",
     "express-validation": "^1.0.2",
     "helmet": "^3.21.1",
-    "http-status": "^1.0.1",
+    "http-status": "^1.5.0",
     "joi": "^13.1.2",
     "jsonwebtoken": "^8.1.1",
     "mongoose": "^5.0.7",
@@ -47,6 +44,8 @@
     "passport-jwt": "^4.0.0",
     "swagger-jsdoc": "^5.0.1",
     "swagger-ui-express": "^4.1.4",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "winston": "^3.3.3",
+    "yamljs": "^0.3.0"
   }
 }

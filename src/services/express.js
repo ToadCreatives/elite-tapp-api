@@ -9,57 +9,43 @@ const bodyParser = require('body-parser')
 const errorHandler = require('../middlewares/error-handler')
 const apiRouter = require('../routes/api')
 const passport = require('passport')
-const passportJwt = require('../services/passport')
-const swaggerUi = require('swagger-ui-express')
+const passportStrategy = require('../services/passport')
+
 const path = require('path')
-
-const swaggerJSDoc = require('swagger-jsdoc')
-
-const options = {
-  definition: {
-    openapi: '3.0.0', // Specification (optional, defaults to swagger: '2.0')
-    info: {
-      title: 'Hello World', // Title (required)
-      version: '1.0.0' // Version (required)
-    }
-  },
-  // Path to the API docs
-  apis: [path.resolve(__dirname, '../routes/**/*.js')]
-}
-
-// Initialize swagger-jsdoc -> returns validated swagger spec in json format
-const swaggerSpec = swaggerJSDoc(options)
-console.log(options)
-console.log(swaggerSpec)
+const YAML = require('yamljs')
+const swaggerUi = require('swagger-ui-express')
+const log = require('../log')
 
 const app = express()
-app.use(bodyParser.json())
 app.use(cors())
 app.use(helmet())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+// setup openapi
+const openApiDocument = YAML.load(path.resolve(__dirname, '../../openapi/v1/api.yaml'))
+app.use('/api-docs', swaggerUi.serve)
+app.get('/api-docs', swaggerUi.setup(openApiDocument))
 
 if (config.env !== 'test') app.use(morgan('combined'))
 
 // passport
 app.use(passport.initialize())
-passport.use('jwt', passportJwt.jwt)
+passport.use('jwt', passportStrategy.jwt)
 
-app.use('/api', apiRouter)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-app.get('/api-docs.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json')
-  res.send(swaggerSpec)
-})
+app.use('/api/v1', apiRouter)
+
 app.use(errorHandler.handleNotFound)
 app.use(errorHandler.handleError)
 
 exports.start = () => {
   app.listen(config.port, (err) => {
     if (err) {
-      console.log(`Error : ${err}`)
+      log.error(`Error starting the app`, { error: err })
       process.exit(-1)
     }
 
-    console.log(`${config.app} is running on ${config.port}`)
+    log.info(`${config.app} is running on ${config.port}`)
   })
 }
 

@@ -7,13 +7,13 @@ module.exports = {
   secret: process.env.APP_SECRET,
   hostname: process.env.HOSTNAME,
   mongo: {
-    uri: process.env.MONGOURI,
-    testURI: process.env.MONGOTESTURI
+    uri: process.env.MONGOURI
   },
   transporter: {
     host: process.env.TRANSPORTER_HOST,
     port: process.env.TRANSPORTER_PORT,
     username: process.env.TRANSPORTER_USERNAME,
     password: process.env.TRANSPORTER_PASSWORD
-  }
+  },
+  isDevEnv: process.env.NODE_ENV === 'development'
 }

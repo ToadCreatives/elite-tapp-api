@@ -1,6 +1,5 @@
 'use strict'
 
-const User = require('../models/user.model')
 const passport = require('passport')
 const APIError = require('../utils/APIError')
 const httpStatus = require('http-status')
@@ -24,7 +23,7 @@ const handleJWT = (req, res, next, roles) => async (err, user, info) => {
   }
 
   // see if user is authorized to do the action
-  if (!roles.includes(user.role)) {
+  if (roles && roles.length > 0 && !roles.includes(user.role)) {
     return next(new APIError('Forbidden', httpStatus.FORBIDDEN))
   }
 
@@ -34,7 +33,8 @@ const handleJWT = (req, res, next, roles) => async (err, user, info) => {
 }
 
 // exports the middleware
-const authorize = (roles = User.roles) => (req, res, next) =>
+
+const authorize = (...roles) => (req, res, next) =>
   passport.authenticate(
     'jwt',
     { session: false },
