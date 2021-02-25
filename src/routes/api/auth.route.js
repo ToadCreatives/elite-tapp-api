@@ -2,11 +2,11 @@
 
 const express = require('express')
 const router = express.Router()
-const authController = require('../controllers/auth.controller')
+const authController = require('../../controllers/auth.controller')
 const validator = require('express-validation')
-const { create } = require('../validations/user.validation')
+const validation = require('../../validations/user.validation')
 
-router.post('/register', validator(create), authController.register) // validate and register
+router.post('/register', validator(validation.create), authController.register) // validate and register
 router.post('/login', authController.login) // login
 router.get('/confirm', authController.confirm)
 
