@@ -7,18 +7,35 @@ const roles = [
   'user', 'admin'
 ]
 
+const genders = [
+  'male',
+  'female'
+]
+
 const userSchema = new Schema({
   email: {
     type: String,
-    required: true,
     unique: true,
-    lowercase: true
+    lowercase: true,
+    sparse: true
+  },
+  phone: {
+    type: String,
+    unique: true,
+    lowercase: true,
+    sparse: true
+  },
+  username: {
+    type: String,
+    maxlength: 50,
+    unique: true,
+    sparse: true
   },
   password: {
     type: String,
-    required: true,
     minlength: 4,
-    maxlength: 50
+    maxlength: 50,
+    default: null
   },
   firstName: {
     type: String,
@@ -28,12 +45,23 @@ const userSchema = new Schema({
     type: String,
     maxlength: 50
   },
-  username: {
+  gender: {
     type: String,
-    maxlength: 50,
-    unique: true
+    enum: genders
   },
-  active: {
+  bio: {
+    type: String,
+    min: 10,
+    max: 200
+  },
+  dob: {
+    type: Date
+  },
+  avatar: {
+    type: String,
+    default: null
+  },
+  verified: {
     type: Boolean,
     default: false
   },
@@ -41,7 +69,11 @@ const userSchema = new Schema({
     type: String,
     default: 'user',
     enum: roles
-  }
+  },
+  interests: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Interest'
+  }]
 }, {
   timestamps: true
 })
