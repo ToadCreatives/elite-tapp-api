@@ -19,7 +19,7 @@
 
 | Name                 | Description                                                                           | Example                              |
 |----------------------|---------------------------------------------------------------------------------------|--------------------------------------|
-| NODE_ENV             | Environment for node js                                                               | "dev", "prod", "test"                |
+| NODE_ENV             | Environment for node js                                                               | "development", "production", "test"                |
 | APP                  | Name of the application                                                               | My cool express app                  |
 | PORT                 | Port to run the application (if you run in **heroku** this will setup  automatically) | 3000                                 |
 | HOSTNAME             | Host name for running the application                                                 | http://localhost:3000                |
