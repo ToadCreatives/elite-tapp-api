@@ -1,0 +1,98 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "migrate:all",
+      "type": "shell",
+      "command": "npx sequelize-cli db:migrate",
+      "problemMatcher": []
+    },
+    {
+      "label": "migrate:undo",
+      "type": "shell",
+      "command": "npx sequelize-cli db:migrate:undo",
+      "problemMatcher": []
+    },
+    {
+      "label": "migrate:undo:all",
+      "type": "shell",
+      "command": "npx sequelize-cli db:migrate:undo:all",
+      "problemMatcher": []
+    },
+    {
+      "label": "db:create",
+      "type": "shell",
+      "command": "npx sequelize-cli db:create",
+      "problemMatcher": []
+    },
+    {
+      "label": "db:drop",
+      "type": "shell",
+      "command": "npx sequelize-cli db:drop",
+      "problemMatcher": []
+    },
+    {
+      "label": "seed:all",
+      "type": "shell",
+      "command": "npx sequelize-cli db:seed:all",
+      "problemMatcher": []
+    },
+    {
+      "label": "seed:file",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "sequelize-cli",
+        "db:seed",
+        "--seed",
+        "${input:Name}"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "seed:undo",
+      "type": "shell",
+      "command": "npx sequelize-cli db:seed:undo:all",
+      "problemMatcher": []
+    },
+    {
+      "label": "db:migrate:status",
+      "type": "shell",
+      "command": "npx sequelize-cli db:migrate:status",
+      "problemMatcher": []
+    },
+    {
+      "label": "migration:generate",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "sequelize-cli",
+        "migration:generate",
+        "--name",
+        "${input:Name}"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "seed:generate",
+      "type": "shell",
+      "command": "npx",
+      "args": [
+        "sequelize-cli",
+        "seed:generate",
+        "--name",
+        "${input:Name}"
+      ],
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "Name",
+      "description": "Name of file",
+      "type": "promptString"
+    }
+  ]
+}
