@@ -7,8 +7,12 @@ const userActivationSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User',
   },
-  code: {
+  otpCode: {
     type: String,
+  },
+  activationId: {
+    type: String,
+    unique: true,
   },
   method: {
     type: String,

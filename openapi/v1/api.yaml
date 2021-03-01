@@ -5,9 +5,159 @@ info:
 servers:
   - url: http://localhost:5000/api/v1
   - url: https://api-elite-tapp.com/api/v1
+tags:
+  - name: User
+    description: User related endpoints
 paths:
-  /test:
-    get:
+  /user/register:
+    post:
+      summary: Register user account
+      description: Registers user in the system
+      operationId: registerUser
+      tags:
+        - User
+      requestBody:
+        $ref: "#/components/requestBodies/RegisterBody"
       responses:
         "200":
-          description: OK
+          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserAccountCreatedSchema"
+        "409":
+          description: Account exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    UnauthorizedError:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIError"
+    OkResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MessageResponse"
+    UnknownError:
+      description: Unknown Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIError"
+    ValidationError:
+      description: ValidationError Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIError"
+  schemas:
+    UserRegisterSchema:
+      type: object
+      description: User register
+      properties:
+        login:
+          type: string
+          description: email or phone number
+          example: jhondoe@example.com
+        password:
+          type: string
+          description: password
+          example: mypassword
+          minLength: 6
+    UserAccountCreatedSchema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Account created"
+        method:
+          type: string
+          enum:
+            - phone
+            - email
+        activationId:
+          type: string
+          description: OTP activation id when method is `phone`
+          example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+          nullable: true
+    MessageResponse:
+      type: object
+      description: message
+      properties:
+        message:
+          type: string
+          example: ok
+    ValidationError:
+      allOf:
+        - $ref: "#/components/schemas/ErrorBase"
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidationErrorField"
+    ValidationErrorField:
+      type: object
+      properties:
+        field:
+          type: array
+          items:
+            type: string
+        location:
+          type: string
+          example: body
+        messages:
+          type: array
+          items:
+            type: string
+        types:
+          type: array
+          items:
+            type: string
+    APIError:
+      allOf:
+        - $ref: "#/components/schemas/ErrorBase"
+      properties:
+        errors:
+          type: array
+          title: an array of errors
+          items:
+            type: object
+    ErrorBase:
+      type: object
+      properties:
+        name:
+          type: string
+          title: Name of the error
+        message:
+          type: string
+          title: Descriptive error message
+        status:
+          type: integer
+          title: HTTP Error code
+        errorCode:
+          type: integer
+          title: API Specific error code
+  requestBodies:
+    RegisterBody:
+      description: JSON object with registration info
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserRegisterSchema"
