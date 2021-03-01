@@ -1,30 +1,36 @@
-'use strict'
-
-const httpStatus = require('http-status')
-const APIError = require('../errors/APIError')
-const ev = require('express-validation')
-const errorCodes = require('../errors/errorCodes')
+const httpStatus = require('http-status');
+const { ValidationError } = require('express-validation');
+const APIError = require('../errors/APIError');
+const errorCodes = require('../errors/errorCodes');
+const { log } = require('../log');
 
 // hanlde not found error
+// eslint-disable-next-line no-unused-vars
 exports.handleNotFound = (req, res, next) => {
-  res.status(httpStatus.NOT_FOUND)
-  res.json(new APIError('Requested resources not found', httpStatus.NOT_FOUND))
-  res.end()
-}
+  res.status(httpStatus.NOT_FOUND);
+  res.json(new APIError('Requested resources not found', httpStatus.NOT_FOUND));
+  res.end();
+};
 
 // handle errors
+// eslint-disable-next-line no-unused-vars
 exports.handleError = (err, req, res, next) => {
   if (err instanceof APIError) {
-    return res.status(err.status)
-      .json(err)
+    return res.status(err.status || httpStatus.INTERNAL_SERVER_ERROR)
+      .json(err);
   }
 
-  if (err instanceof ev.ValidationError) {
-    return res.status(err.status)
-      .json(new APIError(err.message, err.status || httpStatus.BAD_REQUEST, errorCodes.ValidationError, err.errors))
+  if (err instanceof ValidationError) {
+    return res.status(httpStatus.BAD_REQUEST)
+      .json(new APIError(
+        err.message,
+        httpStatus.BAD_REQUEST,
+        errorCodes.ValidationError,
+        err.details,
+      ));
   }
 
-  console.error(err)
+  log.error(err);
   return res.status(httpStatus.INTERNAL_SERVER_ERROR)
-    .json(new APIError(err.message || 'Unknown error occured'))
-}
+    .json(new APIError(err.message || 'Unknown error occured'));
+};
