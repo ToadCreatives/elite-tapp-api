@@ -1,30 +1,27 @@
-'use strict'
+const passportJWT = require('passport-jwt');
+const config = require('../config');
+const User = require('../models/user.model');
 
-const config = require('../config')
-const User = require('../models/user.model')
-const passportJWT = require('passport-jwt')
-
-const ExtractJwt = passportJWT.ExtractJwt
-const JwtStrategy = passportJWT.Strategy
+const { ExtractJwt } = passportJWT;
+const JwtStrategy = passportJWT.Strategy;
 
 const jwtOptions = {
   secretOrKey: config.secret,
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken()
-}
+  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+};
 
 const jwtStrategy = new JwtStrategy(jwtOptions, (jwtPayload, done) => {
   User.findById(jwtPayload.sub, (err, user) => {
     if (err) {
-      return done(err, null)
+      return done(err, null);
     }
 
     if (user) {
-      return done(null, user)
-    } else {
-      return done(null, false)
+      return done(null, user);
     }
-  })
-})
+    return done(null, false);
+  });
+});
 
-exports.jwtOptions = jwtOptions
-exports.jwt = jwtStrategy
+exports.jwtOptions = jwtOptions;
+exports.jwt = jwtStrategy;

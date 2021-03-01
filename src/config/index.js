@@ -1,4 +1,4 @@
-require('dotenv').config() // load .env file
+require('dotenv').config(); // load .env file
 
 module.exports = {
   port: process.env.PORT,
@@ -7,13 +7,13 @@ module.exports = {
   secret: process.env.APP_SECRET,
   hostname: process.env.HOSTNAME,
   mongo: {
-    uri: process.env.MONGOURI
+    uri: process.env.MONGOURI,
   },
   transporter: {
     host: process.env.TRANSPORTER_HOST,
     port: process.env.TRANSPORTER_PORT,
     username: process.env.TRANSPORTER_USERNAME,
-    password: process.env.TRANSPORTER_PASSWORD
+    password: process.env.TRANSPORTER_PASSWORD,
   },
-  isDevEnv: process.env.NODE_ENV === 'development'
-}
+  isDevEnv: process.env.NODE_ENV === 'development',
+};

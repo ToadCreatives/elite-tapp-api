@@ -1,12 +1,11 @@
-'use strict'
+const winston = require('winston');
+const config = require('../config');
 
-const config = require('../config')
-const winston = require('winston')
-const logLevel = config.isDevEnv ? 'debug' : 'info'
+const logLevel = config.isDevEnv ? 'debug' : 'info';
 
 const logger = winston.createLogger({
-  level: logLevel
-})
+  level: logLevel,
+});
 
 //
 // If we're not in production then log to the `console` with the format:
@@ -18,17 +17,17 @@ if (config.env !== 'production') {
       winston.format.timestamp(),
       winston.format.colorize(),
       winston.format.splat(),
-      winston.format.simple()
-    )
-  }))
+      winston.format.simple(),
+    ),
+  }));
 } else {
   logger.add(new winston.transports.Console({
     format: winston.format.combine(
       winston.format.timestamp(),
       winston.format.splat(),
-      winston.format.json()
-    )
-  }))
+      winston.format.json(),
+    ),
+  }));
 }
 
-module.exports = logger
+module.exports = logger;

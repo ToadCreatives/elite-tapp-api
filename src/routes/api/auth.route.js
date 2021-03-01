@@ -1,13 +1,12 @@
-'use strict'
+const express = require('express');
 
-const express = require('express')
-const router = express.Router()
-const authController = require('../../controllers/auth.controller')
-const validator = require('express-validation')
-const validation = require('../../validations/user.validation')
+const router = express.Router();
+// const validator = require('express-validation');
+// const authController = require('../../../controllers/auth.controller');
+// const validation = require('../../validations/user.validation');
 
-router.post('/register', validator(validation.create), authController.register) // validate and register
-router.post('/login', authController.login) // login
-router.get('/confirm', authController.confirm)
+// router.post('/register', validator(validation.register), authController.register)
+// router.post('/login', authController.login) // login
+// router.get('/confirm', authController.confirm)
 
-module.exports = router
+module.exports = router;

@@ -1,14 +1,15 @@
-'use strict'
-
-const Joi = require('joi')
+const Joi = require('joi');
+const { JOI_PHONE_SCHEMA, JOI_EMAIL_SCHEMA } = require('../utils/helpers');
 
 // User validation rules
 module.exports = {
-  create: {
-    body: {
-      email: Joi.string().email().required(),
+  register: {
+    body: Joi.object({
+      login: Joi.alternatives().try(
+        JOI_EMAIL_SCHEMA,
+        JOI_PHONE_SCHEMA,
+      ).required(),
       password: Joi.string().min(6).max(128).required(),
-      name: Joi.string().max(128).required()
-    }
-  }
-}
+    }),
+  },
+};

@@ -1,113 +1,113 @@
-'use strict'
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt-nodejs')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
+
+const { Schema } = mongoose;
 
 const roles = [
-  'user', 'admin'
-]
+  'user', 'admin',
+];
 
 const genders = [
   'male',
-  'female'
-]
+  'female',
+];
 
 const userSchema = new Schema({
   email: {
     type: String,
     unique: true,
     lowercase: true,
-    sparse: true
+    sparse: true,
   },
   phone: {
     type: String,
     unique: true,
     lowercase: true,
-    sparse: true
+    sparse: true,
   },
   username: {
     type: String,
     maxlength: 50,
     unique: true,
-    sparse: true
+    sparse: true,
   },
   password: {
     type: String,
     minlength: 4,
     maxlength: 50,
-    default: null
+    default: null,
   },
   firstName: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
   },
   lastName: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
   },
   gender: {
     type: String,
-    enum: genders
+    enum: genders,
   },
   bio: {
     type: String,
     min: 10,
-    max: 200
+    max: 200,
   },
   dob: {
-    type: Date
+    type: Date,
   },
   avatar: {
     type: String,
-    default: null
+    default: null,
   },
   verified: {
     type: Boolean,
-    default: false
+    default: false,
   },
   role: {
     type: String,
     default: 'user',
-    enum: roles
+    enum: roles,
   },
   interests: [{
     type: mongoose.Schema.ObjectId,
-    ref: 'Interest'
-  }]
+    ref: 'Interest',
+  }],
 }, {
-  timestamps: true
-})
+  timestamps: true,
+});
 
-userSchema.pre('save', async function save (next) {
+userSchema.pre('save', async function save(next) {
   try {
     if (!this.isModified('password')) {
-      return next()
+      return next();
     }
 
-    this.password = bcrypt.hashSync(this.password)
+    this.password = bcrypt.hashSync(this.password);
 
-    return next()
+    return next();
   } catch (error) {
-    return next(error)
+    return next(error);
   }
-})
+});
 
 userSchema.method({
-  transform () {
-    const transformed = {}
-    const fields = ['id', 'name', 'email', 'createdAt', 'role']
+  transform() {
+    const transformed = {};
+    const fields = ['id', 'name', 'email', 'createdAt', 'role'];
 
     fields.forEach((field) => {
-      transformed[field] = this[field]
-    })
+      transformed[field] = this[field];
+    });
 
-    return transformed
+    return transformed;
   },
 
-  passwordMatches (password) {
-    return bcrypt.compareSync(password, this.password)
-  }
-})
+  passwordMatches(password) {
+    return bcrypt.compareSync(password, this.password);
+  },
+});
 
 // userSchema.statics = {
 //   roles,
@@ -144,4 +144,4 @@ userSchema.method({
 //   }
 // }
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);
