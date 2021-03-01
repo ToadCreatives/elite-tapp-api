@@ -9,6 +9,10 @@ module.exports = {
   mongo: {
     uri: process.env.MONGOURI,
   },
+  token: {
+    expiration: process.env.TOKEN_EXPIRATION || 1,
+    expirationUnit: process.env.TOKEN_EXPIRATION_UNIT || 'hour',
+  },
   transporter: {
     host: process.env.TRANSPORTER_HOST,
     port: process.env.TRANSPORTER_PORT,

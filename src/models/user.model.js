@@ -93,15 +93,16 @@ userSchema.pre('save', async function save(next) {
 });
 
 userSchema.method({
-  transform() {
-    const transformed = {};
-    const fields = ['id', 'name', 'email', 'createdAt', 'role'];
-
-    fields.forEach((field) => {
-      transformed[field] = this[field];
-    });
-
-    return transformed;
+  getUserInfo() {
+    return {
+      id: this._id,
+      firstName: this.firstName,
+      lastName: this.lastName,
+      username: this.username || null,
+      email: this.email || null,
+      phone: this.phone || null,
+      passwordSet: !!this.password,
+    };
   },
 
   passwordMatches(password) {
