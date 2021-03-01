@@ -1,8 +1,13 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "EliteTapp API",
   "main": "index.js",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ToadCreatives/elite-tapp-api.git"
+  },
   "scripts": {
     "start": "node src/index.js",
     "dev": "./node_modules/.bin/nodemon",
@@ -13,8 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Kasun Vithanage",
-  "license": "MIT",
+  "author": "EliteTapp Team",
   "devDependencies": {
     "@apidevtools/swagger-cli": "^4.0.4",
     "@types/mongoose": "^5.10.3",
@@ -37,10 +41,10 @@
     "cors": "^2.8.4",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
-    "express-validation": "^1.0.2",
+    "express-validation": "^3.0.8",
     "helmet": "^3.21.1",
     "http-status": "^1.5.0",
-    "joi": "^13.1.2",
+    "joi": "^17.4.0",
     "jsonwebtoken": "^8.1.1",
     "mongoose": "^5.0.7",
     "mongoose-error-handler": "^1.0.0",
