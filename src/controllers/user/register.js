@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const User = require('../../models/User.model');
+const User = require('../../models/user.model');
 const { isEmail, isPhone } = require('../../utils/helpers');
 const APIError = require('../../errors/APIError');
 const errorCodes = require('../../errors/errorCodes');

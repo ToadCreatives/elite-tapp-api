@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 const { addDays, isBefore, addMinutes } = require('date-fns');
-const UserActivation = require('../../../models/UserActivation.model');
+const UserActivation = require('../../../models/userActivation.model');
 const APIError = require('../../../errors/APIError');
 
 async function sendEmailWithCode(userDAO) {
