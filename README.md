@@ -1,5 +1,7 @@
 # Elite Tapp API
 
+[![Node.js CI](https://github.com/ToadCreatives/elite-tapp-api/actions/workflows/node.js.yml/badge.svg)](https://github.com/ToadCreatives/elite-tapp-api/actions/workflows/node.js.yml)
+
 ## Installation
 
 - Install NodeJS, MongoDB
