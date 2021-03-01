@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "elite-tapp-api",
   "version": "1.0.0",
   "description": "EliteTapp API",
   "main": "index.js",
