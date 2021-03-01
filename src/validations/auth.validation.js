@@ -12,4 +12,9 @@ module.exports = {
       password: Joi.string().min(6).max(128).required(),
     }),
   },
+  loginToken: {
+    body: Joi.object({
+      refreshToken: Joi.string().required(),
+    }),
+  },
 };

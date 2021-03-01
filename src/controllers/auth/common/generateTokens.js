@@ -13,11 +13,10 @@ function generateAccessToken(user) {
   return { token: jwt.sign(payload, config.secret), expires: expAt.utc(), tokenType: 'Bearer' };
 }
 
-async function generateTokenResponse(user, refreshToken) {
+function generateTokenResponse(user, refreshToken) {
   const accessToken = generateAccessToken(user);
 
   return {
-    message: 'OK',
     accessToken,
     refreshToken,
     user: user.getUserInfo(),

@@ -29,7 +29,7 @@ exports.login = async (req, res, next) => {
 
     const refreshToken = await RefreshToken.generate(user);
 
-    const response = await generateTokenResponse(user, refreshToken);
+    const response = generateTokenResponse(user, refreshToken);
     return res.status(httpStatus.OK).json(response);
   } catch (err) {
     next(err);
@@ -47,6 +47,16 @@ exports.loginRefreshToken = async (req, res, next) => {
     const { user } = tokObj;
     const response = generateTokenResponse(user, refreshToken);
     return res.status(httpStatus.OK).json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.revokeRefreshToken = async (req, res, next) => {
+  try {
+    const { user } = req;
+    await RefreshToken.findOneAndRemove({ user: user._id });
+    return res.json({ message: 'OK' });
   } catch (error) {
     next(error);
   }

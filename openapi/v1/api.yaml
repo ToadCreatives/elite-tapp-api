@@ -8,6 +8,8 @@ servers:
 tags:
   - name: User
     description: User related endpoints
+  - name: Auth
+    description: Authentication related endpoints
 paths:
   /user/register:
     post:
@@ -35,6 +37,48 @@ paths:
           $ref: "#/components/responses/ValidationError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /auth/login:
+    post:
+      summary: Login to the app
+      description: Issue login tokens for user
+      operationId: loginUser
+      tags:
+        - Auth
+      requestBody:
+        $ref: "#/components/requestBodies/LoginBody"
+      responses:
+        "200":
+          $ref: "#/components/responses/LoginSuccessResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /auth/login/token:
+    post:
+      summary: Login to the app with refresh token
+      description: Issue login tokens for user for refresh token
+      operationId: loginRefreshToken
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  $ref: "#/components/schemas/RefreshToken"
+      responses:
+        "200":
+          $ref: "#/components/responses/LoginSuccessResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -42,6 +86,19 @@ components:
       scheme: bearer
       bearerFormat: JWT
   responses:
+    LoginSuccessResponse:
+      description: login success response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accessToken:
+                $ref: "#/components/schemas/AccessToken"
+              refreshToken:
+                $ref: "#/components/schemas/RefreshToken"
+              user:
+                $ref: "#/components/schemas/UserPrivateBase"
     UnauthorizedError:
       description: Unauthorized
       content:
@@ -96,6 +153,46 @@ components:
           description: OTP activation id when method is `phone`
           example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
           nullable: true
+    UserPrivateBase:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 603cd9a09e798300a9aba8f2
+          description: Id of user
+        username:
+          type: string
+          format: nullable
+          example: jhon
+          description: username
+        email:
+          type: string
+          format: nullable
+          example: jhondoe@example.com
+          description: email
+        phone:
+          type: string
+          example: +9471222220
+          description: phone
+        passwordSet:
+          type: boolean
+          description: Is password set for account
+          example: false
+    AccessToken:
+      type: object
+      properties:
+        token:
+          type: string
+          example: token_1233333
+        expires:
+          type: string
+          example: 2021-03-01T19:22:41.065Z
+        tokenType:
+          type: string
+          example: Bearer
+    RefreshToken:
+      type: string
+      example: 603cd9a09e798300a9aba8f2.b4
     MessageResponse:
       type: object
       description: message
@@ -156,6 +253,13 @@ components:
   requestBodies:
     RegisterBody:
       description: JSON object with registration info
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UserRegisterSchema"
+    LoginBody:
+      description: Login
       required: true
       content:
         application/json:
