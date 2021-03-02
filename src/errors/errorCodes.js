@@ -1,7 +1,10 @@
 module.exports = {
-  AlreadyRegistered: 1,
-  AccountNotVerified: 2,
-  InvalidCredentials: 3,
+  AlreadyRegistered: 10,
+  AccountNotVerified: 11,
+  InvalidCredentials: 12,
+  VerificationExpired: 13,
+  OTPCodeRequired: 14,
+  OTPCodeInvalid: 15,
 
   ValidationError: 99998,
   UnknownError: 99999,

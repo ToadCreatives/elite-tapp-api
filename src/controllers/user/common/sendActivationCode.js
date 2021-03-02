@@ -1,9 +1,13 @@
+const { customAlphabet } = require('nanoid/async');
+
 const { v4: uuidv4 } = require('uuid');
 const { addDays, isBefore, addMinutes } = require('date-fns');
 const UserVerification = require('../../../models/userVerification.model');
 const APIError = require('../../../errors/APIError');
 // eslint-disable-next-line no-unused-vars
 const User = require('../../../models/user.model');
+
+const nanoid = customAlphabet('1234567890', 6);
 
 /**
  * send with code
@@ -62,11 +66,13 @@ async function sendSMSCode(userDAO) {
   });
 
   const verificationId = uuidv4();
+  const otpCode = await nanoid();
   await UserVerification.create({
     userId,
     method: 'phone',
-    activationId: verificationId,
-    expiresAt: addMinutes(new Date(), 10),
+    otpCode,
+    verificationId,
+    expiresAt: addMinutes(new Date(), 15),
   });
 
   // TODO: send sms

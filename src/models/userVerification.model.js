@@ -20,6 +20,7 @@ UserVerification.init({
   verificationId: {
     type: Sequelize.STRING,
     unique: true,
+    allowNull: false,
   },
   method: {
     type: Sequelize.ENUM,
@@ -36,12 +37,6 @@ UserVerification.init({
       key: 'id',
     },
     onDelete: 'CASCADE',
-  },
-  createdAt: {
-    type: Sequelize.DATE,
-  },
-  updatedAt: {
-    type: Sequelize.DATE,
   },
 }, {
   sequelize,
