@@ -17,7 +17,6 @@
 - Make sure you have installed `Docker` and `Docker Compose`
 - Just run `docker-compose up` to start the server
 
-
 ## DB setup
 
 - Cd to project `root`
