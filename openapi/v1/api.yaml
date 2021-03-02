@@ -148,9 +148,9 @@ components:
           enum:
             - phone
             - email
-        activationId:
+        verificationId:
           type: string
-          description: OTP activation id when method is `phone`
+          description: OTP activation id when method is `phone`. For email this will be sent
           example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
           nullable: true
     UserPrivateBase:

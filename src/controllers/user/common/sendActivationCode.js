@@ -23,7 +23,7 @@ async function sendEmailWithCode(userDAO) {
   await UserVerification.create({
     userId,
     method: 'email',
-    activationId: uuidv4(),
+    verificationId: uuidv4(),
     expiresAt: addDays(new Date(), 1),
   });
 
@@ -61,18 +61,18 @@ async function sendSMSCode(userDAO) {
     },
   });
 
-  const activationId = uuidv4();
+  const verificationId = uuidv4();
   await UserVerification.create({
     userId,
     method: 'phone',
-    activationId,
+    activationId: verificationId,
     expiresAt: addMinutes(new Date(), 10),
   });
 
   // TODO: send sms
 
   return {
-    activationId,
+    verificationId,
     method: 'phone',
   };
 }
