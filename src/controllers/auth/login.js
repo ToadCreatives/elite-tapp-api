@@ -11,7 +11,7 @@ const { Op } = Sequelize;
 exports.login = async (req, res, next) => {
   try {
     const { login, password } = req.body;
-    const user = User.findOne({
+    const user = await User.findOne({
       where: {
         [Op.or]: [
           { email: login },

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const crypto = require('crypto');
+const moment = require('moment');
 const sequelize = require('../services/sequelize');
 
 const { Model } = Sequelize;
@@ -21,12 +22,13 @@ class RefreshToken extends Model {
     }
 
     // remove previous token and issue new
-    await this.findOneAndDelete({ user: userId });
+    await RefreshToken.destroy({ where: { userId } });
     const token = `${userId}.${crypto.randomBytes(64).toString('hex')}`;
 
     await RefreshToken.create({
       token,
       userId,
+      expiresAt: moment().add(1, 'year'),
     });
 
     return token;
