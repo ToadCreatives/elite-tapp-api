@@ -17,4 +17,10 @@ module.exports = {
       refreshToken: Joi.string().required(),
     }),
   },
+  verifyUser: {
+    body: Joi.object({
+      verificationId: Joi.string().required(),
+      otpCode: Joi.string().optional().allow(null),
+    }),
+  },
 };

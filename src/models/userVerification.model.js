@@ -17,9 +17,10 @@ UserVerification.init({
   otpCode: {
     type: Sequelize.STRING,
   },
-  activationId: {
+  verificationId: {
     type: Sequelize.STRING,
     unique: true,
+    allowNull: false,
   },
   method: {
     type: Sequelize.ENUM,
@@ -36,12 +37,6 @@ UserVerification.init({
       key: 'id',
     },
     onDelete: 'CASCADE',
-  },
-  createdAt: {
-    type: Sequelize.DATE,
-  },
-  updatedAt: {
-    type: Sequelize.DATE,
   },
 }, {
   sequelize,

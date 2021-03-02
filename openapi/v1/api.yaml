@@ -79,6 +79,34 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /auth/verify:
+    post:
+      summary: Verify user account
+      description: Verify user account
+      operationId: verifyAccount
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                verificationId:
+                  $ref: "#/components/schemas/IdSchema"
+                otpCode:
+                  $ref: "#/components/schemas/OTPCode"
+              required:
+                - verificationId
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -124,6 +152,14 @@ components:
           schema:
             $ref: "#/components/schemas/APIError"
   schemas:
+    IdSchema:
+      type: string
+      description: Describes an resource id
+      example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+    OTPCode:
+      type: string
+      description: OTP code if present
+      example: "066111"
     UserRegisterSchema:
       type: object
       description: User register
@@ -148,9 +184,9 @@ components:
           enum:
             - phone
             - email
-        activationId:
+        verificationId:
           type: string
-          description: OTP activation id when method is `phone`
+          description: OTP activation id when method is `phone`. For email this will be sent
           example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
           nullable: true
     UserPrivateBase:
@@ -158,7 +194,7 @@ components:
       properties:
         id:
           type: string
-          example: 603cd9a09e798300a9aba8f2
+          example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
           description: Id of user
         username:
           type: string

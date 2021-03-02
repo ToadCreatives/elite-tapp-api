@@ -9,9 +9,10 @@ module.exports = {
     otpCode: {
       type: Sequelize.STRING,
     },
-    activationId: {
+    verificationId: {
       type: Sequelize.STRING,
       unique: true,
+      allowNull: false,
     },
     method: {
       type: Sequelize.ENUM,
@@ -28,12 +29,6 @@ module.exports = {
         key: 'id',
       },
       onDelete: 'CASCADE',
-    },
-    createdAt: {
-      type: Sequelize.DATE,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
     },
   }),
 

@@ -7,6 +7,6 @@ const validation = require('../../validations/auth.validation');
 
 router.post('/login', validate(validation.login), authController.login);
 router.post('/login/token', validate(validation.loginToken), authController.loginRefreshToken);
-// router.get('/confirm', authController.confirm);
+router.post('/verify', validate(validation.verifyUser), authController.verifyAccount);
 
 module.exports = router;
