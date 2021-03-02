@@ -9,6 +9,15 @@ module.exports = {
   mongo: {
     uri: process.env.MONGOURI,
   },
+  db: {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    name: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    caFile: process.env.DB_CA_FILE,
+    url: process.env.DATABASE_URL,
+  },
   token: {
     expiration: process.env.TOKEN_EXPIRATION || 1,
     expirationUnit: process.env.TOKEN_EXPIRATION_UNIT || 'hour',

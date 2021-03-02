@@ -1,18 +1,23 @@
 const httpStatus = require('http-status');
+const Sequelize = require('sequelize');
 const User = require('../../models/user.model');
 const APIError = require('../../errors/APIError');
 const errorCodes = require('../../errors/errorCodes');
 const RefreshToken = require('../../models/refreshToken.model');
 const { generateTokenResponse } = require('./common/generateTokens');
 
+const { Op } = Sequelize;
+
 exports.login = async (req, res, next) => {
   try {
     const { login, password } = req.body;
     const user = await User.findOne({
-      $or: [
-        { email: login },
-        { phone: login },
-      ],
+      where: {
+        [Op.or]: [
+          { email: login },
+          { phone: login },
+        ],
+      },
     });
 
     if (!user) {
@@ -27,7 +32,7 @@ exports.login = async (req, res, next) => {
       throw new APIError('Invalid login or password', httpStatus.UNAUTHORIZED, errorCodes.InvalidCredentials);
     }
 
-    const refreshToken = await RefreshToken.generate(user);
+    const refreshToken = await RefreshToken.generate(user.id);
 
     const response = generateTokenResponse(user, refreshToken);
     return res.status(httpStatus.OK).json(response);
@@ -39,7 +44,10 @@ exports.login = async (req, res, next) => {
 exports.loginRefreshToken = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
-    const tokObj = await RefreshToken.findOne({ token: refreshToken }).populate('user');
+    const tokObj = await RefreshToken.findOne({
+      where: { token: refreshToken },
+      include: [User],
+    });
     if (!tokObj) {
       throw new APIError('Unauthorized', httpStatus.UNAUTHORIZED);
     }
@@ -55,7 +63,7 @@ exports.loginRefreshToken = async (req, res, next) => {
 exports.revokeRefreshToken = async (req, res, next) => {
   try {
     const { user } = req;
-    await RefreshToken.findOneAndRemove({ user: user._id });
+    await RefreshToken.destroy({ where: { userId: user.id } });
     return res.json({ message: 'OK' });
   } catch (error) {
     next(error);

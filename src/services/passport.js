@@ -10,17 +10,18 @@ const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 };
 
-const jwtStrategy = new JwtStrategy(jwtOptions, (jwtPayload, done) => {
-  User.findById(jwtPayload.sub, (err, user) => {
-    if (err) {
-      return done(err, null);
-    }
-
+const jwtStrategy = new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
+  const userId = jwtPayload.sub;
+  try {
+    const user = await User.findByPk(userId);
     if (user) {
       return done(null, user);
     }
+
     return done(null, false);
-  });
+  } catch (error) {
+    return done(error, null);
+  }
 });
 
 exports.jwtOptions = jwtOptions;
