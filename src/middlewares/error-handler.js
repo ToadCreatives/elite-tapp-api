@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const { ValidationError } = require('express-validation');
 const APIError = require('../errors/APIError');
 const errorCodes = require('../errors/errorCodes');
-const { log } = require('../log');
+const log = require('../log');
 
 // hanlde not found error
 // eslint-disable-next-line no-unused-vars

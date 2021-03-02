@@ -1,148 +1,101 @@
-const mongoose = require('mongoose');
+const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt-nodejs');
+const sequelize = require('../services/sequelize');
 
-const { Schema } = mongoose;
+const { Model } = Sequelize;
 
-const roles = [
-  'user', 'admin',
-];
-
-const genders = [
-  'male',
-  'female',
-];
-
-const userSchema = new Schema({
-  email: {
-    type: String,
-    unique: true,
-    lowercase: true,
-    sparse: true,
-  },
-  phone: {
-    type: String,
-    unique: true,
-    lowercase: true,
-    sparse: true,
-  },
-  username: {
-    type: String,
-    maxlength: 50,
-    unique: true,
-    sparse: true,
-  },
-  password: {
-    type: String,
-    minlength: 4,
-    maxlength: 50,
-    default: null,
-  },
-  firstName: {
-    type: String,
-    maxlength: 50,
-  },
-  lastName: {
-    type: String,
-    maxlength: 50,
-  },
-  gender: {
-    type: String,
-    enum: genders,
-  },
-  bio: {
-    type: String,
-    min: 10,
-    max: 200,
-  },
-  dob: {
-    type: Date,
-  },
-  avatar: {
-    type: String,
-    default: null,
-  },
-  verified: {
-    type: Boolean,
-    default: false,
-  },
-  role: {
-    type: String,
-    default: 'user',
-    enum: roles,
-  },
-  interests: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Interest',
-  }],
-}, {
-  timestamps: true,
-});
-
-userSchema.pre('save', async function save(next) {
-  try {
-    if (!this.isModified('password')) {
-      return next();
-    }
-
-    this.password = bcrypt.hashSync(this.password);
-
-    return next();
-  } catch (error) {
-    return next(error);
+class User extends Model {
+  passwordMatches(password) {
+    return bcrypt.compareSync(password, this.password);
   }
-});
 
-userSchema.method({
   getUserInfo() {
     return {
-      id: this._id,
+      id: this.id,
       firstName: this.firstName,
       lastName: this.lastName,
       username: this.username || null,
       email: this.email || null,
       phone: this.phone || null,
+      avatar: this.avatar,
       passwordSet: !!this.password,
     };
-  },
+  }
 
-  passwordMatches(password) {
-    return bcrypt.compareSync(password, this.password);
+  static get roles() {
+    return ['admin', 'user'];
+  }
+}
+
+User.init({
+  id: {
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
+    primaryKey: true,
+    allowNull: false,
   },
+  firstName: {
+    type: Sequelize.STRING(50),
+  },
+  lastName: {
+    type: Sequelize.STRING(50),
+  },
+  username: {
+    type: Sequelize.STRING,
+    unique: true,
+    allowNull: true,
+  },
+  email: {
+    type: Sequelize.STRING,
+    allowNull: true,
+    unique: true,
+  },
+  phone: {
+    type: Sequelize.STRING(30),
+    allowNull: true,
+    unique: true,
+  },
+  password: {
+    type: Sequelize.STRING,
+    set(val) {
+      this.setDataValue('password', bcrypt.hashSync(val));
+    },
+  },
+  verified: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
+  role: {
+    type: Sequelize.ENUM,
+    values: ['admin', 'user'],
+    defaultValue: 'user',
+  },
+  avatarPath: {
+    type: Sequelize.STRING,
+  },
+  createdAt: {
+    type: Sequelize.DATE,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
+  },
+}, {
+  sequelize,
+  modelName: 'user',
+  indexes: [
+    {
+      unique: true,
+      fields: ['username'],
+    },
+    {
+      unique: true,
+      fields: ['email'],
+    },
+    {
+      unique: true,
+      fields: ['phone'],
+    },
+  ],
 });
 
-// userSchema.statics = {
-//   roles,
-
-//   checkDuplicateEmailError (err) {
-//     if (err.code === 11000) {
-//       var error = new Error('Email already taken')
-//       error.errors = [{
-//         field: 'email',
-//         location: 'body',
-//         messages: ['Email already taken']
-//       }]
-//       error.status = httpStatus.CONFLICT
-//       return error
-//     }
-
-//     return err
-//   },
-
-//   async findAndGenerateToken (payload) {
-//     const { email, password } = payload
-//     if (!email) throw new APIError('Email must be provided for login')
-
-//     const user = await this.findOne({ email }).exec()
-//     if (!user) throw new APIError(`No user associated with ${email}`, httpStatus.NOT_FOUND)
-
-//     const passwordOK = await user.passwordMatches(password)
-
-//     if (!passwordOK) throw new APIError(`Password mismatch`, httpStatus.UNAUTHORIZED)
-
-//     if (!user.active) throw new APIError(`User not activated`, httpStatus.UNAUTHORIZED)
-
-//     return user
-//   }
-// }
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = User;

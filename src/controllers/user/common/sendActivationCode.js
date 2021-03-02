@@ -1,22 +1,31 @@
 const { v4: uuidv4 } = require('uuid');
 const { addDays, isBefore, addMinutes } = require('date-fns');
-const UserActivation = require('../../../models/userActivation.model');
+const UserVerification = require('../../../models/userVerification.model');
 const APIError = require('../../../errors/APIError');
+// eslint-disable-next-line no-unused-vars
+const User = require('../../../models/user.model');
 
+/**
+ * send with code
+ *
+ * @param {User} userDAO
+ * @returns
+ */
 async function sendEmailWithCode(userDAO) {
-  const userId = userDAO._id;
+  const userId = userDAO.id;
   // clear old verifications and resend email
-  await UserActivation.remove({
-    user: userId,
+  await UserVerification.destroy({
+    where: {
+      userId,
+    },
   });
 
-  const activation = new UserActivation({
-    user: userId,
+  await UserVerification.create({
+    userId,
     method: 'email',
     activationId: uuidv4(),
     expiresAt: addDays(new Date(), 1),
   });
-  await activation.save();
 
   // TODO: sendmail
   return {
@@ -24,10 +33,18 @@ async function sendEmailWithCode(userDAO) {
   };
 }
 
+/**
+ * send with code
+ *
+ * @param {User} userDAO
+ * @returns
+ */
 async function sendSMSCode(userDAO) {
-  const userId = userDAO._id;
-  const prevActivation = await UserActivation.findOne({
-    user: userId,
+  const userId = userDAO.id;
+  const prevActivation = await UserVerification.findOne({
+    where: {
+      userId,
+    },
   });
 
   if (prevActivation && isBefore(prevActivation.expiresAt, new Date())) {
@@ -38,18 +55,19 @@ async function sendSMSCode(userDAO) {
   }
 
   // we dont have any
-  await UserActivation.remove({
-    user: userId,
+  await UserVerification.destroy({
+    where: {
+      userId,
+    },
   });
 
   const activationId = uuidv4();
-  const activation = new UserActivation({
-    user: userId,
+  await UserVerification.create({
+    userId,
     method: 'phone',
     activationId,
     expiresAt: addMinutes(new Date(), 10),
   });
-  await activation.save();
 
   // TODO: send sms
 
@@ -59,10 +77,18 @@ async function sendSMSCode(userDAO) {
   };
 }
 
+/**
+ * send activation code
+ *
+ * @param {User} userDAO
+ * @returns
+ */
 async function sendActivationCode(userDAO) {
   if (userDAO.email) {
     return sendEmailWithCode(userDAO);
-  } if (userDAO.phone) {
+  }
+
+  if (userDAO.phone) {
     return sendSMSCode(userDAO);
   }
 
