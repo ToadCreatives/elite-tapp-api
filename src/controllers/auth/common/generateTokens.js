@@ -15,7 +15,7 @@ function generateAccessToken(user) {
   const payload = {
     exp: expAt.unix(),
     iat: moment().unix(),
-    sub: user._id,
+    sub: user.id,
   };
 
   return { token: jwt.sign(payload, config.secret), expires: expAt.utc(), tokenType: 'Bearer' };
