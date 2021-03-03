@@ -9,6 +9,4 @@ router.get('/status', (req, res) => { res.send({ status: 'OK' }); }); // api sta
 router.use('/user', userRouter);
 router.use('/auth', authRouter);
 
-// router.use('/auth', authRouter) // mount auth paths
-
 module.exports = router;
