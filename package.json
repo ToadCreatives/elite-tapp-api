@@ -19,6 +19,9 @@
   },
   "keywords": [],
   "author": "EliteTapp Team",
+  "engines": {
+    "node": "12.x"
+  },
   "devDependencies": {
     "@apidevtools/swagger-cli": "^4.0.4",
     "@types/mongoose": "^5.10.3",
