@@ -1,6 +1,6 @@
 const Twilio = require('twilio');
-const config = require('../config');
+const { sid, token } = require('../config').twilio;
 
-const client = new Twilio(config.twilio.sid, config.twilio.token);
+const client = new Twilio(sid, token);
 
 module.exports = client;
