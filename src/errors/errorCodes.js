@@ -5,6 +5,7 @@ module.exports = {
   VerificationExpired: 13,
   OTPCodeRequired: 14,
   OTPCodeInvalid: 15,
+  AccountAlreadyVerified: 16,
 
   ValidationError: 99998,
   UnknownError: 99999,

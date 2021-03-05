@@ -12,4 +12,12 @@ module.exports = {
       password: Joi.string().min(6).max(128).required(),
     }),
   },
+  resendActivationCode: {
+    body: Joi.object({
+      login: Joi.alternatives().try(
+        JOI_EMAIL_SCHEMA,
+        JOI_PHONE_SCHEMA,
+      ).required(),
+    }),
+  },
 };
