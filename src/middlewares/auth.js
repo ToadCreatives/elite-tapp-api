@@ -4,7 +4,7 @@ const bluebird = require('bluebird');
 const APIError = require('../errors/APIError');
 
 // handleJWT with roles
-const handleJWT = (req, res, next, roles) => async (err, user, info) => {
+const handleJWT = (req, res, next, options) => async (err, user, info) => {
   const error = err || info;
   const logIn = bluebird.promisify(req.logIn);
   const apiError = new APIError(
@@ -20,9 +20,10 @@ const handleJWT = (req, res, next, roles) => async (err, user, info) => {
     return next(apiError);
   }
 
-  // see if user is authorized to do the action
-  if (roles && roles.length > 0 && !roles.includes(user.role)) {
-    return next(new APIError('Forbidden', httpStatus.FORBIDDEN));
+  if (options) {
+    if (options.usernameRequired === true && !user.username) {
+      return next(new APIError('Unauthorized', httpStatus.UNAUTHORIZED));
+    }
   }
 
   req.user = user;
@@ -32,10 +33,15 @@ const handleJWT = (req, res, next, roles) => async (err, user, info) => {
 
 // exports the middleware
 
-const authorize = (...roles) => (req, res, next) => passport.authenticate(
+// eslint-disable-next-line max-len
+const authorize = (
+  options = {
+    usernameRequired: true,
+  },
+) => (req, res, next) => passport.authenticate(
   'jwt',
   { session: false },
-  handleJWT(req, res, next, roles),
+  handleJWT(req, res, next, options),
 )(req, res, next);
 
 module.exports = authorize;
