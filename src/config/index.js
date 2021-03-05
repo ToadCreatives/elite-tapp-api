@@ -1,4 +1,7 @@
 require('dotenv').config(); // load .env file
+const urljoin = require('url-join');
+
+const frontUrl = (path) => urljoin(process.env.FRONTEND_URL || 'https://elitetapp.com', path);
 
 module.exports = {
   port: process.env.PORT,
@@ -6,9 +9,7 @@ module.exports = {
   env: process.env.NODE_ENV,
   secret: process.env.APP_SECRET,
   hostname: process.env.HOSTNAME,
-  mongo: {
-    uri: process.env.MONGOURI,
-  },
+  frontendUrl: frontUrl,
   db: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
@@ -23,10 +24,44 @@ module.exports = {
     expirationUnit: process.env.TOKEN_EXPIRATION_UNIT || 'hour',
   },
   transporter: {
-    host: process.env.TRANSPORTER_HOST,
-    port: process.env.TRANSPORTER_PORT,
-    username: process.env.TRANSPORTER_USERNAME,
-    password: process.env.TRANSPORTER_PASSWORD,
+    smtp: {
+      host: process.env.TRANSPORTER_SMTP_HOST,
+      port: process.env.TRANSPORTER_SMTP_PORT,
+      username: process.env.TRANSPORTER_SMTP_USERNAME,
+      password: process.env.TRANSPORTER_SMTP_PASSWORD,
+    },
+    provider: process.env.TRANSPORTER_PROVIDER || 'ses', // defaults to ses
+  },
+  mail: {
+    noReplyFrom: process.env.NO_REPLY_MAIL_FROM || 'noreply@elitetapp.com',
+  },
+  aws: {
+    accessKey: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    buckets: {
+      media: process.env.AWS_BUCKET_MEDIA,
+    },
+    region: process.env.AWS_REGION,
+  },
+  redis: {
+    primary: process.env.REDIS_PRIMARY_URL,
+    queue: process.env.REDIS_QUEUE_URL,
+  },
+  redirects: {
+    accountVerification: frontUrl(process.env.REDIRECT_ACCOUNT_VERIFICATION || '/verify/account'),
+  },
+  twilio: {
+    sid: process.env.TWILIO_SID,
+    token: process.env.TWILIO_TOKEN,
+    from: process.env.TWILIO_FROM,
+  },
+  options: {
+    openapi: {
+      ui: {
+        disabled: process.env.OPENAPI_UI_DISABLED === 'true',
+      },
+    },
   },
   isDevEnv: process.env.NODE_ENV === 'development',
+  isProdEnv: process.env.NODE_ENV === 'production',
 };
