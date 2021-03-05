@@ -21,12 +21,12 @@ if (transporter.provider === 'smtp') {
       pass,
     },
   });
-}
 
-if (transporter.provider === 'ses') {
+  module.exports = transport;
+} else if (transporter.provider === 'ses') {
   transport = nodemailer.createTransport({
     SES: { ses, aws },
   });
-}
 
-module.exports = transport;
+  module.exports = transport;
+}

@@ -20,6 +20,11 @@ const mailNoReply = new Email({
   },
 });
 
+const safeConfig = {
+  app: config.app,
+  frontendUrl: config.frontendUrl,
+};
+
 /**
  * sends a mail
  *
@@ -37,9 +42,9 @@ async function processor(job) {
       },
       locals: {
         ...locals,
-        config,
+        config: safeConfig,
       },
-      template: path.resolve(__dirname, template, 'template'), // look in template dir eg ..user-activation/template
+      template: path.resolve(__dirname, template),
     });
     log.info(`sent mail to ${to} mail:${name} job:${job.id}`, { queue: 'mail', mail: name });
     return true;
