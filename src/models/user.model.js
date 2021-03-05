@@ -12,18 +12,11 @@ class User extends Model {
   getUserInfo() {
     return {
       id: this.id,
-      firstName: this.firstName,
-      lastName: this.lastName,
       username: this.username || null,
       email: this.email || null,
       phone: this.phone || null,
-      avatar: this.avatar,
       passwordSet: !!this.password,
     };
-  }
-
-  static get roles() {
-    return ['admin', 'user'];
   }
 }
 
@@ -33,12 +26,6 @@ User.init({
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
     allowNull: false,
-  },
-  firstName: {
-    type: Sequelize.STRING(50),
-  },
-  lastName: {
-    type: Sequelize.STRING(50),
   },
   username: {
     type: Sequelize.STRING,
@@ -64,14 +51,6 @@ User.init({
   verified: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
-  },
-  role: {
-    type: Sequelize.ENUM,
-    values: ['admin', 'user'],
-    defaultValue: 'user',
-  },
-  avatarPath: {
-    type: Sequelize.STRING,
   },
   createdAt: {
     type: Sequelize.DATE,

@@ -7,12 +7,6 @@ module.exports = {
         primaryKey: true,
         allowNull: false,
       },
-      firstName: {
-        type: Sequelize.STRING(50),
-      },
-      lastName: {
-        type: Sequelize.STRING(50),
-      },
       username: {
         type: Sequelize.STRING,
         unique: true,
@@ -34,14 +28,6 @@ module.exports = {
       verified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
-      },
-      role: {
-        type: Sequelize.ENUM,
-        values: ['admin', 'user'],
-        defaultValue: 'user',
-      },
-      avatarPath: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         type: Sequelize.DATE,
