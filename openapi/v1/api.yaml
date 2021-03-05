@@ -23,7 +23,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/RegisterBody"
       responses:
-        "200":
+        "201":
           description: User created
           content:
             application/json:
@@ -31,6 +31,38 @@ paths:
                 $ref: "#/components/schemas/UserAccountCreatedSchema"
         "409":
           description: Account exists
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /user/activation/resend:
+    post:
+      summary: Resend activation code
+      description: Resend activation code
+      operationId: resendActivationCode
+      tags:
+        - User
+      requestBody:
+        $ref: "#/components/requestBodies/UserResetBody"
+      responses:
+        "200":
+          description: Resent activation code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "404":
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "422":
+          description: Account already verified
           content:
             application/json:
               schema:
@@ -303,3 +335,15 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UserRegisterSchema"
+    UserResetBody:
+      description: Reset user
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              login:
+                type: string
+                description: email or phone number
+                example: jhondoe@example.com
