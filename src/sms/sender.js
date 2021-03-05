@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-const SMS = require('./SMS');
+const SMS = require('./sms');
 const { smsQueue } = require('../services/queue');
 
 /**
@@ -8,7 +8,7 @@ const { smsQueue } = require('../services/queue');
  * @param {SMS} sms
  * @returns
  */
-async function send(sms) {
+async function sendSMS(sms) {
   return smsQueue.add(
     'send-sms',
     sms,
@@ -23,4 +23,4 @@ async function send(sms) {
   );
 }
 
-exports.send = send;
+exports.sendSMS = sendSMS;
