@@ -8,7 +8,11 @@ const log = require('../log');
 // to cast big int to numbers in JS
 pg.defaults.parseInt8 = true;
 
-const dialectOptions = {};
+const dialectOptions = {
+  ssl: {
+    rejectUnauthorized: false, // very important
+  },
+};
 if (config.env === 'production' && config.db.caFile && config.db.caFile.length > 0) {
   const caFile = path.resolve(config.db.caFile);
   log.info(`CA file enbled, loading from ${caFile}`);
