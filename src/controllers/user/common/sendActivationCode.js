@@ -6,6 +6,9 @@ const UserVerification = require('../../../models/userVerification.model');
 const APIError = require('../../../errors/APIError');
 // eslint-disable-next-line no-unused-vars
 const User = require('../../../models/user.model');
+const { sendUserVerificationMail } = require('../../../emails');
+const { SMS } = require('../../../sms');
+const { sendSMS } = require('../../../sms/sender');
 
 const nanoid = customAlphabet('1234567890', 6);
 
@@ -24,14 +27,16 @@ async function sendEmailWithCode(userDAO) {
     },
   });
 
+  const verificationId = uuidv4();
   await UserVerification.create({
     userId,
     method: 'email',
-    verificationId: uuidv4(),
+    verificationId,
     expiresAt: addDays(new Date(), 1),
   });
 
-  // TODO: sendmail
+  await sendUserVerificationMail(userDAO, verificationId);
+
   return {
     method: 'email',
   };
@@ -76,6 +81,8 @@ async function sendSMSCode(userDAO) {
   });
 
   // TODO: send sms
+  const sms = SMS.CreateOTPMessage(userDAO.phone, otpCode);
+  await sendSMS(sms);
 
   return {
     verificationId,

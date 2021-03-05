@@ -22,9 +22,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // setup openapi
-const openApiDocument = YAML.load(path.resolve(__dirname, '../../openapi/v1/api.yaml'));
-app.use('/api-docs', swaggerUi.serve);
-app.get('/api-docs', swaggerUi.setup(openApiDocument));
+if (!config.options.openapi.ui.disabled) {
+  const openApiDocument = YAML.load(path.resolve(__dirname, '../../openapi/v1/api.yaml'));
+  app.use('/api-docs', swaggerUi.serve);
+  app.get('/api-docs', swaggerUi.setup(openApiDocument));
+}
 
 if (config.env !== 'test') app.use(morgan('combined'));
 
