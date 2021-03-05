@@ -7,7 +7,7 @@ const APIError = require('../../../errors/APIError');
 // eslint-disable-next-line no-unused-vars
 const User = require('../../../models/user.model');
 const { sendUserVerificationMail } = require('../../../emails');
-const SMS = require('../../../sms/sms');
+const { SMS } = require('../../../sms');
 const { sendSMS } = require('../../../sms/sender');
 
 const nanoid = customAlphabet('1234567890', 6);

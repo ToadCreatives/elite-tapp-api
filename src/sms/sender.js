@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-const SMS = require('./sms');
+const { SMS } = require('./index');
 const { smsQueue } = require('../services/queue');
 
 /**

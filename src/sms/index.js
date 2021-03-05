@@ -28,4 +28,4 @@ class SMS {
   }
 }
 
-module.exports = SMS;
+exports.SMS = SMS;
