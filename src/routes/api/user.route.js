@@ -7,4 +7,6 @@ const validation = require('../../validations/user.validation');
 
 router.post('/register', validate(validation.register), userController.register);
 
+router.post('/activation/resend', validate(validation.resendActivationCode), userController.resendActicationCode);
+
 module.exports = router;
