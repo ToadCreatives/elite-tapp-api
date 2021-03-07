@@ -193,7 +193,7 @@ components:
     OTPCode:
       type: string
       description: OTP code if present
-      example: "066111"
+      example: "6111"
     UserRegisterSchema:
       type: object
       description: User register

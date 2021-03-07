@@ -20,7 +20,7 @@ module.exports = {
   verifyUser: {
     body: Joi.object({
       verificationId: Joi.string().required(),
-      otpCode: Joi.string().optional().allow(null),
+      otpCode: Joi.string().length(4).optional().allow(null),
     }),
   },
 };
