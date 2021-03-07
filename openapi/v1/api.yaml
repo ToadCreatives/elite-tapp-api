@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                $ref: "#/components/schemas/UserActicationResendSchema"
         "404":
           description: Account not found
           content:
@@ -213,6 +213,22 @@ components:
         message:
           type: string
           example: "Account created"
+        method:
+          type: string
+          enum:
+            - phone
+            - email
+        verificationId:
+          type: string
+          description: OTP activation id when method is `phone`. For email this will be sent
+          example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+          nullable: true
+    UserActicationResendSchema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "OK"
         method:
           type: string
           enum:
