@@ -8,10 +8,10 @@ servers:
   - url: https://elite-tapp-api.herokuapp.com/api/v1
     description: Heroku Production
 tags:
-  - name: User
-    description: User related endpoints
   - name: Auth
     description: Authentication related endpoints
+  - name: User
+    description: User related endpoints
 paths:
   /user/register:
     post:
