@@ -50,3 +50,26 @@ async function sendUserVerificationMail(user, token) {
 }
 
 exports.sendUserVerificationMail = sendUserVerificationMail;
+
+/**
+ * Send password reset mail
+ *
+ * @param {User} user - user
+ * @param {string} token - token
+ */
+async function sendPasswordResetMail(user, token) {
+  log.info(`Sending password reset to email:${user.email}`, {
+    mail: 'password-reset',
+  });
+
+  await addToMailQueue('password-reset', {
+    template: 'password-reset',
+    to: user.email,
+    locals: {
+      user,
+      link: `${config.redirects.passwordReset}?${qs.stringify({ token })}`,
+    },
+  });
+}
+
+exports.sendPasswordResetMail = sendPasswordResetMail;
