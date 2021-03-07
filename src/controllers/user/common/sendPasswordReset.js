@@ -9,7 +9,7 @@ const { sendPasswordResetMail } = require('../../../emails');
 const { SMS } = require('../../../sms');
 const { sendSMS } = require('../../../sms/sender');
 const PasswordResetRequest = require('../../../models/passwordResetRequest.model');
-const { OTPSession, OTP_SCOPE_PASSWORD_RESET } = require('../../../otp');
+const { OtpRequest, OTP_SCOPE_PASSWORD_RESET, OtpSession } = require('../../../otp');
 
 const fourDigitRandomId = customAlphabet('1234567890', 4);
 
@@ -53,7 +53,7 @@ async function sendEmailWithCode(userDAO) {
  */
 async function sendSMSCode(userDAO) {
   const { id: userId, phone } = userDAO;
-  const prevOtp = await OTPSession.GetSession(phone, OTP_SCOPE_PASSWORD_RESET);
+  const prevOtp = await OtpRequest.GetRequest(phone, OTP_SCOPE_PASSWORD_RESET);
 
   if (prevOtp) {
     // we have already valid activation
@@ -66,12 +66,20 @@ async function sendSMSCode(userDAO) {
   const requestId = uuidv4();
   const otpCode = await fourDigitRandomId();
 
-  const otpSession = new OTPSession(
+  const otpRequest = new OtpRequest(
     phone,
     userId,
     requestId,
-    otpCode,
     OTP_SCOPE_PASSWORD_RESET,
+    TEN_MINUTES_IN_SEC,
+  );
+  await otpRequest.save();
+
+  const otpSession = new OtpSession(
+    requestId,
+    OTP_SCOPE_PASSWORD_RESET,
+    userId,
+    otpCode,
     TEN_MINUTES_IN_SEC,
   );
   await otpSession.save();
