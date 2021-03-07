@@ -30,9 +30,9 @@ exports.resendActicationCode = async (req, res, next) => {
     }
 
     // resend activation
-    await sendActivationCode(user);
+    const result = await sendActivationCode(user);
 
-    return res.status(httpStatus.OK).json({ message: 'OK' });
+    return res.status(httpStatus.OK).json({ message: 'OK', ...result });
   } catch (err) {
     next(err);
   }
