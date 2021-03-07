@@ -49,6 +49,7 @@ module.exports = {
   },
   redirects: {
     accountVerification: frontUrl(process.env.REDIRECT_ACCOUNT_VERIFICATION || '/verify/account'),
+    passwordReset: frontUrl(process.env.REDIRECT_PASSWORD_RESET || '/verify/reset/password'),
   },
   twilio: {
     sid: process.env.TWILIO_SID,
