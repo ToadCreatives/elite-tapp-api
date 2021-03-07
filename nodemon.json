@@ -3,7 +3,7 @@
     "src",
     "openapi"
   ],
-  "ext": ",.js,.yaml",
+  "ext": ",.js,.yaml,.hbs",
   "ignore": [
     "**.spec.ts"
   ],
