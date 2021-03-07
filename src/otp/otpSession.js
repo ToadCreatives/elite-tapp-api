@@ -21,7 +21,7 @@ class OtpSession {
   async save() {
     const multi = redis.multi();
     // create session
-    const sessionKey = OtpSession.getKey(this.id, this.scope);
+    const sessionKey = OtpSession.GetKey(this.id, this.scope);
     multi.hmset(sessionKey, {
       id: this.id,
       scope: this.scope,
@@ -33,16 +33,16 @@ class OtpSession {
     await multi.execAsync();
   }
 
-  static getKey(id, scope) {
+  static GetKey(id, scope) {
     return `otp:session:${scope}:${id}`;
   }
 
   static async DestroyRequest(id) {
-    await redis.delAsync(OtpSession.getKey(id));
+    await redis.delAsync(OtpSession.GetKey(id));
   }
 
   static async GetSession(id, scope) {
-    const key = OtpSession.getKey(id, scope);
+    const key = OtpSession.GetKey(id, scope);
     const data = await redis.hgetallAsync(key);
 
     if (!data) {

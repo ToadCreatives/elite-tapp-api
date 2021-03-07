@@ -22,7 +22,7 @@ class OtpRequest {
     const multi = redis.multi();
 
     // create request : lookup by phone
-    const requestKey = OtpRequest.getKey(this.phoneNumber, this.scope);
+    const requestKey = OtpRequest.GetKey(this.phoneNumber, this.scope);
     multi.hmset(requestKey, {
       phoneNumber: this.phoneNumber,
       scope: this.scope,
@@ -35,16 +35,16 @@ class OtpRequest {
     await multi.execAsync();
   }
 
-  static getKey(id, scope) {
+  static GetKey(id, scope) {
     return `otp:request:${scope}:${id}`;
   }
 
   static async DestroyRequest(id) {
-    await redis.delAsync(OtpRequest.getKey(id));
+    await redis.delAsync(OtpRequest.GetKey(id));
   }
 
   static async GetRequest(phoneNumber, scope) {
-    const key = OtpRequest.getKey(phoneNumber, scope);
+    const key = OtpRequest.GetKey(phoneNumber, scope);
     const data = await redis.hgetallAsync(key);
 
     if (!data) {
