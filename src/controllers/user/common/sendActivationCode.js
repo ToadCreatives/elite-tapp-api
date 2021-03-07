@@ -10,7 +10,7 @@ const { sendUserVerificationMail } = require('../../../emails');
 const { SMS } = require('../../../sms');
 const { sendSMS } = require('../../../sms/sender');
 
-const nanoid = customAlphabet('1234567890', 6);
+const fourDigitRandomId = customAlphabet('1234567890', 4);
 
 /**
  * send with code
@@ -71,7 +71,7 @@ async function sendSMSCode(userDAO) {
   });
 
   const verificationId = uuidv4();
-  const otpCode = await nanoid();
+  const otpCode = await fourDigitRandomId();
   await UserVerification.create({
     userId,
     method: 'phone',
