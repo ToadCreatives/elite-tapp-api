@@ -28,6 +28,7 @@ class OTPSession {
       scope: this.scope,
       userId: this.userId,
       otpCode: this.otpCode,
+      requestId: this.requestId,
       expiry: this.expiry,
     });
     multi.expire(this.key, this.expiry);
