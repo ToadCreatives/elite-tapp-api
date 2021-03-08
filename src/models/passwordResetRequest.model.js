@@ -13,7 +13,7 @@ PasswordResetRequest.init({
     primaryKey: true,
     allowNull: false,
   },
-  verificationId: {
+  token: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,

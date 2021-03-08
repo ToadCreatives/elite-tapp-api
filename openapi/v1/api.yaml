@@ -71,6 +71,38 @@ paths:
           $ref: "#/components/responses/ValidationError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /user/password/reset:
+    post:
+      summary: Reset password
+      description: Reset password for user
+      operationId: resetPassword
+      tags:
+        - User
+      requestBody:
+        $ref: "#/components/requestBodies/UserResetBody"
+      responses:
+        "200":
+          description: Resent activation code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPasswordResetRequestSchema"
+        "404":
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "422":
+          description: Account not verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
   /user/password/reset/request:
     post:
       summary: Request password reset for user
@@ -158,8 +190,8 @@ paths:
             schema:
               type: object
               properties:
-                verificationId:
-                  $ref: "#/components/schemas/IdSchema"
+                token:
+                  $ref: "#/components/schemas/TokenSchema"
                 otpCode:
                   $ref: "#/components/schemas/OTPCode"
               required:
@@ -257,6 +289,10 @@ components:
       type: string
       description: Describes an resource id
       example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+    TokenSchema:
+      type: string
+      description: Token resource
+      example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde.ssddjjeee
     OTPCode:
       type: string
       description: OTP code if present
@@ -308,9 +344,9 @@ components:
           enum:
             - phone
             - email
-        verificationId:
+        token:
           type: string
-          description: OTP activation id when method is `phone`. For email this will be sent
+          description: OTP token when method is `phone`. For email this will be sent
           example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
           nullable: true
     UserPasswordResetRequestSchema:

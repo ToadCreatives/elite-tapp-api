@@ -28,14 +28,14 @@ async function createPasswordResetRequest(userId, expiresAt) {
       userId,
     },
   });
-  const verificationId = uuidv4();
+  const token = uuidv4();
   await PasswordResetRequest.create({
     userId,
-    verificationId,
+    token,
     expiresAt,
   });
 
-  return verificationId;
+  return token;
 }
 
 /**

@@ -28,4 +28,10 @@ module.exports = {
       ).required(),
     }),
   },
+  resetPassword: {
+    body: Joi.object({
+      token: Joi.string().required(),
+      password: Joi.string().min(6).max(128).required(),
+    }),
+  },
 };

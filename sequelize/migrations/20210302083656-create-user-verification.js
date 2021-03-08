@@ -9,7 +9,7 @@ module.exports = {
     otpCode: {
       type: Sequelize.STRING(6),
     },
-    verificationId: {
+    token: {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
