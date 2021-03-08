@@ -20,4 +20,18 @@ module.exports = {
       ).required(),
     }),
   },
+  sendPasswordReset: {
+    body: Joi.object({
+      login: Joi.alternatives().try(
+        JOI_EMAIL_SCHEMA,
+        JOI_PHONE_SCHEMA,
+      ).required(),
+    }),
+  },
+  resetPassword: {
+    body: Joi.object({
+      token: Joi.string().required(),
+      password: Joi.string().min(6).max(128).required(),
+    }),
+  },
 };

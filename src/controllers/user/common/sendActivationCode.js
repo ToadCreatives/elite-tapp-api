@@ -10,7 +10,7 @@ const { sendUserVerificationMail } = require('../../../emails');
 const { SMS } = require('../../../sms');
 const { sendSMS } = require('../../../sms/sender');
 
-const nanoid = customAlphabet('1234567890', 6);
+const fourDigitRandomId = customAlphabet('1234567890', 4);
 
 /**
  * send with code
@@ -27,15 +27,15 @@ async function sendEmailWithCode(userDAO) {
     },
   });
 
-  const verificationId = uuidv4();
+  const token = uuidv4();
   await UserVerification.create({
     userId,
     method: 'email',
-    verificationId,
+    token,
     expiresAt: addDays(new Date(), 1),
   });
 
-  await sendUserVerificationMail(userDAO, verificationId);
+  await sendUserVerificationMail(userDAO, token);
 
   return {
     method: 'email',
@@ -70,13 +70,13 @@ async function sendSMSCode(userDAO) {
     },
   });
 
-  const verificationId = uuidv4();
-  const otpCode = await nanoid();
+  const token = uuidv4();
+  const otpCode = await fourDigitRandomId();
   await UserVerification.create({
     userId,
     method: 'phone',
     otpCode,
-    verificationId,
+    token,
     expiresAt: addMinutes(new Date(), 15),
   });
 
@@ -85,7 +85,7 @@ async function sendSMSCode(userDAO) {
   await sendSMS(sms);
 
   return {
-    verificationId,
+    token,
     method: 'phone',
   };
 }

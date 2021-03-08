@@ -8,10 +8,10 @@ servers:
   - url: https://elite-tapp-api.herokuapp.com/api/v1
     description: Heroku Production
 tags:
-  - name: User
-    description: User related endpoints
   - name: Auth
     description: Authentication related endpoints
+  - name: User
+    description: User related endpoints
 paths:
   /user/register:
     post:
@@ -54,7 +54,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                $ref: "#/components/schemas/UserActicationResendSchema"
         "404":
           description: Account not found
           content:
@@ -63,6 +63,60 @@ paths:
                 $ref: "#/components/schemas/APIError"
         "422":
           description: Account already verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /user/password/reset:
+    post:
+      summary: Reset password
+      description: Reset password for user
+      operationId: resetPassword
+      tags:
+        - User
+      requestBody:
+        $ref: "#/components/requestBodies/UserPasswordResetBody"
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          description: Session expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /user/password/reset/request:
+    post:
+      summary: Request password reset for user
+      description: Request password reset for user
+      operationId: requestPasswordReset
+      tags:
+        - User
+      requestBody:
+        $ref: "#/components/requestBodies/UserResetBody"
+      responses:
+        "200":
+          description: Resent activation code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPasswordResetRequestSchema"
+        "404":
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "422":
+          description: Account not verified
           content:
             application/json:
               schema:
@@ -113,7 +167,7 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /auth/verify:
+  /auth/verify/account:
     post:
       summary: Verify user account
       description: Verify user account
@@ -126,8 +180,8 @@ paths:
             schema:
               type: object
               properties:
-                verificationId:
-                  $ref: "#/components/schemas/IdSchema"
+                token:
+                  $ref: "#/components/schemas/TokenSchema"
                 otpCode:
                   $ref: "#/components/schemas/OTPCode"
               required:
@@ -135,6 +189,35 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /auth/verify/otp:
+    post:
+      summary: Verify otp request and gives a session token
+      description: Verify otp request and gives a session token
+      operationId: verifyOtp
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requestId:
+                  $ref: "#/components/schemas/IdSchema"
+                otpCode:
+                  $ref: "#/components/schemas/OTPCode"
+              required:
+                - requestId
+                - otpCode
+      responses:
+        "200":
+          $ref: "#/components/responses/OtpAuthResponse"
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":
@@ -173,6 +256,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/MessageResponse"
+    OtpAuthResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OTPSessionSchema"
     UnknownError:
       description: Unknown Error
       content:
@@ -190,10 +279,21 @@ components:
       type: string
       description: Describes an resource id
       example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+    TokenSchema:
+      type: string
+      description: Token resource
+      example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde.ssddjjeee
     OTPCode:
       type: string
       description: OTP code if present
-      example: "066111"
+      example: "6111"
+    OTPSessionSchema:
+      type: object
+      properties:
+        sessionToken:
+          type: string
+          example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+          description: Authorized OTP session token to continue the task
     UserRegisterSchema:
       type: object
       description: User register
@@ -219,6 +319,38 @@ components:
             - phone
             - email
         verificationId:
+          type: string
+          description: OTP activation id when method is `phone`. For email this will be sent
+          example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+          nullable: true
+    UserActicationResendSchema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "OK"
+        method:
+          type: string
+          enum:
+            - phone
+            - email
+        token:
+          type: string
+          description: OTP token when method is `phone`. For email this will be sent
+          example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+          nullable: true
+    UserPasswordResetRequestSchema:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "OK"
+        method:
+          type: string
+          enum:
+            - phone
+            - email
+        requestId:
           type: string
           description: OTP activation id when method is `phone`. For email this will be sent
           example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
@@ -347,3 +479,22 @@ components:
                 type: string
                 description: email or phone number
                 example: jhondoe@example.com
+    UserPasswordResetBody:
+      description: Reset user
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                allOf:
+                  - $ref: "#/components/schemas/TokenSchema"
+                description: For emails `token` is embedded with activation link. For OTP use `sessionToken` here
+              password:
+                type: string
+                description: Password
+                example: mypass
+            required:
+              - token
+              - password

@@ -4,28 +4,20 @@ const User = require('./user.model');
 
 const { Model } = Sequelize;
 
-class UserVerification extends Model {
-
+class PasswordResetRequest extends Model {
 }
 
-UserVerification.init({
+PasswordResetRequest.init({
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
     allowNull: false,
   },
-  otpCode: {
-    type: Sequelize.STRING(6),
-  },
   token: {
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
-  },
-  method: {
-    type: Sequelize.ENUM,
-    values: ['phone', 'email'],
   },
   expiresAt: {
     type: Sequelize.DATE,
@@ -42,9 +34,9 @@ UserVerification.init({
 }, {
   sequelize,
   timestamps: false,
-  modelName: 'userVerification',
+  modelName: 'passwordResetRequest',
 });
 
-UserVerification.belongsTo(User);
+PasswordResetRequest.belongsTo(User);
 
-module.exports = UserVerification;
+module.exports = PasswordResetRequest;

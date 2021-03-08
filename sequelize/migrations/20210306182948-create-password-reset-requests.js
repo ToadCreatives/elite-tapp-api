@@ -1,22 +1,15 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('userVerifications', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('passwordResetRequests', {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true,
       allowNull: false,
     },
-    otpCode: {
-      type: Sequelize.STRING(6),
-    },
     token: {
       type: Sequelize.STRING,
       unique: true,
       allowNull: false,
-    },
-    method: {
-      type: Sequelize.ENUM,
-      values: ['phone', 'email'],
     },
     expiresAt: {
       type: Sequelize.DATE,
@@ -33,5 +26,5 @@ module.exports = {
   }),
 
   // eslint-disable-next-line no-unused-vars
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('userVerifications'),
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('passwordResetRequests'),
 };

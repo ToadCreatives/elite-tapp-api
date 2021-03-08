@@ -7,11 +7,11 @@ const UserVerification = require('../../models/userVerification.model');
 
 exports.verifyAccount = async (req, res, next) => {
   try {
-    const { verificationId, otpCode = null } = req.body;
+    const { token, otpCode = null } = req.body;
 
     const verification = await UserVerification.findOne({
       where: {
-        verificationId,
+        token,
       },
     });
 
