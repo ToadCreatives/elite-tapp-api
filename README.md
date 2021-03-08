@@ -4,7 +4,7 @@
 
 ## Installation
 
-- Install NodeJS, PostgreSQL
+- Install NodeJS, PostgreSQL, Redis
 - Install `npm` or `yarn`
 - Rename `.env.example` to `.env`
 - Fulfill `.env` data
@@ -24,15 +24,25 @@
 
 ## Configuration
 
-| Name                 | Description                                                                           | Example                              |
-|----------------------|---------------------------------------------------------------------------------------|--------------------------------------|
-| NODE_ENV             | Environment for node js                                                               | "development", "production", "test"  |
-| APP                  | Name of the application                                                               | My cool express app                  |
-| PORT                 | Port to run the application (if you run in **heroku** this will setup  automatically) | 3000                                 |
-| HOSTNAME             | Host name for running the application                                                 | http://localhost:5000                |
-| APP_SECRET           | Secret for running app. Use a strong hash in production and make sure to rotate it    | ddd36434-80fe-4f18-b3b6-e645697f7b84 |
-| DATABSE_URL          | Postgresql DB connection string(can be set as individual fields too)                  | mongodb://localhost:27017/yourapp    |
-| TRANSPORTER_HOST     | Mail server host                                                                      | smtp.mymailer.com                    |
-| TRANSPORTER_PORT     | Mail server port                                                                      | 2525                                 |
-| TRANSPORTER_USERNAME | Mail server username                                                                  | harrypotter                          |
-| TRANSPORTER_PASSWORD | Mail server password                                                                  | alohomora                            |
+| Name                      | Description                                                                           | Example                                 |
+|---------------------------|---------------------------------------------------------------------------------------|-----------------------------------------|
+| NODE_ENV                  | Environment for node js                                                               | "development", "production", "test"     |
+| APP                       | Name of the application                                                               | EliteTapp                               |
+| PORT                      | Port to run the application (if you run in **heroku** this will setup  automatically) | 5000                                    |
+| HOSTNAME                  | Host name for running the application                                                 | http://localhost:5000                   |
+| APP_SECRET                | Secret for running app. Use a strong hash in production and make sure to rotate it    | ddd36434-80fe-4f18-b3b6-e645697f7b84    |
+| DATABASE_URL              | Postgresql DB connection string(can be set as individual fields too)                  | postgres://admin:admin@localhost/dbname |
+| TRANSPORTER_PROVIDER      | Provider of email transport(smtp/ses)                                                 | smtp                                    |
+| TRANSPORTER_SMTP_HOST     | Mail server host                                                                      | smtp.mymailer.com                       |
+| TRANSPORTER_SMTP_PORT     | Mail server port                                                                      | 2525                                    |
+| TRANSPORTER_SMTP_USERNAME | Mail server username                                                                  | harrypotter                             |
+| TRANSPORTER_SMTP_PASSWORD | Mail server password                                                                  | alohomora                               |
+| REDIS_PRIMARY_URL         | Primary redis db used for caching/sessions                                            | redis://localhost:6379                  |
+| REDIS_QUEUE_URL           | Redis queue used for jobs                                                             | redis://localhost:6379/1                |
+| AWS_ACCESS_KEY            | AWS access key                                                                        | accessKeyFromAWS                        |
+| AWS_SECRET_ACCESS_KEY     | AWS Secret Access Key                                                                 | fromAWS                                 |
+| AWS_REGION                | AWS region                                                                            | us-east-1                               |
+| AWS_BUCKET_MEDIA          | AWS bucket for media                                                                  | media.elitetapp.com                     |
+| TWILIO_SID                | SID from twilio                                                                       | sidFromTwilio                           |
+| TWILIO_TOKEN              | Token from twilio                                                                     | tokenFromTwilio                         |
+| TWILIO_FROM               | From number/alphanumeric id                                                           | EliteTapp                               |
