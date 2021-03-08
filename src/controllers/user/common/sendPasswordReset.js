@@ -78,9 +78,10 @@ async function sendSMSCode(userDAO) {
 
   const otpRequest = new OtpRequest(
     phone,
+    OTP_SCOPE_PASSWORD_RESET,
     userId,
     requestId,
-    OTP_SCOPE_PASSWORD_RESET,
+    otpCode,
     TEN_MINUTES_IN_SEC,
   );
   await otpRequest.saveAndCreateSession();

@@ -173,6 +173,35 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /auth/verify/otp:
+    post:
+      summary: Verify otp request and gives a session token
+      description: Verify otp request and gives a session token
+      operationId: verifyOtp
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requestId:
+                  $ref: "#/components/schemas/IdSchema"
+                otpCode:
+                  $ref: "#/components/schemas/OTPCode"
+              required:
+                - requestId
+                - otpCode
+      responses:
+        "200":
+          $ref: "#/components/responses/OtpAuthResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -205,6 +234,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/MessageResponse"
+    OtpAuthResponse:
+      description: Ok
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/OTPSessionSchema"
     UnknownError:
       description: Unknown Error
       content:
@@ -226,6 +261,13 @@ components:
       type: string
       description: OTP code if present
       example: "6111"
+    OTPSessionSchema:
+      type: object
+      properties:
+        sessionToken:
+          type: string
+          example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+          description: Authorized OTP session token to continue the task
     UserRegisterSchema:
       type: object
       description: User register

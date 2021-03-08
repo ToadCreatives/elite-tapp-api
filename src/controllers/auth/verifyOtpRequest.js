@@ -6,11 +6,11 @@ const { OTP_SCOPE_PASSWORD_RESET, OtpSession, OtpRequest } = require('../../otp'
 const { createPasswordResetRequest } = require('../user/common/sendPasswordReset');
 
 async function otpAction(scope, userId) {
-  let sessionId;
+  let sessionToken;
   switch (scope) {
     case OTP_SCOPE_PASSWORD_RESET:
-      sessionId = await createPasswordResetRequest(userId, addMinutes(new Date(), 15));
-      return sessionId;
+      sessionToken = await createPasswordResetRequest(userId, addMinutes(new Date(), 15));
+      return sessionToken;
 
     default:
       throw new Error('Unkown otp scope');
@@ -19,7 +19,7 @@ async function otpAction(scope, userId) {
 
 exports.verifyOtpRequest = async (req, res, next) => {
   try {
-    const { requestId, code } = req.body;
+    const { requestId, otpCode } = req.body;
 
     const otpSession = await OtpSession.GetSession(requestId);
 
@@ -29,10 +29,10 @@ exports.verifyOtpRequest = async (req, res, next) => {
 
     // get scope and user
     const {
-      otpCode, scope, userId, phone,
+      scope, userId, phone,
     } = otpSession;
 
-    if (code !== otpCode) {
+    if (otpCode !== otpSession.otpCode) {
       throw new APIError(
         'Invalid OTP code',
         httpStatus.UNAUTHORIZED,
@@ -42,9 +42,9 @@ exports.verifyOtpRequest = async (req, res, next) => {
 
     await OtpRequest.DestroyWithSession(phone, scope, requestId);
 
-    const sessionId = await otpAction(scope, userId);
+    const sessionToken = await otpAction(scope, userId);
 
-    return res.status(httpStatus.OK).json({ sessionId });
+    return res.status(httpStatus.OK).json({ sessionToken });
   } catch (err) {
     next(err);
   }

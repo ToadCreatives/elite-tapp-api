@@ -8,15 +8,17 @@ class OtpRequest {
    * @param {string} scope - scope of session
    * @param {string} userId - user
    * @param {string} requestId - request id
+   * @param {string} otpCode - otpCode
    * @param {number} expiry - ttl for session
    * @memberof OTPRequest
    */
-  constructor(phone, scope, userId, requestId, expiry) {
+  constructor(phone, scope, userId, requestId, otpCode, expiry) {
     this.phone = phone;
     this.scope = scope;
     this.userId = userId;
     this.expiry = expiry;
     this.requestId = requestId;
+    this.otpCode = otpCode;
   }
 
   async saveAndCreateSession() {
@@ -41,9 +43,18 @@ class OtpRequest {
       userId: this.userId,
       otpCode: this.otpCode,
       expiry: this.expiry,
-      phoneNumber: this.phone,
+      phone: this.phone,
     });
     multi.expire(sessionKey, this.expiry);
+
+    console.log(sessionKey, {
+      id: this.requestId,
+      scope: this.scope,
+      userId: this.userId,
+      otpCode: this.otpCode,
+      expiry: this.expiry,
+      phone: this.phone,
+    });
 
     await multi.execAsync();
   }
@@ -55,12 +66,12 @@ class OtpRequest {
     await multi.execAsync();
   }
 
-  static GetKey(phoneNumber, scope) {
-    return `otp:request:${scope}:${phoneNumber}`;
+  static GetKey(phone, scope) {
+    return `otp:request:${scope}:${phone}`;
   }
 
-  static async Destroy(phoneNumber, scope) {
-    await redis.delAsync(OtpRequest.GetKey(phoneNumber, scope));
+  static async Destroy(phone, scope) {
+    await redis.delAsync(OtpRequest.GetKey(phone, scope));
   }
 
   static async GetRequest(phone, scope) {
