@@ -11,10 +11,6 @@ module.exports = {
       unique: true,
       allowNull: false,
     },
-    method: {
-      type: Sequelize.ENUM,
-      values: ['phone', 'email'],
-    },
     expiresAt: {
       type: Sequelize.DATE,
       allowNull: false,

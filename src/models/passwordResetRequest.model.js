@@ -4,7 +4,6 @@ const sequelize = require('../services/sequelize');
 const { Model } = Sequelize;
 
 class PasswordResetRequest extends Model {
-
 }
 
 PasswordResetRequest.init({
@@ -18,10 +17,6 @@ PasswordResetRequest.init({
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
-  },
-  method: {
-    type: Sequelize.ENUM,
-    values: ['phone', 'email'],
   },
   expiresAt: {
     type: Sequelize.DATE,
@@ -38,7 +33,7 @@ PasswordResetRequest.init({
 }, {
   sequelize,
   timestamps: false,
-  modelName: 'userVerification',
+  modelName: 'passwordResetRequest',
 });
 
 module.exports = PasswordResetRequest;

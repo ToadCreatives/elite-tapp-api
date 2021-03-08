@@ -24,7 +24,7 @@ exports.verifyOtpRequest = async (req, res, next) => {
     const otpSession = await OtpSession.GetSession(requestId);
 
     if (!otpSession) {
-      throw new APIError('OTP Session expired', httpStatus.UNAUTHORIZED, errorCodes.OTPSessionExpired);
+      throw new APIError('Session expired', httpStatus.UNAUTHORIZED, errorCodes.SessionExpired);
     }
 
     // get scope and user

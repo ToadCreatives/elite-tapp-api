@@ -19,6 +19,7 @@ const TEN_MINUTES_IN_SEC = 10 * 60;
  * Create password reset request
  *
  * @param {string} userId
+ * @param {Date} expiresAt
  * @returns {Promise<string>}
  */
 async function createPasswordResetRequest(userId, expiresAt) {
@@ -30,7 +31,6 @@ async function createPasswordResetRequest(userId, expiresAt) {
   const verificationId = uuidv4();
   await PasswordResetRequest.create({
     userId,
-    method: 'email',
     verificationId,
     expiresAt,
   });

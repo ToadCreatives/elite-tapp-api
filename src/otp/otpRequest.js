@@ -31,6 +31,7 @@ class OtpRequest {
       scope: this.scope,
       userId: this.userId,
       requestId: this.requestId,
+      otpCode: this.otpCode,
       expiry: this.expiry,
     });
     multi.expire(requestKey, this.expiry);
@@ -46,15 +47,6 @@ class OtpRequest {
       phone: this.phone,
     });
     multi.expire(sessionKey, this.expiry);
-
-    console.log(sessionKey, {
-      id: this.requestId,
-      scope: this.scope,
-      userId: this.userId,
-      otpCode: this.otpCode,
-      expiry: this.expiry,
-      phone: this.phone,
-    });
 
     await multi.execAsync();
   }
@@ -86,9 +78,10 @@ class OtpRequest {
       userId,
       expiry,
       requestId,
+      otpCode,
     } = data;
 
-    return new OtpRequest(phone, userId, requestId, scope, expiry);
+    return new OtpRequest(phone, scope, userId, requestId, otpCode, expiry);
   }
 }
 

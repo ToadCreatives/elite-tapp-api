@@ -7,8 +7,8 @@ module.exports = {
 
   OTPCodeRequired: 50,
   OTPCodeInvalid: 51,
-  OTPSessionExpired: 52,
 
+  SessionExpired: 99997,
   ValidationError: 99998,
   UnknownError: 99999,
 };
