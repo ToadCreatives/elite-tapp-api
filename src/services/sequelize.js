@@ -30,7 +30,7 @@ if (config.db.url) {
   const sequelize = new Sequelize(config.db.url, {
     dialectOptions,
     pool: {
-      max: 15,
+      max: 10,
     },
     logging: (msg) => log.debug(msg),
   });
@@ -44,7 +44,7 @@ if (config.db.url) {
     dialect: 'postgres',
     dialectOptions,
     pool: {
-      max: 15,
+      max: 10,
     },
     logging: (msg) => log.debug(msg),
   });
