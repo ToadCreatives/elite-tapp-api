@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../services/sequelize');
+const User = require('./user.model');
 
 const { Model } = Sequelize;
 
@@ -43,5 +44,7 @@ UserVerification.init({
   timestamps: false,
   modelName: 'userVerification',
 });
+
+UserVerification.belongsTo(User);
 
 module.exports = UserVerification;

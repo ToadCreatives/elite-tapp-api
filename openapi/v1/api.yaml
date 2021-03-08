@@ -79,28 +79,18 @@ paths:
       tags:
         - User
       requestBody:
-        $ref: "#/components/requestBodies/UserResetBody"
+        $ref: "#/components/requestBodies/UserPasswordResetBody"
       responses:
         "200":
-          description: Resent activation code
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/UserPasswordResetRequestSchema"
-        "404":
-          description: Account not found
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/APIError"
-        "422":
-          description: Account not verified
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/APIError"
+          $ref: "#/components/responses/OkResponse"
         "400":
           $ref: "#/components/responses/ValidationError"
+        "401":
+          description: Session expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
         "500":
           $ref: "#/components/responses/UnknownError"
   /user/password/reset/request:
@@ -489,3 +479,22 @@ components:
                 type: string
                 description: email or phone number
                 example: jhondoe@example.com
+    UserPasswordResetBody:
+      description: Reset user
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                allOf:
+                  - $ref: "#/components/schemas/TokenSchema"
+                description: For emails `token` is embedded with activation link. For OTP use `sessionToken` here
+              password:
+                type: string
+                description: Password
+                example: mypass
+            required:
+              - token
+              - password

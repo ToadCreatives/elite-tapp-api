@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../services/sequelize');
+const User = require('./user.model');
 
 const { Model } = Sequelize;
 
@@ -35,5 +36,7 @@ PasswordResetRequest.init({
   timestamps: false,
   modelName: 'passwordResetRequest',
 });
+
+PasswordResetRequest.belongsTo(User);
 
 module.exports = PasswordResetRequest;

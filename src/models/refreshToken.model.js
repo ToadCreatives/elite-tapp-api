@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const crypto = require('crypto');
 const moment = require('moment');
 const sequelize = require('../services/sequelize');
+const User = require('./user.model');
 
 const { Model } = Sequelize;
 
@@ -63,5 +64,7 @@ RefreshToken.init({
   modelName: 'refreshToken',
   timestamps: false,
 });
+
+RefreshToken.belongsTo(User);
 
 module.exports = RefreshToken;
