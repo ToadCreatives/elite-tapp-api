@@ -1,7 +1,7 @@
 const { customAlphabet } = require('nanoid/async');
 
 const { v4: uuidv4 } = require('uuid');
-const { addDays } = require('date-fns');
+const { addHours } = require('date-fns');
 const APIError = require('../../../errors/APIError');
 // eslint-disable-next-line no-unused-vars
 const User = require('../../../models/user.model');
@@ -9,11 +9,34 @@ const { sendPasswordResetMail } = require('../../../emails');
 const { SMS } = require('../../../sms');
 const { sendSMS } = require('../../../sms/sender');
 const PasswordResetRequest = require('../../../models/passwordResetRequest.model');
-const { OtpRequest, OTP_SCOPE_PASSWORD_RESET, OtpSession } = require('../../../otp');
+const { OtpRequest, OTP_SCOPE_PASSWORD_RESET } = require('../../../otp');
 
 const fourDigitRandomId = customAlphabet('1234567890', 4);
 
 const TEN_MINUTES_IN_SEC = 10 * 60;
+
+/**
+ * Create password reset request
+ *
+ * @param {string} userId
+ * @returns {Promise<string>}
+ */
+async function createPasswordResetRequest(userId, expiresAt) {
+  await PasswordResetRequest.destroy({
+    where: {
+      userId,
+    },
+  });
+  const verificationId = uuidv4();
+  await PasswordResetRequest.create({
+    userId,
+    method: 'email',
+    verificationId,
+    expiresAt,
+  });
+
+  return verificationId;
+}
 
 /**
  * send with code
@@ -23,21 +46,8 @@ const TEN_MINUTES_IN_SEC = 10 * 60;
  */
 async function sendEmailWithCode(userDAO) {
   const userId = userDAO.id;
-  // clear old verifications and resend email
-  await PasswordResetRequest.destroy({
-    where: {
-      userId,
-    },
-  });
 
-  const verificationId = uuidv4();
-  await PasswordResetRequest.create({
-    userId,
-    method: 'email',
-    verificationId,
-    expiresAt: addDays(new Date(), 1),
-  });
-
+  const verificationId = await createPasswordResetRequest(userId, addHours(new Date(), 2));
   await sendPasswordResetMail(userDAO, verificationId);
 
   return {
@@ -73,16 +83,7 @@ async function sendSMSCode(userDAO) {
     OTP_SCOPE_PASSWORD_RESET,
     TEN_MINUTES_IN_SEC,
   );
-  await otpRequest.save();
-
-  const otpSession = new OtpSession(
-    requestId,
-    OTP_SCOPE_PASSWORD_RESET,
-    userId,
-    otpCode,
-    TEN_MINUTES_IN_SEC,
-  );
-  await otpSession.save();
+  await otpRequest.saveAndCreateSession();
 
   const sms = SMS.CreateOTPMessage(userDAO.phone, otpCode);
   await sendSMS(sms);
@@ -113,4 +114,5 @@ async function sendPasswordReset(userDAO) {
 
 module.exports = {
   sendPasswordReset,
+  createPasswordResetRequest,
 };

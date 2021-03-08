@@ -23,4 +23,10 @@ module.exports = {
       otpCode: Joi.string().length(4).optional().allow(null),
     }),
   },
+  verifyOtp: {
+    body: Joi.object({
+      requestId: Joi.string().required(),
+      otpCode: Joi.string().length(4).required(),
+    }),
+  },
 };

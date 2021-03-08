@@ -145,7 +145,7 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /auth/verify:
+  /auth/verify/account:
     post:
       summary: Verify user account
       description: Verify user account

@@ -1,30 +1,31 @@
 const redis = require('../services/redis');
+const { OtpSession } = require('./otpSession');
 
 class OtpRequest {
   /**
    *Creates an instance of OTPRequest.
-   * @param {string} phoneNumber - usually the mobile number
+   * @param {string} phone - usually the mobile number
+   * @param {string} scope - scope of session
    * @param {string} userId - user
    * @param {string} requestId - request id
-   * @param {string} scope - scope of session
    * @param {number} expiry - ttl for session
    * @memberof OTPRequest
    */
-  constructor(phoneNumber, userId, requestId, scope, expiry) {
-    this.phoneNumber = phoneNumber;
+  constructor(phone, scope, userId, requestId, expiry) {
+    this.phone = phone;
     this.scope = scope;
     this.userId = userId;
     this.expiry = expiry;
     this.requestId = requestId;
   }
 
-  async save() {
+  async saveAndCreateSession() {
     const multi = redis.multi();
 
     // create request : lookup by phone
-    const requestKey = OtpRequest.GetKey(this.phoneNumber, this.scope);
+    const requestKey = OtpRequest.GetKey(this.phone, this.scope);
     multi.hmset(requestKey, {
-      phoneNumber: this.phoneNumber,
+      phone: this.phone,
       scope: this.scope,
       userId: this.userId,
       requestId: this.requestId,
@@ -32,19 +33,38 @@ class OtpRequest {
     });
     multi.expire(requestKey, this.expiry);
 
+    // create sessoion for validate
+    const sessionKey = OtpSession.GetKey(this.requestId);
+    multi.hmset(sessionKey, {
+      id: this.requestId,
+      scope: this.scope,
+      userId: this.userId,
+      otpCode: this.otpCode,
+      expiry: this.expiry,
+      phoneNumber: this.phone,
+    });
+    multi.expire(sessionKey, this.expiry);
+
     await multi.execAsync();
   }
 
-  static GetKey(id, scope) {
-    return `otp:request:${scope}:${id}`;
+  static async DestroyWithSession(phone, scope, requestId) {
+    const multi = redis.multi();
+    multi.del(OtpRequest.GetKey(phone, scope));
+    multi.del(OtpSession.GetKey(requestId));
+    await multi.execAsync();
   }
 
-  static async DestroyRequest(id) {
-    await redis.delAsync(OtpRequest.GetKey(id));
+  static GetKey(phoneNumber, scope) {
+    return `otp:request:${scope}:${phoneNumber}`;
   }
 
-  static async GetRequest(phoneNumber, scope) {
-    const key = OtpRequest.GetKey(phoneNumber, scope);
+  static async Destroy(phoneNumber, scope) {
+    await redis.delAsync(OtpRequest.GetKey(phoneNumber, scope));
+  }
+
+  static async GetRequest(phone, scope) {
+    const key = OtpRequest.GetKey(phone, scope);
     const data = await redis.hgetallAsync(key);
 
     if (!data) {
@@ -57,7 +77,7 @@ class OtpRequest {
       requestId,
     } = data;
 
-    return new OtpRequest(phoneNumber, userId, requestId, scope, expiry);
+    return new OtpRequest(phone, userId, requestId, scope, expiry);
   }
 }
 
