@@ -1,6 +1,3 @@
-const { customAlphabet } = require('nanoid/async');
-
-const { v4: uuidv4 } = require('uuid');
 const { addHours } = require('date-fns');
 const APIError = require('../../../errors/APIError');
 // eslint-disable-next-line no-unused-vars
@@ -10,8 +7,7 @@ const { SMS } = require('../../../sms');
 const { sendSMS } = require('../../../sms/sender');
 const PasswordResetRequest = require('../../../models/passwordResetRequest.model');
 const { OtpRequest, OTP_SCOPE_PASSWORD_RESET } = require('../../../otp');
-
-const fourDigitRandomId = customAlphabet('1234567890', 4);
+const { fourDigitRandomId, generateRandomSecureToken } = require('../../../utils/crypto');
 
 const TEN_MINUTES_IN_SEC = 10 * 60;
 
@@ -28,7 +24,7 @@ async function createPasswordResetRequest(userId, expiresAt) {
       userId,
     },
   });
-  const token = uuidv4();
+  const token = await generateRandomSecureToken();
   await PasswordResetRequest.create({
     userId,
     token,
@@ -73,7 +69,7 @@ async function sendSMSCode(userDAO) {
     };
   }
 
-  const requestId = uuidv4();
+  const requestId = await generateRandomSecureToken(50);
   const otpCode = await fourDigitRandomId();
 
   const otpRequest = new OtpRequest(

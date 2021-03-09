@@ -1,6 +1,3 @@
-const { customAlphabet } = require('nanoid/async');
-
-const { v4: uuidv4 } = require('uuid');
 const { addDays, isBefore, addMinutes } = require('date-fns');
 const UserVerification = require('../../../models/userVerification.model');
 const APIError = require('../../../errors/APIError');
@@ -10,7 +7,7 @@ const { sendUserVerificationMail } = require('../../../emails');
 const { SMS } = require('../../../sms');
 const { sendSMS } = require('../../../sms/sender');
 
-const fourDigitRandomId = customAlphabet('1234567890', 4);
+const { fourDigitRandomId, generateRandomSecureToken } = require('../../../utils/crypto');
 
 /**
  * send with code
@@ -27,7 +24,7 @@ async function sendEmailWithCode(userDAO) {
     },
   });
 
-  const token = uuidv4();
+  const token = await generateRandomSecureToken();
   await UserVerification.create({
     userId,
     method: 'email',
@@ -70,7 +67,7 @@ async function sendSMSCode(userDAO) {
     },
   });
 
-  const token = uuidv4();
+  const token = await generateRandomSecureToken();
   const otpCode = await fourDigitRandomId();
   await UserVerification.create({
     userId,
