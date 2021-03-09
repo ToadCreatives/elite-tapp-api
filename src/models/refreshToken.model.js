@@ -38,8 +38,8 @@ class RefreshToken extends Model {
 
 RefreshToken.init({
   id: {
-    type: Sequelize.INTEGER,
-    autoIncrement: true,
+    type: Sequelize.UUID,
+    defaultValue: Sequelize.UUIDV4,
     primaryKey: true,
     allowNull: false,
   },
