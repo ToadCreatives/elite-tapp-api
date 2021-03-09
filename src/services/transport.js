@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const aws = require('aws-sdk/clients/ses');
 const { transporter } = require('../config');
 const { ses } = require('../aws');
 
@@ -25,7 +24,7 @@ if (transporter.provider === 'smtp') {
   module.exports = transport;
 } else if (transporter.provider === 'ses') {
   transport = nodemailer.createTransport({
-    SES: { ses, aws },
+    SES: ses,
   });
 
   module.exports = transport;
