@@ -5,7 +5,7 @@ const frontUrl = (path) => urljoin(process.env.FRONTEND_URL || 'https://elitetap
 
 module.exports = {
   port: process.env.PORT,
-  app: process.env.APP,
+  app: process.env.APP || 'EliteTapp',
   env: process.env.NODE_ENV,
   secret: process.env.APP_SECRET,
   hostname: process.env.HOSTNAME,
