@@ -16,6 +16,6 @@ router.post('/password/reset/request', validate(validation.sendPasswordReset), c
 
 router.post('/check', validate(validation.checkAvailability), controller.isAvailable);
 
-router.put('/username', validate(validation.setUsername), auth(), controller.setUsername);
+router.put('/username', validate(validation.setUsername), auth({ usernameRequired: false }), controller.setUsername);
 
 module.exports = router;
