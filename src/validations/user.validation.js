@@ -34,4 +34,9 @@ module.exports = {
       password: Joi.string().min(6).max(128).required(),
     }),
   },
+  checkAvailability: {
+    query: Joi.object({
+      value: Joi.string().required(),
+    }),
+  },
 };
