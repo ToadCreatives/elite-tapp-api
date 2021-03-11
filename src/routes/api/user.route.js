@@ -13,6 +13,6 @@ router.post('/password/reset', validate(validation.resetPassword), userControlle
 
 router.post('/password/reset/request', validate(validation.sendPasswordReset), userController.sendPasswordReset);
 
-router.get('/check', validate(validation.checkAvailability), userController.isAvailable);
+router.post('/check', validate(validation.checkAvailability), userController.isAvailable);
 
 module.exports = router;

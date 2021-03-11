@@ -127,6 +127,31 @@ paths:
           $ref: "#/components/responses/ValidationError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /user/check:
+    post:
+      summary: Check if email, username, phone already taken
+      description: Check if `email`, `username`, `phone` already taken
+      tags:
+        - User
+      operationId: checkAvailability
+      requestBody:
+        $ref: "#/components/requestBodies/CheckAvailabilityBody"
+      responses:
+        "200":
+          description: Result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                    example: true
+                    description: it is available
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
   /auth/login:
     post:
       summary: Login to the app
@@ -551,3 +576,23 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ProfileUpdateSchema"
+    CheckAvailabilityBody:
+      description: Check Availability
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                  - email
+                  - phone
+                  - username
+                description: type to be checked
+                example: email
+              value:
+                type: string
+                description: value to be checked
+                example: jhondoe@example.com

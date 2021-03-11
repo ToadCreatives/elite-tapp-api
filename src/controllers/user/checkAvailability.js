@@ -26,7 +26,7 @@ const validTypes = ['email', 'phone', 'username'];
 
 exports.isAvailable = async (req, res, next) => {
   try {
-    const { type, value } = req.query;
+    const { type, value } = req.body;
 
     if (!validTypes.includes(type)) {
       throw new APIError('Invalid Operation', httpStatus.BAD_REQUEST, errorCodes.InvalidOperation);
