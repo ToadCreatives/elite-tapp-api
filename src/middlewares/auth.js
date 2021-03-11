@@ -2,6 +2,7 @@ const passport = require('passport');
 const httpStatus = require('http-status');
 const bluebird = require('bluebird');
 const APIError = require('../errors/APIError');
+const errorCodes = require('../errors/errorCodes');
 
 // handleJWT with roles
 const handleJWT = (req, res, next, options) => async (err, user, info) => {
@@ -22,7 +23,7 @@ const handleJWT = (req, res, next, options) => async (err, user, info) => {
 
   if (options) {
     if (options.usernameRequired === true && !user.username) {
-      return next(new APIError('Unauthorized', httpStatus.UNAUTHORIZED));
+      return next(new APIError('Username required', httpStatus.UNAUTHORIZED, errorCodes.UsernameRequired));
     }
   }
 
