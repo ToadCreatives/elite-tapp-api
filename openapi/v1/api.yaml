@@ -12,6 +12,8 @@ tags:
     description: Authentication related endpoints
   - name: User
     description: User related endpoints
+  - name: Profile
+    description: User profile related
 paths:
   /user/register:
     post:
@@ -224,6 +226,26 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /profile/me:
+    patch:
+      summary: Update current user profile
+      description: Update the current user profile
+      operationId: updateMyProfile
+      security:
+        - bearerAuth: []
+      tags:
+        - Profile
+      requestBody:
+        $ref: "#/components/requestBodies/ProfileUpdateBody"
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -380,6 +402,30 @@ components:
           type: boolean
           description: Is password set for account
           example: false
+    ProfileUpdateSchema:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: first name
+          example: Jhon
+        lastName:
+          type: string
+          description: last name
+          example: Doe
+        dateOfBirth:
+          type: string
+          format: date
+          description: date of birth
+          example: 1995-06-04
+        bio:
+          type: string
+          description: bio
+          example: Lorem Ipsum Dor...
+        genderId:
+          allOf:
+            - $ref: "#/components/schemas/IdSchema"
+          description: Gender id
     AccessToken:
       type: object
       properties:
@@ -498,3 +544,10 @@ components:
             required:
               - token
               - password
+    ProfileUpdateBody:
+      description: Update user profile
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProfileUpdateSchema"
