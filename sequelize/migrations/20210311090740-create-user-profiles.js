@@ -16,10 +16,13 @@ module.exports = {
       type: Sequelize.TEXT,
     },
     dateOfBirth: {
-      type: Sequelize.DATE,
+      type: Sequelize.DATEONLY,
     },
     avatar: {
       type: Sequelize.TEXT,
+    },
+    updatedAt: {
+      type: Sequelize.DATE,
     },
     genderId: {
       type: Sequelize.UUID,

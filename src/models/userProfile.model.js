@@ -25,7 +25,7 @@ UserProfile.init({
     type: Sequelize.TEXT,
   },
   dateOfBirth: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATEONLY,
   },
   avatar: {
     type: Sequelize.TEXT,
