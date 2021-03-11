@@ -40,4 +40,11 @@ module.exports = {
       type: Joi.string().valid('email', 'username', 'phone').required(),
     }),
   },
+  setUsername: {
+    body: Joi.object({
+      // TODO: add regex pattern
+      username: Joi.string().required(),
+    }),
+  },
+
 };

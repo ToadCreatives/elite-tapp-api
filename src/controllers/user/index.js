@@ -5,6 +5,7 @@ const { resetPassword } = require('./resetPassword');
 const {
   isAvailable,
 } = require('./checkAvailability');
+const { setUsername } = require('./setUsername');
 
 module.exports = {
   register,
@@ -12,4 +13,5 @@ module.exports = {
   sendPasswordReset,
   resetPassword,
   isAvailable,
+  setUsername,
 };

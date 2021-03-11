@@ -2,17 +2,20 @@ const express = require('express');
 
 const router = express.Router();
 const { validate } = require('express-validation');
-const userController = require('../../controllers/user');
+const controller = require('../../controllers/user');
 const validation = require('../../validations/user.validation');
+const auth = require('../../middlewares/auth');
 
-router.post('/register', validate(validation.register), userController.register);
+router.post('/register', validate(validation.register), controller.register);
 
-router.post('/activation/resend', validate(validation.resendActivationCode), userController.resendActicationCode);
+router.post('/activation/resend', validate(validation.resendActivationCode), controller.resendActicationCode);
 
-router.post('/password/reset', validate(validation.resetPassword), userController.resetPassword);
+router.post('/password/reset', validate(validation.resetPassword), controller.resetPassword);
 
-router.post('/password/reset/request', validate(validation.sendPasswordReset), userController.sendPasswordReset);
+router.post('/password/reset/request', validate(validation.sendPasswordReset), controller.sendPasswordReset);
 
-router.post('/check', validate(validation.checkAvailability), userController.isAvailable);
+router.post('/check', validate(validation.checkAvailability), controller.isAvailable);
+
+router.put('/username', validate(validation.setUsername), auth(), controller.setUsername);
 
 module.exports = router;
