@@ -13,10 +13,6 @@ router.post('/password/reset', validate(validation.resetPassword), userControlle
 
 router.post('/password/reset/request', validate(validation.sendPasswordReset), userController.sendPasswordReset);
 
-router.get('/check/username', validate(validation.checkAvailability), userController.isUsernameAvailable);
-
-router.get('/check/email', validate(validation.checkAvailability), userController.isEmailAvailable);
-
-router.get('/check/phone', validate(validation.checkAvailability), userController.isPhoneAvailable);
+router.get('/check', validate(validation.checkAvailability), userController.isAvailable);
 
 module.exports = router;

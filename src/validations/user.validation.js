@@ -37,6 +37,7 @@ module.exports = {
   checkAvailability: {
     query: Joi.object({
       value: Joi.string().required(),
+      type: Joi.string().valid('email', 'username', 'phone').required(),
     }),
   },
 };

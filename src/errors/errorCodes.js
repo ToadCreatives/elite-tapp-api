@@ -10,6 +10,7 @@ module.exports = {
   OTPCodeRequired: 50,
   OTPCodeInvalid: 51,
 
+  InvalidOperation: 99996,
   SessionExpired: 99997,
   ValidationError: 99998,
   UnknownError: 99999,

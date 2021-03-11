@@ -1,4 +1,6 @@
 const httpStatus = require('http-status');
+const APIError = require('../../errors/APIError');
+const errorCodes = require('../../errors/errorCodes');
 const User = require('../../models/user.model');
 
 /**
@@ -8,7 +10,7 @@ const User = require('../../models/user.model');
  * @param {string} payload - payload
  * @returns
  */
-async function isAvailable(type, payload) {
+async function isTypeAvailable(type, payload) {
   const whereClause = {};
   whereClause[type] = payload;
 
@@ -20,35 +22,17 @@ async function isAvailable(type, payload) {
   return !existingUser;
 }
 
-exports.isEmailAvailable = async (req, res, next) => {
+const validTypes = ['email', 'phone', 'username'];
+
+exports.isAvailable = async (req, res, next) => {
   try {
-    const { value } = req.query;
+    const { type, value } = req.query;
 
-    const available = await isAvailable('email', value);
+    if (!validTypes.includes(type)) {
+      throw new APIError('Invalid Operation', httpStatus.BAD_REQUEST, errorCodes.InvalidOperation);
+    }
 
-    return res.status(httpStatus.OK).json({ available });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.isUsernameAvailable = async (req, res, next) => {
-  try {
-    const { value } = req.query;
-
-    const available = await isAvailable('username', value);
-
-    return res.status(httpStatus.OK).json({ available });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.isPhoneAvailable = async (req, res, next) => {
-  try {
-    const { value } = req.query;
-
-    const available = await isAvailable('phone', value);
+    const available = await isTypeAvailable(type, value);
 
     return res.status(httpStatus.OK).json({ available });
   } catch (err) {

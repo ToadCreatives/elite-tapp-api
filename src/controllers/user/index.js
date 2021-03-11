@@ -3,9 +3,7 @@ const { resendActicationCode } = require('./resendActivationCode');
 const { sendPasswordReset } = require('./sendPasswordReset');
 const { resetPassword } = require('./resetPassword');
 const {
-  isEmailAvailable,
-  isPhoneAvailable,
-  isUsernameAvailable,
+  isAvailable,
 } = require('./checkAvailability');
 
 module.exports = {
@@ -13,7 +11,5 @@ module.exports = {
   resendActicationCode,
   sendPasswordReset,
   resetPassword,
-  isEmailAvailable,
-  isPhoneAvailable,
-  isUsernameAvailable,
+  isAvailable,
 };
