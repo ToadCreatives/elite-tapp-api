@@ -14,6 +14,8 @@ tags:
     description: User related endpoints
   - name: Profile
     description: User profile related
+  - name: Interests
+    description: Interest related
 paths:
   /user/register:
     post:
@@ -304,6 +306,18 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /interests:
+    get:
+      summary: Get interests
+      description: Get all interests
+      operationId: getInterests
+      tags:
+        - Interests
+      responses:
+        "200":
+          $ref: "#/components/responses/InterestsAllResponse"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -324,6 +338,17 @@ components:
                 $ref: "#/components/schemas/RefreshToken"
               user:
                 $ref: "#/components/schemas/UserPrivateBase"
+    InterestsAllResponse:
+      description: All interests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              interests:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InterestSchema"
     UnauthorizedError:
       description: Unauthorized
       content:
@@ -374,6 +399,15 @@ components:
           type: string
           example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
           description: Authorized OTP session token to continue the task
+    InterestSchema:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/IdSchema"
+        title:
+          type: string
+          description: title of interest
+          example: Coffee
     UsernameSchema:
       type: string
       description: Username
