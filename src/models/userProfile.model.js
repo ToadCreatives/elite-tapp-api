@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../services/sequelize');
-const Gender = require('./gender.model');
 const User = require('./user.model');
 
 const { Model } = Sequelize;
@@ -27,6 +26,11 @@ UserProfile.init({
   dateOfBirth: {
     type: Sequelize.DATEONLY,
   },
+  gender: {
+    type: Sequelize.ENUM,
+    values: ['male', 'female'],
+    allowNull: true,
+  },
   avatar: {
     type: Sequelize.TEXT,
   },
@@ -39,6 +43,5 @@ UserProfile.init({
 });
 
 UserProfile.belongsTo(User);
-UserProfile.belongsTo(Gender);
 
 module.exports = UserProfile;

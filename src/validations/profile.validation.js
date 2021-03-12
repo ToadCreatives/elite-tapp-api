@@ -8,7 +8,7 @@ module.exports = {
       lastName: Joi.string().max(255).allow(null),
       dateOfBirth: Joi.date().less('now'),
       bio: Joi.string().max(512).allow(null),
-      genderId: Joi.string().uuid().allow(null),
+      gender: Joi.string().valid('male', 'female').allow(null),
     }),
   },
 };

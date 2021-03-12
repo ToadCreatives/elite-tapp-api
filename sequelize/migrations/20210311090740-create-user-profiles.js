@@ -24,13 +24,10 @@ module.exports = {
     updatedAt: {
       type: Sequelize.DATE,
     },
-    genderId: {
-      type: Sequelize.UUID,
-      references: {
-        model: 'genders',
-        key: 'id',
-      },
-      onDelete: 'SET NULL',
+    gender: {
+      type: Sequelize.ENUM,
+      values: ['male', 'female'],
+      allowNull: true,
     },
     userId: {
       type: Sequelize.UUID,

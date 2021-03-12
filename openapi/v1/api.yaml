@@ -464,6 +464,13 @@ components:
           type: boolean
           description: Is password set for account
           example: false
+    GenderSchema:
+      type: string
+      description: Specify a gender
+      enum:
+        - male
+        - female
+      nullable: true
     ProfileUpdateSchema:
       type: object
       properties:
@@ -484,10 +491,8 @@ components:
           type: string
           description: bio
           example: Lorem Ipsum Dor...
-        genderId:
-          allOf:
-            - $ref: "#/components/schemas/IdSchema"
-          description: Gender id
+        gender:
+          $ref: "#/components/schemas/GenderSchema"
     AccessToken:
       type: object
       properties:
