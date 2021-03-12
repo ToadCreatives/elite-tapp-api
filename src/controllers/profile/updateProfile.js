@@ -35,7 +35,7 @@ function getSafeProfileParams(original) {
       'lastName',
       'dateOfBirth',
       'bio',
-      'genderId',
+      'gender',
     ],
   );
 }
