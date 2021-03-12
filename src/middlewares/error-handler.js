@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const Sequelize = require('sequelize');
 const { ValidationError } = require('express-validation');
 const APIError = require('../errors/APIError');
 const errorCodes = require('../errors/errorCodes');
@@ -30,7 +31,41 @@ exports.handleError = (err, req, res, next) => {
       ));
   }
 
-  log.error(err);
+  if (err instanceof Sequelize.ValidationError) {
+    const details = [];
+    err.errors.forEach((error) => {
+      details.push({
+        field: error.path,
+        location: 'body',
+        messages: [error.message],
+      });
+    });
+
+    return res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .json(
+        new APIError(
+          'Validation Error',
+          httpStatus.CONFLICT,
+          errorCodes.DuplicateFields,
+          details,
+        ),
+      );
+  }
+
+  if (err instanceof Sequelize.Error) {
+    log.error('db error ', { type: 'db', error: err });
+    return res
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
+      .json(
+        new APIError(
+          'Unknown error occured',
+          httpStatus.INTERNAL_SERVER_ERROR,
+        ),
+      );
+  }
+
+  log.error(`other error ${err}`, { type: 'unkown', error: err });
   return res.status(httpStatus.INTERNAL_SERVER_ERROR)
-    .json(new APIError(err.message || 'Unknown error occured'));
+    .json(new APIError('Unknown error occured'));
 };
