@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const { JOI_PHONE_SCHEMA, JOI_EMAIL_SCHEMA } = require('../utils/helpers');
+const { JOI_PHONE_SCHEMA, JOI_EMAIL_SCHEMA, UsernameRegex } = require('../utils/helpers');
 
 // User validation rules
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
   setUsername: {
     body: Joi.object({
       // TODO: add regex pattern
-      username: Joi.string().required(),
+      username: Joi.string().regex(UsernameRegex).required(),
     }),
   },
 

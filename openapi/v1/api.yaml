@@ -378,6 +378,7 @@ components:
       type: string
       description: Username
       example: jhondoe94
+      pattern: ^(?=.{5,25}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![.-])$
     UserRegisterSchema:
       type: object
       description: User register

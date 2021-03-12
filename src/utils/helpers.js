@@ -14,10 +14,15 @@ function isPhone(data) {
   return !result.error;
 }
 
+const UsernameRegex = /^(?=.{5,25}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![.-])$/;
+const NameRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
+
 module.exports = {
   isEmail,
   isPhone,
   PHONE_REGEX,
   JOI_EMAIL_SCHEMA,
   JOI_PHONE_SCHEMA,
+  UsernameRegex,
+  NameRegex,
 };
