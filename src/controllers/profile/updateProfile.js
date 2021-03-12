@@ -1,18 +1,6 @@
 const httpStatus = require('http-status');
 const { pick } = require('lodash');
-const APIError = require('../../errors/APIError');
-const errorCodes = require('../../errors/errorCodes');
-const Gender = require('../../models/gender.model');
 const UserProfile = require('../../models/userProfile.model');
-
-async function validateGender(genderId) {
-  const gender = await Gender.findByPk(genderId, { attributes: ['id'] });
-  if (!gender) {
-    return false;
-  }
-
-  return true;
-}
 
 /**
  * Get or create profile for user
@@ -58,13 +46,6 @@ exports.updateProfile = async (req, res, next) => {
     const userId = user.id;
 
     const profile = req.body;
-
-    if (profile.genderId) {
-      const validGender = await validateGender(profile.genderId);
-      if (!validGender) {
-        throw new APIError('Invalid gender', httpStatus.UNPROCESSABLE_ENTITY, errorCodes.InvalidGender);
-      }
-    }
 
     const userProfile = await getOrCreateUserProfile(userId);
     const safeProfileData = getSafeProfileParams(profile);

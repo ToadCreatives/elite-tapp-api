@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../services/sequelize');
-const Gender = require('./gender.model');
 const User = require('./user.model');
 
 const { Model } = Sequelize;
@@ -39,6 +38,5 @@ UserProfile.init({
 });
 
 UserProfile.belongsTo(User);
-UserProfile.belongsTo(Gender);
 
 module.exports = UserProfile;
