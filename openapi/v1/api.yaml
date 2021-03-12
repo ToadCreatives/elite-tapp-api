@@ -127,15 +127,20 @@ paths:
           $ref: "#/components/responses/ValidationError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /user/check:
-    post:
-      summary: Check if email, username, phone already taken
-      description: Check if `email`, `username`, `phone` already taken
+  /user/check/username:
+    get:
+      summary: Check if username already taken
+      description: Check if username already taken
       tags:
         - User
-      operationId: checkAvailability
-      requestBody:
-        $ref: "#/components/requestBodies/CheckAvailabilityBody"
+      operationId: isUsernameAvailable
+      parameters:
+        - in: query
+          name: value
+          schema:
+            type: string
+            example: jhondoe
+          description: username to be checked
       responses:
         "200":
           description: Result

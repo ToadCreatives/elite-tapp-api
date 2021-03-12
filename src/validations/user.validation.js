@@ -34,10 +34,9 @@ module.exports = {
       password: Joi.string().min(6).max(128).required(),
     }),
   },
-  checkAvailability: {
-    body: Joi.object({
+  isUsernameAvailable: {
+    query: Joi.object({
       value: Joi.string().required(),
-      type: Joi.string().valid('email', 'username', 'phone').required(),
     }),
   },
   setUsername: {
