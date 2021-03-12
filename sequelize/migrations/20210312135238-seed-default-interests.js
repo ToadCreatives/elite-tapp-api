@@ -48,6 +48,10 @@ module.exports = {
         id: uuid(),
         title: 'Music',
       },
+      {
+        id: uuid(),
+        title: 'Games',
+      },
     ], {
 
     });
