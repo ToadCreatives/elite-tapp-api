@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const Interest = require('../../models/interests');
+const Interest = require('../../models/interest.model');
 
 exports.getInterests = async (req, res, next) => {
   try {

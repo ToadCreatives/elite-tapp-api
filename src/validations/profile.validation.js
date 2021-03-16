@@ -12,4 +12,9 @@ module.exports = {
       gender: Joi.string().valid('male', 'female').allow(null),
     }),
   },
+  addInterests: {
+    body: Joi.object({
+      interests: Joi.array().items(Joi.string().uuid()),
+    }),
+  },
 };
