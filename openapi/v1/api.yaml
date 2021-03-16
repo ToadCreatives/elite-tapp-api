@@ -306,6 +306,35 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /profile/me/interests:
+    put:
+      summary: Add/Update user interests
+      description: Add/Update interests for user
+      operationId: addUserInterests
+      security:
+        - bearerAuth: []
+      tags:
+        - Profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                interests:
+                  type: array
+                  description: an array of interests(order will be preserved)
+                  items:
+                    $ref: "#/components/schemas/IdSchema"
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
   /interests:
     get:
       summary: Get interests
