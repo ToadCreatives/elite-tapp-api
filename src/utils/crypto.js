@@ -11,7 +11,7 @@ const crypto = require('crypto');
  * @param {('hex'|'base64')} [encoding='hex'] - encoding algorithm
  */
 function md5(data, encoding = 'hex') {
-  crypto.createHash('md5').update(data).digest(encoding);
+  return crypto.createHash('md5').update(data).digest(encoding);
 }
 
 /**

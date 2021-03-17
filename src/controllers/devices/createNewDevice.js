@@ -8,7 +8,8 @@ exports.createNewDevice = async (req, res, next) => {
   try {
     const { user } = req;
 
-    const token = `${md5(user.id)}${generateRandomSecureToken(25)}`;
+    const tok1 = await generateRandomSecureToken(25);
+    const token = `${md5(user.id)}${tok1}`;
 
     const device = await NfcDevice.create({
       token,
