@@ -12,6 +12,7 @@ exports.getDevices = async (req, res, next) => {
       attributes: {
         exclude: ['token', 'userId'],
       },
+      order: [['createdAt', 'DESC']],
     });
 
     return res.status(httpStatus.OK).json({ devices });
