@@ -11,6 +11,8 @@ module.exports = {
   OTPCodeRequired: 50,
   OTPCodeInvalid: 51,
 
+  UnauthorizedDevice: 100,
+
   InvalidResources: 99995,
   InvalidOperation: 99996,
   SessionExpired: 99997,
