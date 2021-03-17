@@ -1,7 +1,8 @@
 require('dotenv').config(); // load .env file
 const urljoin = require('url-join');
 
-const frontUrl = (path) => urljoin(process.env.FRONTEND_URL || 'https://elitetapp.com', path);
+const frontendUrl = process.env.FRONTEND_URL || 'https://elitetapp.com';
+const frontUrl = (path) => urljoin(frontendUrl, path);
 
 module.exports = {
   port: process.env.PORT,
@@ -9,7 +10,7 @@ module.exports = {
   env: process.env.NODE_ENV,
   secret: process.env.APP_SECRET,
   hostname: process.env.HOSTNAME,
-  frontendUrl: frontUrl,
+  frontendUrl,
   db: {
     username: process.env.DB_USERNAME,
     password: process.env.DB_PASSWORD,
