@@ -403,6 +403,8 @@ paths:
       summary: Update device
       description: Update device
       operationId: updateDevice
+      parameters:
+        - $ref: "#/components/parameters/DeviceIdPathParam"
       tags:
         - Devices
       security:
@@ -436,6 +438,8 @@ paths:
       summary: Delete device
       description: Delete the device from system
       operationId: deleteDevice
+      parameters:
+        - $ref: "#/components/parameters/DeviceIdPathParam"
       tags:
         - Devices
       security:
