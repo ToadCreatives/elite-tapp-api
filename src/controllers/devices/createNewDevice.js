@@ -17,7 +17,7 @@ exports.createNewDevice = async (req, res, next) => {
     });
 
     return res.status(httpStatus.CREATED).json({
-      deviceId: device.id,
+      id: device.id,
       token,
       url: urljoin(frontendUrl, 'u', token),
     });

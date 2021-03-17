@@ -16,6 +16,8 @@ tags:
     description: User profile related
   - name: Interests
     description: Interest related
+  - name: Devices
+    description: NFC tags/devices related endpoints
 paths:
   /user/register:
     post:
@@ -347,6 +349,106 @@ paths:
           $ref: "#/components/responses/InterestsAllResponse"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /devices/create:
+    post:
+      summary: Create a new device
+      description: Creates a new NFC device and register it in backend
+      operationId: createNewDevice
+      tags:
+        - Devices
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Device has been created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    description: device id
+                    allOf:
+                      - $ref: "#/components/schemas/IdSchema"
+                  token:
+                    type: string
+                    example: sldadasldkasldsakdladkal
+                    description: token for device(one time)
+                  url:
+                    type: string
+                    description: Resource url for tag. Write this to NFC directly
+                    example: https://elitetapp.co/u/1sldadasldkasldsakdladkal
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /devices/list:
+    get:
+      summary: Get user's devices as a list
+      description: Get user's devices as a list
+      operationId: getUserDevices
+      tags:
+        - Devices
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/DevicesListResponse"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /devices/{deviceId}:
+    patch:
+      summary: Update device
+      description: Update device
+      operationId: updateDevice
+      tags:
+        - Devices
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: My Cool Tag
+                  description: name of the device
+                  nullable: true
+                active:
+                  type: boolean
+                  example: true
+                  description: Set device status
+                  nullable: true
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+    delete:
+      summary: Delete device
+      description: Delete the device from system
+      operationId: deleteDevice
+      tags:
+        - Devices
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -354,6 +456,17 @@ components:
       scheme: bearer
       bearerFormat: JWT
   responses:
+    DevicesListResponse:
+      description: Device list
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              devices:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DeviceSchema"
     LoginSuccessResponse:
       description: login success response
       content:
@@ -417,6 +530,19 @@ components:
       type: string
       description: Token resource
       example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde.ssddjjeee
+    DeviceSchema:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/IdSchema"
+        name:
+          type: string
+          description: Name of device
+          example: My NFC Tag1
+        active:
+          type: boolean
+          description: is this tag active
+          example: true
     OTPCode:
       type: string
       description: OTP code if present
@@ -702,3 +828,11 @@ components:
                 type: string
                 description: value to be checked
                 example: jhondoe@example.com
+  parameters:
+    DeviceIdPathParam:
+      in: path
+      name: deviceId
+      schema:
+        type: string
+        example: 8e9d94dd-6c04-48bb-882e-01f77f5224e9
+      required: true
