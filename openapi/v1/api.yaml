@@ -18,6 +18,8 @@ tags:
     description: Interest related
   - name: Devices
     description: NFC tags/devices related endpoints
+  - name: UserLinks
+    description: User social link related
 paths:
   /user/register:
     post:
@@ -418,13 +420,13 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /devices/{deviceId}:
+  /devices/{id}:
     patch:
       summary: Update device
       description: Update device
       operationId: updateDevice
       parameters:
-        - $ref: "#/components/parameters/DeviceIdPathParam"
+        - $ref: "#/components/parameters/IdPathParam"
       tags:
         - Devices
       security:
@@ -459,7 +461,7 @@ paths:
       description: Delete the device from system
       operationId: deleteDevice
       parameters:
-        - $ref: "#/components/parameters/DeviceIdPathParam"
+        - $ref: "#/components/parameters/IdPathParam"
       tags:
         - Devices
       security:
@@ -473,6 +475,7 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -901,9 +904,9 @@ components:
                 description: value to be checked
                 example: jhondoe@example.com
   parameters:
-    DeviceIdPathParam:
+    IdPathParam:
       in: path
-      name: deviceId
+      name: id
       schema:
         type: string
         example: 8e9d94dd-6c04-48bb-882e-01f77f5224e9

@@ -6,12 +6,12 @@ const errorCodes = require('../../errors/errorCodes');
 exports.updateDevice = async (req, res, next) => {
   try {
     const { user } = req;
-    const { deviceId } = req.params;
+    const { id } = req.params;
     const { name, active } = req.body;
 
     const device = await NfcDevice.findOne({
       where: {
-        id: deviceId,
+        id,
         userId: user.id,
       },
     });

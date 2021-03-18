@@ -6,11 +6,11 @@ const errorCodes = require('../../errors/errorCodes');
 exports.deleteDevice = async (req, res, next) => {
   try {
     const { user } = req;
-    const { deviceId } = req.params;
+    const { id } = req.params;
 
     const device = await NfcDevice.findOne({
       where: {
-        id: deviceId,
+        id,
         userId: user.id,
       },
     });

@@ -11,7 +11,7 @@ module.exports = {
   },
   updateLink: {
     params: Joi.object({
-      linkId: Joi.string().uuid().required(),
+      id: Joi.string().uuid().required(),
     }),
     body: Joi.object({
       path: Joi.string().max(255).allow(null).required(),
@@ -19,7 +19,7 @@ module.exports = {
   },
   deleteLink: {
     params: Joi.object({
-      linkId: Joi.string().uuid().required(),
+      id: Joi.string().uuid().required(),
     }),
   },
 };

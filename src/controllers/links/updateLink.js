@@ -8,7 +8,7 @@ exports.updateLink = async (req, res, next) => {
   try {
     const { user } = req;
     const userId = user.id;
-    const { linkId: id } = req.params;
+    const { id } = req.params;
     const { path = null } = req.body;
 
     const link = await UserLink.findOne({

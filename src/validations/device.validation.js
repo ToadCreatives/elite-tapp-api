@@ -4,7 +4,7 @@ const Joi = require('joi');
 module.exports = {
   updateDevice: {
     params: Joi.object({
-      deviceId: Joi.string().uuid().required(),
+      id: Joi.string().uuid().required(),
     }),
     body: Joi.object({
       name: Joi.string().max(255).allow(null),
@@ -13,7 +13,7 @@ module.exports = {
   },
   deleteDevice: {
     params: Joi.object({
-      deviceId: Joi.string().uuid().required(),
+      id: Joi.string().uuid().required(),
     }),
   },
 };

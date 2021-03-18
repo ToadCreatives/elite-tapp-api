@@ -7,7 +7,7 @@ exports.deleteLink = async (req, res, next) => {
   try {
     const { user } = req;
     const userId = user.id;
-    const { linkId: id } = req.params;
+    const { id } = req.params;
 
     const resultRows = await UserLink.destroy({
       where: {
