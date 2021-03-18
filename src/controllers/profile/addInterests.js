@@ -26,6 +26,7 @@ async function getInterests(interests) {
 
 exports.addInterests = async (req, res, next) => {
   try {
+    console.log(req.body);
     const {
       interests,
     } = req.body;
