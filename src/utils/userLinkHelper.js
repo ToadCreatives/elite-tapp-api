@@ -1,5 +1,17 @@
 const urljoin = require('url-join');
 
+const providers = [
+  'facebook',
+  'twitter',
+  'snapchat',
+  'instagram',
+  'pinterest',
+  'twitch',
+  'custom',
+];
+
+exports.providers = providers;
+
 /**
  * Get social link for provider
  *
@@ -7,7 +19,7 @@ const urljoin = require('url-join');
  * @param {string} path
  * @returns
  */
-function getSocialProfileLink(provider, path) {
+function getUserLink(provider, path) {
   switch (provider) {
     case 'facebook':
       return urljoin('https://facebook.com', path);
@@ -24,11 +36,12 @@ function getSocialProfileLink(provider, path) {
     case 'twitch':
       return urljoin('http://twitch.tv', path);
 
-    case ''
+    case 'snapchat':
+      return urljoin('https://www.snapchat.com/add', path);
 
     default:
       return path;
   }
 }
 
-exports.getSocialProfileLink = getSocialProfileLink;
+exports.getUserLink = getUserLink;

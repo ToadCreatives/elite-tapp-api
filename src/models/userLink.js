@@ -1,13 +1,14 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../services/sequelize');
+const { getUserLink } = require('../utils/userLinkHelper');
 const User = require('./user.model');
 
 const { Model } = Sequelize;
 
-class SocialLink extends Model {
+class UserLink extends Model {
 }
 
-SocialLink.init({
+UserLink.init({
   id: {
     type: Sequelize.UUID,
     defaultValue: Sequelize.UUIDV4,
@@ -22,18 +23,18 @@ SocialLink.init({
   },
   link: {
     type: Sequelize.VIRTUAL,
-    get(): {
-
-    }
+    get() {
+      return getUserLink(this.getDataValue('provider'), this.getDataValue('path'));
+    },
   },
   order: {
     type: Sequelize.INTEGER,
   },
 }, {
   sequelize,
-  modelName: 'socialLink',
+  modelName: 'userLink',
 });
 
-SocialLink.belongsTo(User);
+UserLink.belongsTo(User);
 
-module.exports = SocialLink;
+module.exports = UserLink;
