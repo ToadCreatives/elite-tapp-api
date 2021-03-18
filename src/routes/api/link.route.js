@@ -10,8 +10,8 @@ router.get('/', auth(), controller.list);
 
 router.post('/', validate(validation.createLink), auth(), controller.createLink);
 
-router.put('/:linkId', validate(validation.updateLink), auth(), controller.updateLink);
+router.put('/:id', validate(validation.updateLink), auth(), controller.updateLink);
 
-router.delete('/:linkId', validate(validation.deleteLink), auth(), controller.deleteLink);
+router.delete('/:id', validate(validation.deleteLink), auth(), controller.deleteLink);
 
 module.exports = router;
