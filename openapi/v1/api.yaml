@@ -347,7 +347,7 @@ paths:
       tags:
         - Profile
       requestBody:
-        $ref: "#/components/responses/AvatarUploadBody"
+        $ref: "#/components/requestBodies/AvatarUploadBody"
       responses:
         "200":
           $ref: "#/components/responses/OkResponse"
@@ -853,7 +853,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/componemts/schemas/AvatarUploadSchema"
+            $ref: "#/components/schemas/AvatarUploadSchema"
     CheckAvailabilityBody:
       description: Check Availability
       required: true
