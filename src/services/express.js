@@ -17,8 +17,13 @@ const { start } = require('./init');
 const app = express();
 app.use(cors());
 app.use(helmet());
+app.use(express.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf;
+    console.log(buf.toString());
+  },
+}));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 // setup openapi
 if (!config.options.openapi.ui.disabled) {
