@@ -6,6 +6,7 @@ const userRouter = require('./user.route');
 const profileRouter = require('./profile.route');
 const interestsRoute = require('./interests.route');
 const devicesRoute = require('./device.route');
+const linksRoute = require('./link.route');
 
 router.get('/status', (req, res) => { res.send({ status: 'OK' }); }); // api status
 
@@ -14,5 +15,6 @@ router.use('/auth', authRouter);
 router.use('/profile', profileRouter);
 router.use('/interests', interestsRoute);
 router.use('/devices', devicesRoute);
+router.use('/links', linksRoute);
 
 module.exports = router;
