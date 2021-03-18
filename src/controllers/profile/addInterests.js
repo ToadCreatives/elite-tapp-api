@@ -26,7 +26,6 @@ async function getInterests(interests) {
 
 exports.addInterests = async (req, res, next) => {
   try {
-    console.log(req.body);
     const {
       interests,
     } = req.body;
@@ -52,7 +51,6 @@ exports.addInterests = async (req, res, next) => {
 
     return res.status(httpStatus.OK).json({ message: 'Ok' });
   } catch (err) {
-    console.error(err);
     next(err);
   }
 };
