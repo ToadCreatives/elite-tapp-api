@@ -1,13 +1,15 @@
 const httpStatus = require('http-status');
-const urljoin = require('url-join');
-const { uuid } = require('uuid');
+const { v4: uuid } = require('uuid');
 const path = require('path');
+
 const { createUploadReqeust } = require('../../aws');
-const UserProfile = require('../../models/userProfile.model');
 const config = require('../../config');
+const { getOrCreateUserProfile } = require('./common/profile');
 
 const PRESIGNED_EXPIRY = 60 * 60; // 1Hour
+// eslint-disable-next-line no-unused-vars
 const ACL_PRIVATE = 'private';
+const ACL_PUBLIC = 'public';
 
 exports.uploadAvatar = async (req, res, next) => {
   try {
@@ -20,10 +22,10 @@ exports.uploadAvatar = async (req, res, next) => {
       contentType,
       contentMd5,
       PRESIGNED_EXPIRY,
-      ACL_PRIVATE,
+      ACL_PUBLIC, // TODO: change if we use a CDN
     );
 
-    const userProfile = await UserProfile.findByPk(user.id);
+    const userProfile = await getOrCreateUserProfile(user.id);
     userProfile.avatar = key;
     await userProfile.save();
 
@@ -31,7 +33,6 @@ exports.uploadAvatar = async (req, res, next) => {
       .status(httpStatus.OK)
       .json({
         ...result,
-        publicUrl: urljoin(config.resourceRoot, key),
       });
   } catch (err) {
     next(err);
