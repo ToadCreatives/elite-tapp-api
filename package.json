@@ -39,7 +39,7 @@
     "openapi-types": "^7.2.3"
   },
   "dependencies": {
-    "aws-sdk": "^2.857.0",
+    "aws-sdk": "^2.866.0",
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.1",
     "bullmq": "^1.14.7",

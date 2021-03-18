@@ -17,4 +17,11 @@ module.exports = {
       interests: Joi.array().items(Joi.string().uuid()).unique().required(),
     }),
   },
+  uploadAvatar: {
+    body: Joi.object({
+      name: Joi.string().required(),
+      contentType: Joi.string().required(),
+      contentMd5: Joi.string().required(),
+    }),
+  },
 };
