@@ -350,7 +350,7 @@ paths:
         $ref: "#/components/requestBodies/AvatarUploadBody"
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/AvatarCreateResponse"
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":
@@ -480,6 +480,12 @@ components:
       scheme: bearer
       bearerFormat: JWT
   responses:
+    AvatarCreateResponse:
+      description: Avatar created
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AvatarCreateResponseSchema"
     DevicesListResponse:
       description: Device list
       content:
@@ -712,16 +718,36 @@ components:
       properties:
         name:
           type: string
-          description: name of the file 
+          description: name of the file
           example: profileImage.jpeg
-        contentType: 
+        contentType:
           type: string
-          description: content type of the image 
+          description: content type of the image
           example: image/jpeg
         contentMd5:
           type: string
           description: contentMd5 of the image
           example: 0e3c598bff127ba8295a5827d1a98a6e
+    AvatarCreateResponseSchema:
+      type: object
+      properties:
+        path:
+          type: string
+          example: /images/file.jpg
+          description: Use this to save the avatar
+        url:
+          type: string
+          example: https://s3.com/upload
+          description: Presigned S3 url
+        expires:
+          type: string
+          format: date
+          example: 2021-06-01
+          description: Presigned url expiry
+        method:
+          type: string
+          description: method to use with `url`
+          example: PUT
     AccessToken:
       type: object
       properties:
