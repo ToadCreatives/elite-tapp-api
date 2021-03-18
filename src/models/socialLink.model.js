@@ -17,11 +17,14 @@ SocialLink.init({
   provider: {
     type: Sequelize.STRING(25),
   },
-  username: {
+  path: {
     type: Sequelize.STRING,
   },
   link: {
-    type: Sequelize.STRING,
+    type: Sequelize.VIRTUAL,
+    get(): {
+
+    }
   },
   order: {
     type: Sequelize.INTEGER,

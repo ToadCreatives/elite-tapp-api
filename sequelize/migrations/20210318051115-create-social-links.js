@@ -10,7 +10,7 @@ module.exports = {
       provider: {
         type: Sequelize.STRING(25),
       },
-      username: {
+      path: {
         type: Sequelize.STRING,
       },
       link: {
