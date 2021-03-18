@@ -18,10 +18,10 @@ module.exports = {
     }),
   },
   uploadAvatar: {
-    body: {
+    body: Joi.object({
       name: Joi.string().required(),
       contentType: Joi.string().required(),
-      contentMd5: Joi.string().required()
-    }
-  }
+      contentMd5: Joi.string().required(),
+    }),
+  },
 };

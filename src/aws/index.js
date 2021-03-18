@@ -32,16 +32,18 @@ exports.ses = ses;
  * @param {string} acl - acl of object
  * @returns
  */
- async function createUploadReqeust (bucket, key, contentType, contentMd5, expires, acl) {
+async function createUploadReqeust(bucket, key, contentType, contentMd5, expires, acl) {
   const url = await s3.getSignedUrlPromise('putObject', {
-      Bucket: bucket,
-      ContentType: contentType,
-      ACL: acl,
-      Key: key,
-      ContentMD5: contentMd5,
-      Expires: expires
+    Bucket: bucket,
+    ContentType: contentType,
+    ACL: acl,
+    Key: key,
+    ContentMD5: contentMd5,
+    Expires: expires,
   });
-  return { path: key, url: url, expires: expires, method: 'PUT' };
+  return {
+    path: key, url, expires, method: 'PUT',
+  };
 }
 exports.createUploadReqeust = createUploadReqeust;
 /**
@@ -53,11 +55,11 @@ exports.createUploadReqeust = createUploadReqeust;
 *
 * @returns Promise<string> - url to resource
 */
-async function getTemporaryAccessUrl (bucket, key, expires) {
+async function getTemporaryAccessUrl(bucket, key, expires) {
   const url = await s3.getSignedUrlPromise('getObject', {
-      Bucket: bucket,
-      Key: key,
-      Expires: expires
+    Bucket: bucket,
+    Key: key,
+    Expires: expires,
   });
   return url;
 }
