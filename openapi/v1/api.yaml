@@ -337,6 +337,26 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /profile/me/avatar:
+    put:
+      summary: Upload user avatar
+      description: Upload user avatar
+      operationId: uploadAvatar
+      security:
+        - bearerAuth: []
+      tags:
+        - Profile
+      requestBody:
+        $ref: "#/components/requestBodies/AvatarUploadBody"
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
   /interests:
     get:
       summary: Get interests
@@ -687,6 +707,21 @@ components:
           example: Lorem Ipsum Dor...
         gender:
           $ref: "#/components/schemas/GenderSchema"
+    AvatarUploadSchema:
+      type: object
+      properties:
+        name:
+          type: string
+          description: name of the file 
+          example: profileImage.jpeg
+        contentType: 
+          type: string
+          description: content type of the image 
+          example: image/jpeg
+        contentMd5:
+          type: string
+          description: contentMd5 of the image
+          example: 0e3c598bff127ba8295a5827d1a98a6e
     AccessToken:
       type: object
       properties:
@@ -812,6 +847,13 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ProfileUpdateSchema"
+    AvatarUploadBody:
+      description: upload image
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AvatarUploadSchema"
     CheckAvailabilityBody:
       description: Check Availability
       required: true
