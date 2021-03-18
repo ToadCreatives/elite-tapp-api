@@ -25,6 +25,7 @@ app.use(
       data += chunk;
     });
     req.on('end', () => {
+      console.log(req);
       console.log(data);
     });
     next();
