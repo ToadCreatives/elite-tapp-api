@@ -475,7 +475,122 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-
+  /links:
+    post:
+      summary: Create user link
+      description: Create a social link
+      tags:
+        - UserLinks
+      operationId: createUserLink
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                provider:
+                  $ref: "#/components/schemas/SocialProvidersSchema"
+                path:
+                  type: string
+                  description: Username/Path or any text regarding provider
+                  example: jhondoe
+              required:
+                - provider
+                - path
+      responses:
+        "201":
+          description: Link created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userLink:
+                    $ref: "#/components/schemas/UserLinkSchema"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+    get:
+      summary: Get user links
+      description: Get user's links
+      tags:
+        - UserLinks
+      operationId: getUserLinks
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Link list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userLinks:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserLinkSchema"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /links/{id}:
+    put:
+      summary: Update user link
+      description: Update user link
+      operationId: updateUserLink
+      parameters:
+        - $ref: "#/components/parameters/IdPathParam"
+      tags:
+        - UserLinks
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+                  description: username/path of the social provider
+                  example: jhondoe
+                  nullable: true
+              required:
+                - path
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+    delete:
+      summary: Delete user link
+      description: Deletes user link
+      operationId: deleteUserLink
+      parameters:
+        - $ref: "#/components/parameters/IdPathParam"
+      tags:
+        - UserLinks
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -559,6 +674,11 @@ components:
       type: string
       description: Describes an resource id
       example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+    DateSchema:
+      type: string
+      description: Describes a date
+      format: date
+      example: 2021-06-01
     TokenSchema:
       type: string
       description: Token resource
@@ -751,6 +871,39 @@ components:
           type: string
           description: method to use with `url`
           example: PUT
+    SocialProvidersSchema:
+      type: string
+      description: social providers
+      enum:
+        - "facebook"
+        - "twitter"
+        - "instagram"
+        - "pinterest"
+        - "twitch"
+        - "snapchat"
+        - "linktree"
+        - "text"
+        - "email"
+        - "whatsapp"
+        - "address"
+        - "facetime"
+        - "call"
+        - "custom"
+    UserLinkSchema:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/IdSchema"
+        createdAt:
+          $ref: "#/components/schemas/DateSchema"
+        path:
+          type: string
+          description: path to resource
+        provider:
+          $ref: "#/components/schemas/SocialProvidersSchema"
+        resourceUrl:
+          type: string
+          description: Describe url/text to resource
     AccessToken:
       type: object
       properties:
