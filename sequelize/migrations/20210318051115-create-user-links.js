@@ -13,11 +13,8 @@ module.exports = {
       path: {
         type: Sequelize.STRING,
       },
-      link: {
+      resourceUrl: {
         type: Sequelize.STRING,
-      },
-      order: {
-        type: Sequelize.INTEGER,
       },
       createdAt: {
         type: Sequelize.DATE,

@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../services/sequelize');
-const { getUserLink } = require('../utils/userLinkHelper');
 const User = require('./user.model');
 
 const { Model } = Sequelize;
@@ -21,14 +20,8 @@ UserLink.init({
   path: {
     type: Sequelize.STRING,
   },
-  link: {
-    type: Sequelize.VIRTUAL,
-    get() {
-      return getUserLink(this.getDataValue('provider'), this.getDataValue('path'));
-    },
-  },
-  order: {
-    type: Sequelize.INTEGER,
+  resourceUrl: {
+    type: Sequelize.STRING,
   },
 }, {
   sequelize,
