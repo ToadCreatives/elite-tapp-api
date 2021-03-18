@@ -11,6 +11,7 @@ exports.list = async (req, res, next) => {
         userId,
       },
       order: [['createdAt', 'ASC']],
+      attributes: { exclude: ['updatedAt', 'userId'] },
     });
 
     return res.status(httpStatus.OK).json({ userLinks });

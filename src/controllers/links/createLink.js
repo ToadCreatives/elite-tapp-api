@@ -10,14 +10,23 @@ exports.createLink = async (req, res, next) => {
 
     // TODO check this user elighble to add this link
 
+    const resourceUrl = getResourceUrl(provider, path);
     const result = await UserLink.create({
       provider,
       path,
       userId,
-      resourceUrl: getResourceUrl(provider, path),
+      resourceUrl,
     });
 
-    return res.status(httpStatus.CREATED).json({ userLink: result });
+    return res.status(httpStatus.CREATED).json({
+      userLink: {
+        id: result.id,
+        path,
+        provider,
+        resourceUrl,
+        createdAt: result.createdAt,
+      },
+    });
   } catch (err) {
     next(err);
   }
