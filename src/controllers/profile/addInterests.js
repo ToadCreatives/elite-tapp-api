@@ -52,6 +52,7 @@ exports.addInterests = async (req, res, next) => {
 
     return res.status(httpStatus.OK).json({ message: 'Ok' });
   } catch (err) {
+    console.error(err);
     next(err);
   }
 };

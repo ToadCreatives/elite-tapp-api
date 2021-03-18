@@ -66,7 +66,6 @@ exports.handleError = (err, req, res, next) => {
   }
 
   log.error(`other error ${err}`, { type: 'unkown', error: err });
-  console.error(err);
   return res.status(httpStatus.INTERNAL_SERVER_ERROR)
     .json(new APIError('Unknown error occured'));
 };
