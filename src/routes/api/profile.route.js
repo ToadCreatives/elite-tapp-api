@@ -10,4 +10,6 @@ router.patch('/me', validate(validation.updateProfile), auth(), controller.updat
 
 router.put('/me/interests', validate(validation.addInterests), auth(), controller.addInterests);
 
+router.put('/me/avatar',validate(validation.uploadAvatar),auth(),controller.uploadAvatar);
+
 module.exports = router;
