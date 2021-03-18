@@ -65,7 +65,12 @@ exports.handleError = (err, req, res, next) => {
       );
   }
 
-  log.error(`other error ${err}`, { type: 'unkown', error: err });
+  if (err instanceof SyntaxError) {
+    return res.status(httpStatus.BAD_REQUEST)
+      .json(new APIError(err.message || 'Error parsing request'));
+  }
+
+  log.error(`other error ${err}`, { type: 'unkown', error: err.stack || {} });
   return res.status(httpStatus.INTERNAL_SERVER_ERROR)
     .json(new APIError('Unknown error occured'));
 };
