@@ -17,20 +17,6 @@ const { start } = require('./init');
 const app = express();
 app.use(cors());
 app.use(helmet());
-app.use(
-  (req, res, next) => {
-    let data = '';
-
-    req.on('data', (chunk) => {
-      data += chunk;
-    });
-    req.on('end', () => {
-      console.log(req);
-      console.log(data);
-    });
-    next();
-  },
-);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
