@@ -7,9 +7,7 @@ const config = require('../../config');
 const { getOrCreateUserProfile } = require('./common/profile');
 
 const PRESIGNED_EXPIRY = 60 * 60; // 1Hour
-// eslint-disable-next-line no-unused-vars
 const ACL_PRIVATE = 'private';
-const ACL_PUBLIC = 'public';
 
 exports.uploadAvatar = async (req, res, next) => {
   try {
@@ -22,7 +20,7 @@ exports.uploadAvatar = async (req, res, next) => {
       contentType,
       contentMd5,
       PRESIGNED_EXPIRY,
-      ACL_PUBLIC, // TODO: change if we use a CDN
+      ACL_PRIVATE, // TODO: change if we use a CDN
     );
 
     const userProfile = await getOrCreateUserProfile(user.id);
