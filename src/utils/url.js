@@ -1,3 +1,6 @@
+const urljoin = require('url-join');
+const config = require('../config');
+
 function isValidHttpUrl(string) {
   let url;
 
@@ -11,3 +14,12 @@ function isValidHttpUrl(string) {
 }
 
 exports.isValidHttpUrl = isValidHttpUrl;
+
+function getAvatarUrl(avatar) {
+  if (avatar && !isValidHttpUrl(avatar)) {
+    return urljoin(config.resources.images, avatar);
+  }
+  return avatar;
+}
+
+exports.getAvatarUrl = getAvatarUrl;

@@ -667,6 +667,32 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /connections/list:
+    get:
+      summary: List user connections
+      description: >-
+        List my connections
+      operationId: listConnections
+      tags:
+        - Connections
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: connection list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  connections:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserConnectionViewSchema"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -1008,6 +1034,24 @@ components:
         resourceUrl:
           type: string
           description: Describe url/text to resource
+    UserConnectionViewSchema:
+      type: object
+      description: User connection
+      properties:
+        firstName:
+          type: string
+          description: first name
+          example: Jhon
+        lastName:
+          type: string
+          description: last name
+          example: Doe
+        createdAt:
+          $ref: "#/components/schemas/DateSchema"
+        avatar:
+          type: string
+          description: avatar url
+          example: "https://path/to/img"
     AccessToken:
       type: object
       properties:

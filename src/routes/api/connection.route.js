@@ -9,4 +9,6 @@ const validation = require('../../validations/connection.validation');
 
 router.post('/add', validate(validation.addByUsername), auth(), controller.addByUsername);
 
+router.get('/list', auth(), controller.list);
+
 module.exports = router;
