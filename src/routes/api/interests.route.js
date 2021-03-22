@@ -8,6 +8,8 @@ const validation = require('../../validations/interests.validation');
 
 router.get('/list', controller.list);
 
-router.put('/me/interests', validate(validation.addInterests), auth(), controller.addInterests);
+router.get('/me', auth(), controller.getMyInterests);
+
+router.put('/me', validate(validation.addInterests), auth(), controller.addInterests);
 
 module.exports = router;
