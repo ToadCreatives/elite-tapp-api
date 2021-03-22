@@ -57,6 +57,9 @@ module.exports = {
     token: process.env.TWILIO_TOKEN,
     from: process.env.TWILIO_FROM,
   },
+  resources: {
+    images: process.env.RESOURCES_IMAGES || 'https://ik.imagekit.io/ghh7ufjctqp/elitetapp',
+  },
   options: {
     openapi: {
       ui: {
