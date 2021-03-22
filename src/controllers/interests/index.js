@@ -1,5 +1,9 @@
-const { getInterests } = require('./getInterests');
+const { list } = require('./list');
+const { addInterests } = require('./addInterests');
+const { getMyInterests } = require('./getMyInterests');
 
 module.exports = {
-  getInterests,
+  list,
+  addInterests,
+  getMyInterests,
 };

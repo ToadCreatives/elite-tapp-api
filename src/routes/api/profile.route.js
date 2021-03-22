@@ -8,8 +8,6 @@ const validation = require('../../validations/profile.validation');
 
 router.patch('/me', validate(validation.updateProfile), auth(), controller.updateProfile);
 
-router.put('/me/interests', validate(validation.addInterests), auth(), controller.addInterests);
-
 router.put('/me/avatar', validate(validation.uploadAvatar), auth(), controller.uploadAvatar);
 
 module.exports = router;

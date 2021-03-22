@@ -310,35 +310,6 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /profile/me/interests:
-    put:
-      summary: Add/Update user interests
-      description: Add/Update interests for user
-      operationId: addUserInterests
-      security:
-        - bearerAuth: []
-      tags:
-        - Profile
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                interests:
-                  type: array
-                  description: an array of interests(order will be preserved)
-                  items:
-                    $ref: "#/components/schemas/IdSchema"
-      responses:
-        "200":
-          $ref: "#/components/responses/OkResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
-        "401":
-          $ref: "#/components/responses/UnknownError"
-        "500":
-          $ref: "#/components/responses/UnknownError"
   /profile/me/avatar:
     put:
       summary: Upload user avatar
@@ -359,7 +330,7 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /interests:
+  /interests/list:
     get:
       summary: Get interests
       description: Get all interests
@@ -369,6 +340,59 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/InterestsAllResponse"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /interests/me:
+    get:
+      summary: Get my interests
+      description: Get my interests
+      operationId: getMyInterests
+      tags:
+        - Interests
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: My interests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  interests:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserInterestSchema"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+    put:
+      summary: Add/Update user interests
+      description: Add/Update interests for user
+      operationId: addUserInterests
+      security:
+        - bearerAuth: []
+      tags:
+        - Interests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                interests:
+                  type: array
+                  description: an array of interests(order will be preserved)
+                  items:
+                    $ref: "#/components/schemas/IdSchema"
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
   /devices/create:
@@ -716,6 +740,16 @@ components:
           type: string
           description: title of interest
           example: Coffee
+    UserInterestSchema:
+      type: object
+      properties:
+        interestId:
+          type: string
+          $ref: "#/components/schemas/IdSchema"
+        order:
+          type: integer
+          description: order of the interest
+          example: 1
     UsernameSchema:
       type: string
       description: Username
