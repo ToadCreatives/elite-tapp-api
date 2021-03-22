@@ -7,6 +7,7 @@ module.exports = {
   InvalidGender: 15,
   UsernameRequired: 16,
   Conflict: 17,
+  UserNotFound: 18,
 
   OTPCodeRequired: 50,
   OTPCodeInvalid: 51,
