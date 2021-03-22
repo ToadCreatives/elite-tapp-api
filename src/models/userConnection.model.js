@@ -7,13 +7,39 @@ const User = require('./user.model');
 
 class UserConnection extends Model {
   static async CreateConnection(firstId, secondId, { transaction }) {
-    await UserConnection.bulkCreate([
-      { userId: firstId, connectionId: secondId },
-      { userId: secondId, connectionId: firstId },
-    ], {
+    const records = [];
+    const firstSecondEdge = await UserConnection.findOne({
+      where: {
+        userId: firstId,
+        connectionId: secondId,
+      },
       transaction,
-      updateOnDuplicate: [],
     });
+    if (!firstSecondEdge) {
+      records.push({
+        userId: firstId,
+        connectionId: secondId,
+      });
+    }
+
+    const secondFirstEdge = await UserConnection.findOne({
+      where: {
+        connectionId: firstId,
+        userId: secondId,
+      },
+      transaction,
+    });
+
+    if (!secondFirstEdge) {
+      records.push({
+        connectionId: firstId,
+        userId: secondId,
+      });
+    }
+
+    if (records.length > 0) {
+      await UserConnection.bulkCreate(records, { transaction });
+    }
   }
 }
 

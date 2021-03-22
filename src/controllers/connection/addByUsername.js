@@ -7,6 +7,8 @@ const sequelize = require('../../services/sequelize');
 
 exports.addByUsername = async (req, res, next) => {
   try {
+    // TODO: check if user is blocked
+
     const { user } = req;
     const { username } = req.body;
     const userId = user.id;
