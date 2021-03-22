@@ -20,6 +20,8 @@ tags:
     description: NFC tags/devices related endpoints
   - name: UserLinks
     description: User social link related
+  - name: Connections
+    description: User connections related
 paths:
   /user/register:
     post:
@@ -629,6 +631,39 @@ paths:
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /connections/add:
+    post:
+      summary: Create a connection between a user and other user
+      description: >-
+        Create a connection between a user and other user. This usually happens using **QR** code
+      operationId: addConnection
+      tags:
+        - Connections
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: create connection
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: username to be added
+                  example: jhondoe94
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "404":
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"

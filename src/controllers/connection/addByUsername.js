@@ -17,15 +17,31 @@ exports.addByUsername = async (req, res, next) => {
       where: {
         username,
       },
-      attributes: ['id'],
+      attributes: ['id', 'username'],
     });
 
+    if (user.username === connectionUser.username) {
+      throw new APIError(
+        'Cannot add yourself as a connection',
+        httpStatus.BAD_REQUEST,
+        errorCodes.ValidationError,
+      );
+    }
+
     if (!connectionUser) {
-      throw new APIError('User not found', httpStatus.NOT_FOUND, errorCodes.UserNotFound);
+      throw new APIError(
+        'User not found',
+        httpStatus.NOT_FOUND,
+        errorCodes.UserNotFound,
+      );
     }
 
     await sequelize.transaction(async (t) => {
-      await UserConnection.CreateConnection(userId, connectionUser.id, { transaction: t });
+      await UserConnection.CreateConnection(
+        userId,
+        connectionUser.id,
+        { transaction: t },
+      );
     });
 
     return res.status(httpStatus.OK).json({ message: 'Ok' });

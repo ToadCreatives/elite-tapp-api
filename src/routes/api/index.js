@@ -17,6 +17,6 @@ router.use('/profile', profileRouter);
 router.use('/interests', interestsRoute);
 router.use('/devices', devicesRoute);
 router.use('/links', linksRoute);
-router.use('/connection', connectionRoute);
+router.use('/connections', connectionRoute);
 
 module.exports = router;
