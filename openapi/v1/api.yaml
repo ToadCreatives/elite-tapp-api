@@ -330,7 +330,7 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /interests:
+  /interests/list:
     get:
       summary: Get interests
       description: Get all interests

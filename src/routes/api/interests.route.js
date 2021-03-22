@@ -6,7 +6,7 @@ const auth = require('../../middlewares/auth');
 const controller = require('../../controllers/interests');
 const validation = require('../../validations/interests.validation');
 
-router.get('/', controller.getInterests);
+router.get('/list', controller.getInterests);
 
 router.put('/me/interests', validate(validation.addInterests), auth(), controller.addInterests);
 
