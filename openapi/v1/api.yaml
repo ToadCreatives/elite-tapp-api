@@ -291,6 +291,23 @@ paths:
         "500":
           $ref: "#/components/responses/UnknownError"
   /profile/me:
+    get:
+      summary: Get current user profile
+      description: Get the current user profile
+      operationId: getMyProfile
+      security:
+        - bearerAuth: []
+      tags:
+        - Profile
+      responses:
+        "200":
+          $ref: "#/components/responses/MyProfileResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
     patch:
       summary: Update current user profile
       description: Update the current user profile
@@ -628,6 +645,24 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/AvatarCreateResponseSchema"
+    MyProfileResponse:
+      description: My profile data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              profile:
+                description: User profile
+                allOf:
+                  - $ref: "#/components/schemas/ProfileBaseSchema"
+                properties:
+                  updatedAt:
+                    $ref: "#/components/schemas/DateSchema"
+                  avatar:
+                    type: string
+                    description: avatar path
+                    example: https://elitetapp.co/myavatar.png
     DevicesListResponse:
       description: Device list
       content:
@@ -848,7 +883,7 @@ components:
         - male
         - female
       nullable: true
-    ProfileUpdateSchema:
+    ProfileBaseSchema:
       type: object
       properties:
         firstName:
@@ -1062,7 +1097,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/ProfileUpdateSchema"
+            $ref: "#/components/schemas/ProfileBaseSchema"
     AvatarUploadBody:
       description: upload image
       required: true
