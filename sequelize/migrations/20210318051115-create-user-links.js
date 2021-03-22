@@ -30,7 +30,6 @@ module.exports = {
         },
         onDelete: 'CASCADE',
         allowNull: false,
-        primaryKey: true,
       },
     });
   },
