@@ -4,7 +4,7 @@ const knex = require('../../services/knex');
 const sequelize = require('../../services/sequelize');
 const { getAvatarUrl } = require('../../utils/url');
 
-exports.getAll = async (req, res, next) => {
+exports.list = async (req, res, next) => {
   try {
     const { user } = req;
     const userId = user.id;
