@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
-const urljoin = require('url-join');
-const config = require('../config');
+
 const sequelize = require('../services/sequelize');
-const { isValidHttpUrl } = require('../utils/url');
+const { getAvatarUrl } = require('../utils/url');
 const User = require('./user.model');
 
 const { Model } = Sequelize;
@@ -15,14 +14,8 @@ class UserProfile extends Model {
       bio: this.bio || null,
       dateOfBirth: this.dateOfBirth || null,
       gender: this.gender || null,
+      avatar: getAvatarUrl(this.avatar || null),
     };
-
-    let avatar = this.avatar || null;
-    if (this.avatar && !isValidHttpUrl(this.avatar)) {
-      avatar = urljoin(config.resources.images, avatar);
-    }
-
-    result.avatar = avatar;
 
     return result;
   }
