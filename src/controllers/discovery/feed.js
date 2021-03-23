@@ -9,9 +9,10 @@ exports.feed = async (req, res, next) => {
 
     const query = knex
       .from('users')
-      .select('users.id', 'firstName', 'lastName', 'avatar', 'username')
+      .select('users.id', 'username', 'firstName', 'lastName', 'avatar')
       .leftJoin('userProfiles', 'users.id', 'userProfiles.userId')
       .where('users.verified', 'true')
+      .whereNot('users.id', req.user.id)
       .limit(limit)
       .orderByRaw('random()');
 
