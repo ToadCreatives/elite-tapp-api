@@ -9,24 +9,30 @@ exports.updateLink = async (req, res, next) => {
     const { user } = req;
     const userId = user.id;
     const { id } = req.params;
-    const { path = null } = req.body;
+    const { path = null, visibility = null } = req.body;
 
     const link = await UserLink.findOne({
       where: {
         id,
         userId,
       },
-      attributes: ['provider', 'id'],
+      attributes: ['id', 'provider', 'visibility'],
     });
 
     if (!link) {
       throw new APIError('Invalid resource', httpStatus.BAD_REQUEST, errorCodes.InvalidResources);
     }
 
-    await link.update({
-      path,
-      resourceUrl: getResourceUrl(link.provider, path),
-    });
+    if (path) {
+      link.path = path;
+      link.resourceUrl = getResourceUrl(link.provider, path);
+    }
+
+    if (visibility) {
+      link.visibility = visibility;
+    }
+
+    await link.save();
 
     return res.status(httpStatus.OK).json({ message: 'Ok' });
   } catch (err) {

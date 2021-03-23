@@ -6,7 +6,7 @@ exports.createLink = async (req, res, next) => {
   try {
     const { user } = req;
     const userId = user.id;
-    const { provider, path } = req.body;
+    const { provider, path, visibility = 'connections-only' } = req.body;
 
     // TODO check this user elighble to add this link
 
@@ -15,6 +15,7 @@ exports.createLink = async (req, res, next) => {
       provider,
       path,
       userId,
+      visibility,
       resourceUrl,
     });
 
@@ -24,6 +25,7 @@ exports.createLink = async (req, res, next) => {
         path,
         provider,
         resourceUrl,
+        visibility,
         createdAt: result.createdAt,
       },
     });
