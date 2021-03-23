@@ -70,7 +70,7 @@
     "redis": "^3.0.2",
     "sequelize": "^6.5.0",
     "sequelize-cli": "^6.2.0",
-    "swagger-ui-express": "^4.1.4",
+    "swagger-ui-express": "^4.1.6",
     "twilio": "^3.57.0",
     "url-join": "^4.0.1",
     "uuid": "^3.4.0",
