@@ -18,6 +18,7 @@ module.exports = {
         email: faker.internet.email(),
         phone: faker.phone.phoneNumber(),
         password: bcrypt.hashSync('password'),
+        verified: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
