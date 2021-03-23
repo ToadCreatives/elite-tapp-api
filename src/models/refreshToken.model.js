@@ -17,7 +17,7 @@ class RefreshToken extends Model {
    */
   static async generate(userId) {
     // check if user already has a issued token
-    const prevToken = await RefreshToken.findOne({ userId });
+    const prevToken = await RefreshToken.findOne({ where: { userId } });
     if (prevToken) {
       return prevToken.token;
     }
