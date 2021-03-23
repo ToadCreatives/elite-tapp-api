@@ -609,8 +609,8 @@ paths:
                   description: username/path of the social provider
                   example: jhondoe
                   nullable: true
-              required:
-                - path
+                visibility:
+                  $ref: "#/components/schemas/ConnectionVisibilitySchema"
       responses:
         "200":
           $ref: "#/components/responses/OkResponse"
