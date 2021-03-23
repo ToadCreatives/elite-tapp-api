@@ -17,11 +17,15 @@ UserLink.init({
   provider: {
     type: Sequelize.STRING(25),
   },
+  visibility: {
+    type: Sequelize.STRING(50),
+    defaultValue: 'connections-only',
+  },
   path: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
   },
   resourceUrl: {
-    type: Sequelize.STRING,
+    type: Sequelize.TEXT,
   },
 }, {
   sequelize,
