@@ -1,10 +1,14 @@
 module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('userProfiles', {
-    id: {
+    userId: {
       type: Sequelize.UUID,
-      defaultValue: Sequelize.UUIDV4,
-      primaryKey: true,
+      references: {
+        model: 'users',
+        key: 'id',
+      },
+      onDelete: 'CASCADE',
       allowNull: false,
+      primaryKey: true,
     },
     firstName: {
       type: Sequelize.STRING,
@@ -28,15 +32,6 @@ module.exports = {
       type: Sequelize.ENUM,
       values: ['male', 'female'],
       allowNull: true,
-    },
-    userId: {
-      type: Sequelize.UUID,
-      references: {
-        model: 'users',
-        key: 'id',
-      },
-      onDelete: 'CASCADE',
-      allowNull: false,
     },
   }),
 
