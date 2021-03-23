@@ -541,9 +541,12 @@ paths:
                   type: string
                   description: Username/Path or any text regarding provider
                   example: jhondoe
+                visibility:
+                  $ref: "#/components/schemas/ConnectionVisibilitySchema"
               required:
                 - provider
                 - path
+                - visibility
       responses:
         "201":
           description: Link created
@@ -826,6 +829,13 @@ components:
       type: string
       description: Describes an resource id
       example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+    ConnectionVisibilitySchema:
+      type: string
+      description: connection visibility scope
+      enum:
+        - connections-only
+        - public
+      default: connections-only
     DateSchema:
       type: string
       description: Describes a date
@@ -1066,6 +1076,8 @@ components:
         resourceUrl:
           type: string
           description: Describe url/text to resource
+        visibility:
+          $ref: "#/components/schemas/ConnectionVisibilitySchema"
     UserProfileBaseSchema:
       type: object
       description: User profile base

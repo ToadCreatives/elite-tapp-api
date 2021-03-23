@@ -11,10 +11,14 @@ module.exports = {
         type: Sequelize.STRING(25),
       },
       path: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       resourceUrl: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
+      },
+      visibility: {
+        type: Sequelize.STRING(50),
+        defaultValue: 'connections-only',
       },
       createdAt: {
         type: Sequelize.DATE,

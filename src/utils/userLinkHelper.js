@@ -1,4 +1,5 @@
 const urljoin = require('url-join');
+const { isUri } = require('./url');
 
 // TODO: add other providers
 const providers = {
@@ -29,6 +30,10 @@ exports.providerNames = Object.keys(providers);
  * @returns
  */
 function getResourceUrl(provider, path) {
+  if (isUri(path)) {
+    return path;
+  }
+
   const providerData = providers[provider];
   if (providerData) {
     return urljoin(providerData, path);
