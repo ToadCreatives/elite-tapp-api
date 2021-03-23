@@ -10,9 +10,10 @@ exports.list = async (req, res, next) => {
     const userId = user.id;
 
     const query = knex
-      .from('userProfiles')
-      .select('firstName', 'lastName', 'avatar', 'createdAt')
-      .leftJoin('userConnections', 'userProfiles.userId', 'userConnections.connectionId')
+      .from('users')
+      .select('users.id', 'firstName', 'lastName', 'avatar', 'username', 'users.createdAt')
+      .leftJoin('userConnections', 'users.id', 'userConnections.connectionId')
+      .leftJoin('userProfiles', 'users.id', 'userProfiles.userId')
       .where('userConnections.userId', userId)
       .orderBy('firstName', 'asc');
 

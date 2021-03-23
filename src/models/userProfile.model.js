@@ -22,11 +22,15 @@ class UserProfile extends Model {
 }
 
 UserProfile.init({
-  id: {
+  userId: {
     type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV4,
-    primaryKey: true,
+    references: {
+      model: 'users',
+      key: 'id',
+    },
+    onDelete: 'CASCADE',
     allowNull: false,
+    primaryKey: true,
   },
   firstName: {
     type: Sequelize.STRING,

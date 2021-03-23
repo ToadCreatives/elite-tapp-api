@@ -1038,6 +1038,8 @@ components:
       type: object
       description: User connection
       properties:
+        id:
+          $ref: "#/components/schemas/IdSchema"
         firstName:
           type: string
           description: first name
@@ -1046,6 +1048,10 @@ components:
           type: string
           description: last name
           example: Doe
+        username:
+          type: string
+          description: username
+          example: jhonedoe94
         createdAt:
           $ref: "#/components/schemas/DateSchema"
         avatar:
