@@ -5,7 +5,7 @@ const sequelize = require('../../services/sequelize');
 
 exports.feed = async (req, res, next) => {
   try {
-    const { interests = [], limit = 20 } = req.query;
+    const { interests, limit = 20 } = req.query;
 
     const query = knex
       .from('users')
@@ -16,15 +16,16 @@ exports.feed = async (req, res, next) => {
       .limit(limit)
       .orderByRaw('random()');
 
-    if (interests.length > 0) {
+    if (interests) {
+      const interestsQuery = interests instanceof Array ? interests : [interests];
       query.whereIn(
         'users.id',
         knex
           .select('userId')
           .from('userInterests')
-          .where('interestId', 'in', interests)
+          .where('interestId', 'in', interestsQuery)
           .groupBy('userId')
-          .havingRaw('count(*) = ??', [interests.length]),
+          .havingRaw('count(*) = ??', [interestsQuery.length]),
       );
     }
 

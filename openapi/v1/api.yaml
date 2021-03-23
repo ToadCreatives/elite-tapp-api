@@ -22,6 +22,8 @@ tags:
     description: User social link related
   - name: Connections
     description: User connections related
+  - name: Discovery
+    description: Discovery related
 paths:
   /user/register:
     post:
@@ -693,6 +695,36 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /discovery/feed:
+    get:
+      summary: Get discovery feed
+      description: Get the discovery feed
+      operationId: getDiscoveryFeed
+      tags:
+        - Discovery
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/LimitQueryParam"
+        - $ref: "#/components/parameters/InterestsQueryParam"
+      responses:
+        "200":
+          description: feed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feed:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserProfileBaseSchema"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -1034,9 +1066,9 @@ components:
         resourceUrl:
           type: string
           description: Describe url/text to resource
-    UserConnectionViewSchema:
+    UserProfileBaseSchema:
       type: object
-      description: User connection
+      description: User profile base
       properties:
         id:
           $ref: "#/components/schemas/IdSchema"
@@ -1052,12 +1084,18 @@ components:
           type: string
           description: username
           example: jhonedoe94
-        createdAt:
-          $ref: "#/components/schemas/DateSchema"
         avatar:
           type: string
           description: avatar url
           example: "https://path/to/img"
+    UserConnectionViewSchema:
+      type: object
+      description: User connection
+      allOf:
+        - $ref: "#/components/schemas/UserProfileBaseSchema"
+      properties:
+        createdAt:
+          $ref: "#/components/schemas/DateSchema"
     AccessToken:
       type: object
       properties:
@@ -1218,3 +1256,21 @@ components:
         type: string
         example: 8e9d94dd-6c04-48bb-882e-01f77f5224e9
       required: true
+    LimitQueryParam:
+      in: query
+      name: limit
+      description: used to limit results
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 25
+        default: 20
+    InterestsQueryParam:
+      in: query
+      name: interests
+      description: interests ids
+      schema:
+        type: array
+        description: interest ids
+        items:
+          $ref: "#/components/schemas/IdSchema"
