@@ -59,7 +59,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
-    "mustache": "^3.0.1",
+    "mustache": "^4.1.0",
     "nanoid": "^3.1.20",
     "nodemailer": "^6.5.0",
     "nodemailer-ses-transport": "^1.5.1",
