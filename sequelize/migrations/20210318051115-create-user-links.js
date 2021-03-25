@@ -17,8 +17,8 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       visibility: {
-        type: Sequelize.STRING(50),
-        defaultValue: 'connections-only',
+        type: Sequelize.INTEGER,
+        defaultValue: 1,
       },
       createdAt: {
         type: Sequelize.DATE,

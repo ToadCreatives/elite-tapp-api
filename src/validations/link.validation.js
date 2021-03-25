@@ -1,7 +1,8 @@
 const Joi = require('joi');
+const { VisibilityLevels } = require('../utils/social');
 const { providerNames } = require('../utils/userLinkHelper');
 
-const visibilities = ['public', 'connections-only'];
+const visibilities = Object.keys(VisibilityLevels);
 
 // User validation rules
 module.exports = {
