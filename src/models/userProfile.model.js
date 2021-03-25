@@ -61,5 +61,6 @@ UserProfile.init({
 });
 
 UserProfile.belongsTo(User);
+User.hasOne(UserProfile);
 
 module.exports = UserProfile;
