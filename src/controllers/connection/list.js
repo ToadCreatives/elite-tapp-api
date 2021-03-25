@@ -11,7 +11,7 @@ exports.list = async (req, res, next) => {
 
     const query = knex
       .from('users')
-      .select('users.id', 'firstName', 'lastName', 'avatar', 'username', 'users.createdAt')
+      .select('firstName', 'lastName', 'avatar', 'username', 'users.createdAt')
       .leftJoin('userConnections', 'users.id', 'userConnections.connectionId')
       .leftJoin('userProfiles', 'users.id', 'userProfiles.userId')
       .where('userConnections.userId', userId)

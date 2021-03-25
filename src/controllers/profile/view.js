@@ -49,10 +49,8 @@ async function getProfileView(user, targetUsername) {
   });
 
   const result = {
-    user: {
-      username: targetUser.username,
-    },
     profile: {
+      username: targetUser.username,
       firstName: profileDao.firstName,
       lastName: profileDao.lastName,
       bio: profileDao.bio,
