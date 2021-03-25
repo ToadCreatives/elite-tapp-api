@@ -351,6 +351,31 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /profile/view/{username}:
+    get:
+      summary: View user profile
+      description: >-
+        If there is a valid JWT token the server will determine the relationship between
+        the viewer and the requested user. Based on relationship the server will provide
+        necessary details according to the ACL.
+        `auth` header is not required for endpoint
+      operationId: viewUserProfile
+      parameters:
+        - $ref: "#/components/parameters/UsernamePathParam"
+      security:
+        - {}
+        - bearerAuth: []
+      tags:
+        - Profile
+      responses:
+        "200":
+          $ref: "#/components/responses/UserProfileViewResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
   /interests/list:
     get:
       summary: Get interests
@@ -735,6 +760,23 @@ components:
       scheme: bearer
       bearerFormat: JWT
   responses:
+    UserProfileViewResponse:
+      description: User profile view
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  profile:
+                    $ref: "#/components/schemas/UserProfileViewSchema"
+                  links:
+                    type: array
+                    description: Links for user
+                    items:
+                      $ref: "#/components/schemas/UserLinkBaseSchema"
     AvatarCreateResponse:
       description: Avatar created
       content:
@@ -1061,13 +1103,9 @@ components:
         - "facetime"
         - "call"
         - "custom"
-    UserLinkSchema:
+    UserLinkBaseSchema:
       type: object
       properties:
-        id:
-          $ref: "#/components/schemas/IdSchema"
-        createdAt:
-          $ref: "#/components/schemas/DateSchema"
         path:
           type: string
           description: path to resource
@@ -1076,14 +1114,21 @@ components:
         resourceUrl:
           type: string
           description: Describe url/text to resource
+    UserLinkSchema:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/IdSchema"
+        createdAt:
+          $ref: "#/components/schemas/DateSchema"
         visibility:
           $ref: "#/components/schemas/ConnectionVisibilitySchema"
+      allOf:
+        - $ref: "#/components/schemas/UserLinkBaseSchema"
     UserProfileBaseSchema:
       type: object
       description: User profile base
       properties:
-        id:
-          $ref: "#/components/schemas/IdSchema"
         firstName:
           type: string
           description: first name
@@ -1100,6 +1145,15 @@ components:
           type: string
           description: avatar url
           example: "https://path/to/img"
+    UserProfileViewSchema:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/UserProfileBaseSchema"
+      properties:
+        bio:
+          type: string
+          description: bio
+          example: lorem ipsum
     UserConnectionViewSchema:
       type: object
       description: User connection
@@ -1286,3 +1340,11 @@ components:
         description: interest ids
         items:
           $ref: "#/components/schemas/IdSchema"
+    UsernamePathParam:
+      in: path
+      required: true
+      name: username
+      schema:
+        type: string
+        description: username
+        example: jhondoe94

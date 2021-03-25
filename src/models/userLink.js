@@ -1,10 +1,12 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../services/sequelize');
+const { VisibilityLevels, getVisibilityLevelName } = require('../utils/social');
 const User = require('./user.model');
 
 const { Model } = Sequelize;
 
 class UserLink extends Model {
+
 }
 
 UserLink.init({
@@ -18,8 +20,15 @@ UserLink.init({
     type: Sequelize.STRING(25),
   },
   visibility: {
-    type: Sequelize.STRING(50),
-    defaultValue: 'connections-only',
+    type: Sequelize.INTEGER,
+    defaultValue: 1,
+    set(visibility) {
+      const level = VisibilityLevels[visibility] || VisibilityLevels['connections-only'];
+      this.setDataValue('visibility', level);
+    },
+    get() {
+      return getVisibilityLevelName(this.getDataValue('visibility'));
+    },
   },
   path: {
     type: Sequelize.TEXT,
@@ -33,5 +42,6 @@ UserLink.init({
 });
 
 UserLink.belongsTo(User);
+User.hasMany(UserLink);
 
 module.exports = UserLink;
