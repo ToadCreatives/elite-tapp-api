@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('billingDetails', {
+    await queryInterface.createTable('stripeCustomers', {
       userId: {
         type: Sequelize.UUID,
         references: {
@@ -12,22 +12,25 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
-      name: {
+      billingEmail: {
         type: Sequelize.STRING,
       },
-      phone: {
+      stripeCustomerId: {
         type: Sequelize.STRING,
       },
-      email: {
+      stripeDefaultPaymentMethodId: {
         type: Sequelize.STRING,
       },
-      address: {
-        type: Sequelize.JSON,
+      createdAt: {
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('billingDetails');
+    await queryInterface.dropTable('stripeCustomers');
   },
 };

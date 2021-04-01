@@ -4,10 +4,10 @@ const User = require('./user.model');
 
 const { Model } = Sequelize;
 
-class BillingDetail extends Model {
+class StripeCustomer extends Model {
 }
 
-BillingDetail.init({
+StripeCustomer.init({
   userId: {
     type: Sequelize.UUID,
     references: {
@@ -18,25 +18,28 @@ BillingDetail.init({
     allowNull: false,
     primaryKey: true,
   },
-  name: {
+  billingEmail: {
     type: Sequelize.STRING,
   },
-  phone: {
+  stripeCustomerId: {
     type: Sequelize.STRING,
   },
-  email: {
+  stripeDefaultPaymentMethodId: {
     type: Sequelize.STRING,
   },
-  address: {
-    type: Sequelize.JSON,
+  createdAt: {
+    type: Sequelize.DATE,
+  },
+  updatedAt: {
+    type: Sequelize.DATE,
   },
 }, {
   sequelize,
-  timestamps: false,
-  modelName: 'billingDetail',
+  timestamps: true,
+  modelName: 'stripeCustomer',
 });
 
-BillingDetail.belongsTo(User);
-User.hasOne(BillingDetail);
+StripeCustomer.belongsTo(User);
+User.hasOne(StripeCustomer);
 
-module.exports = BillingDetail;
+module.exports = StripeCustomer;
