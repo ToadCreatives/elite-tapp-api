@@ -6,7 +6,6 @@ const User = require('./user.model');
 const { Model } = Sequelize;
 
 class UserLink extends Model {
-
 }
 
 UserLink.init({
@@ -35,6 +34,10 @@ UserLink.init({
   },
   resourceUrl: {
     type: Sequelize.TEXT,
+  },
+  elitePlus: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 }, {
   sequelize,

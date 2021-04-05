@@ -20,6 +20,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 1,
       },
+      elitePlus: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       createdAt: {
         type: Sequelize.DATE,
       },
