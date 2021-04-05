@@ -35,9 +35,10 @@ UserLink.init({
   resourceUrl: {
     type: Sequelize.TEXT,
   },
-  elitePlus: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false,
+  tier: {
+    type: Sequelize.ENUM,
+    values: ['free', 'plus'],
+    defaultValue: 'free',
   },
 }, {
   sequelize,
