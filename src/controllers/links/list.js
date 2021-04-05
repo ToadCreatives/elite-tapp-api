@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const UserLink = require('../../models/userLink');
+const UserLink = require('../../models/userLink.model');
 
 exports.list = async (req, res, next) => {
   try {

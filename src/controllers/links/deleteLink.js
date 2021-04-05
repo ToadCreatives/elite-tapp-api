@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const APIError = require('../../errors/APIError');
 const errorCodes = require('../../errors/errorCodes');
-const UserLink = require('../../models/userLink');
+const UserLink = require('../../models/userLink.model');
 
 exports.deleteLink = async (req, res, next) => {
   try {
