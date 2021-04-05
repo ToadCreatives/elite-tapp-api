@@ -18,9 +18,6 @@ module.exports = {
       isTrial: {
         type: Sequelize.BOOLEAN,
       },
-      trialUsed: {
-        type: Sequelize.BOOLEAN,
-      },
       isActive: {
         type: Sequelize.BOOLEAN,
       },

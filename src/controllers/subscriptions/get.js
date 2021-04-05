@@ -8,6 +8,9 @@ exports.get = async (req, res, next) => {
       where: {
         userId: user.id,
       },
+      attributes: {
+        exclude: ['userId'],
+      },
     });
     return res.status(httpStatus.OK).json({ subscription });
   } catch (err) {

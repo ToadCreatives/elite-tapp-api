@@ -21,6 +21,6 @@ router.use('/devices', devicesRoute);
 router.use('/links', linksRoute);
 router.use('/connections', connectionRoute);
 router.use('/discovery', discoveryRoute);
-router.use('/subscription', subscriptionRoute);
+router.use('/subscriptions', subscriptionRoute);
 
 module.exports = router;
