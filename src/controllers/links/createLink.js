@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const UserLink = require('../../models/userLink');
+const UserLink = require('../../models/userLink.model');
 const { getResourceUrl } = require('../../utils/userLinkHelper');
 
 exports.createLink = async (req, res, next) => {

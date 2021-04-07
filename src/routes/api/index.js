@@ -9,6 +9,7 @@ const devicesRoute = require('./device.route');
 const linksRoute = require('./link.route');
 const connectionRoute = require('./connection.route');
 const discoveryRoute = require('./discovery.route');
+const subscriptionRoute = require('./subscriptions.route');
 
 router.get('/status', (req, res) => { res.send({ status: 'OK' }); }); // api status
 
@@ -20,5 +21,6 @@ router.use('/devices', devicesRoute);
 router.use('/links', linksRoute);
 router.use('/connections', connectionRoute);
 router.use('/discovery', discoveryRoute);
+router.use('/subscriptions', subscriptionRoute);
 
 module.exports = router;

@@ -6,7 +6,6 @@ const User = require('./user.model');
 const { Model } = Sequelize;
 
 class UserLink extends Model {
-
 }
 
 UserLink.init({
@@ -35,6 +34,11 @@ UserLink.init({
   },
   resourceUrl: {
     type: Sequelize.TEXT,
+  },
+  tier: {
+    type: Sequelize.ENUM,
+    values: ['free', 'plus'],
+    defaultValue: 'free',
   },
 }, {
   sequelize,

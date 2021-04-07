@@ -20,6 +20,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 1,
       },
+      tier: {
+        type: Sequelize.ENUM,
+        values: ['free', 'plus'],
+        defaultValue: 'free',
+      },
       createdAt: {
         type: Sequelize.DATE,
       },

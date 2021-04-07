@@ -24,6 +24,8 @@ tags:
     description: User connections related
   - name: Discovery
     description: Discovery related
+  - name: Subscription
+    description: Subscription related
 paths:
   /user/register:
     post:
@@ -753,6 +755,29 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /subscriptions/my:
+    get:
+      summary: Get my subscription
+      description: Get my subscription
+      operationId: getMySubscription
+      tags:
+        - Subscription
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: get my subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  subscription:
+                    $ref: "#/components/schemas/SubscriptionSchema"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
 components:
   securitySchemes:
     bearerAuth:
@@ -836,6 +861,15 @@ components:
                 type: array
                 items:
                   $ref: "#/components/schemas/InterestSchema"
+    SubscriptionResponse:
+      description: user subscrption
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              subscription:
+                $ref: "#/components/schemas/SubscriptionSchema"
     UnauthorizedError:
       description: Unauthorized
       content:
@@ -871,6 +905,18 @@ components:
       type: string
       description: Describes an resource id
       example: 6cf6f9fa-98bc-481e-91dd-57d13717ddde
+    SubscriptionSchema:
+      type: object
+      description: Subscription
+      properties:
+        expiresAt:
+          $ref: "#/components/schemas/DateSchema"
+        isTrial:
+          type: boolean
+          description: Is this a trial
+        isActive:
+          type: boolean
+          description: Is this subscription active
     ConnectionVisibilitySchema:
       type: string
       description: connection visibility scope
