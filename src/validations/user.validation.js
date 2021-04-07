@@ -12,6 +12,12 @@ module.exports = {
       password: Joi.string().min(6).max(128).required(),
     }),
   },
+  changePassword: {
+    body: Joi.object({
+      currentPassword: Joi.string().min(6).max(128).required(),
+      newPassword: Joi.string().min(6).max(128).required(),
+    }),
+  },
   resendActivationCode: {
     body: Joi.object({
       login: Joi.alternatives().try(

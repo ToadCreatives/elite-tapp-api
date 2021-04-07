@@ -139,6 +139,42 @@ paths:
           $ref: "#/components/responses/ValidationError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /user/password/change:
+    post:
+      summary: Change password
+      description: Change password for user
+      operationId: changePassword
+      tags:
+        - User
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentPassword:
+                  type: string
+                  description: current password of user
+                  example: mypassword
+                newPassword:
+                  type: string
+                  description: new password for user
+                  example: newpassword
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          description: Session expired
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/APIError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
   /user/check/username:
     get:
       summary: Check if username already taken

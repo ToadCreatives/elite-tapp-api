@@ -14,6 +14,8 @@ router.post('/password/reset', validate(validation.resetPassword), controller.re
 
 router.post('/password/reset/request', validate(validation.sendPasswordReset), controller.sendPasswordReset);
 
+router.post('/password/change', validate(validation.changePassword), auth(), controller.changePassword);
+
 router.get('/check/username', validate(validation.isUsernameAvailable), controller.isUsernameAvailable);
 
 router.put('/username', validate(validation.setUsername), auth({ usernameRequired: false }), controller.setUsername);
