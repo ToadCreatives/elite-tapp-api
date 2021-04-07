@@ -43,7 +43,7 @@ const providers = {
 
   // free contacts
   text: {
-    pathPrefix: 'tel:',
+    pathPrefix: 'sms:',
     isUrl: false,
     tier: Tiers.free,
   },
@@ -68,7 +68,7 @@ const providers = {
     tier: Tiers.free,
   },
   call: {
-    pathPrefix: null,
+    pathPrefix: 'tel:',
     isUrl: false,
     tier: Tiers.free,
   },
