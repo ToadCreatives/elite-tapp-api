@@ -1,22 +1,112 @@
 const urljoin = require('url-join');
+const { Tiers } = require('./tiers');
 const { isUri } = require('./url');
 
 // TODO: add other providers
 const providers = {
-  facebook: 'https://facebook.com',
-  twitter: 'https://twitter.com',
-  instagram: 'https://www.instagram.com',
-  pinterest: 'https://www.pinterest.com',
-  twitch: 'http://twitch.tv',
-  snapchat: 'https://www.snapchat.com/add',
-  linktree: 'https://linktr.ee',
-  text: null,
-  email: null,
-  whatsapp: null,
-  address: null,
-  facetime: null,
-  call: null,
-  custom: null,
+  // free social
+  facebook: {
+    pathPrefix: 'https://facebook.com',
+    tier: Tiers.free,
+  },
+  twitter: {
+    pathPrefix: 'https://twitter.com',
+    tier: Tiers.free,
+  },
+  instagram: {
+    pathPrefix: 'https://www.instagram.com',
+    tier: Tiers.free,
+  },
+  pinterest: {
+    pathPrefix: 'https://www.pinterest.com',
+    tier: Tiers.free,
+  },
+  twitch: {
+    pathPrefix: 'http://twitch.tv',
+    tier: Tiers.free,
+  },
+  snapchat: {
+    pathPrefix: 'https://www.snapchat.com/add',
+    tier: Tiers.free,
+  },
+  linktree: {
+    pathPrefix: 'https://linktr.ee',
+    tier: Tiers.free,
+  },
+
+  // free contacts
+  text: {
+    pathPrefix: null,
+    tier: Tiers.free,
+  },
+  email: {
+    pathPrefix: null,
+    tier: Tiers.free,
+  },
+  whatsapp: {
+    pathPrefix: null,
+    tier: Tiers.free,
+  },
+  address: {
+    pathPrefix: null,
+    tier: Tiers.free,
+  },
+  facetime: {
+    pathPrefix: null,
+    tier: Tiers.free,
+  },
+  call: {
+    pathPrefix: null,
+    tier: Tiers.free,
+  },
+
+  // free music
+  spotify: {
+    pathPrefix: null,
+    tier: Tiers.free,
+  },
+  applemusic: {
+    pathPrefix: null,
+    tier: Tiers.free,
+  },
+  soundcloud: {
+    pathPrefix: 'https://soundcloud.com',
+    tier: Tiers.free,
+  },
+
+  // free payments
+  paypal: {
+    pathPrefix: 'https://paypal.com',
+    tier: Tiers.free,
+  },
+  venmo: {
+    pathPrefix: 'https://venmo.com',
+    tier: Tiers.free,
+  },
+  cashapp: {
+    pathPrefix: 'https://cash.app',
+    tier: Tiers.free,
+  },
+
+  // elite plus
+  tiktok: {
+    pathPrefix: 'https://tiktok.com',
+    tier: Tiers.plus,
+  },
+  youtube: {
+    pathPrefix: null,
+    tier: Tiers.plus,
+  },
+  podcasts: {
+    pathPrefix: null,
+    tier: Tiers.plus,
+  },
+
+  // custom
+  website: {
+    pathPrefix: null,
+    tier: Tiers.plus,
+  },
 };
 
 exports.providers = providers;
@@ -36,7 +126,7 @@ function getResourceUrl(provider, path) {
 
   const providerData = providers[provider];
   if (providerData) {
-    return urljoin(providerData, path);
+    return urljoin(providerData.pathPrefix, path);
   }
 
   return path;
