@@ -8,36 +8,43 @@ const providers = {
   facebook: {
     pathPrefix: 'https://facebook.com',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   twitter: {
     pathPrefix: 'https://twitter.com',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   instagram: {
     pathPrefix: 'https://www.instagram.com',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   pinterest: {
     pathPrefix: 'https://www.pinterest.com',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   twitch: {
     pathPrefix: 'http://twitch.tv',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   snapchat: {
     pathPrefix: 'https://www.snapchat.com/add',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   linktree: {
     pathPrefix: 'https://linktr.ee',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
 
@@ -53,13 +60,15 @@ const providers = {
     tier: Tiers.free,
   },
   whatsapp: {
-    pathPrefix: null,
-    isUrl: false,
+    pathPrefix: 'https://wa.me/',
+    isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   address: {
-    pathPrefix: null,
-    isUrl: false,
+    pathPrefix: 'https://www.google.com/maps?q=',
+    isUrl: true,
+    asPathItem: false,
     tier: Tiers.free,
   },
   facetime: {
@@ -87,6 +96,7 @@ const providers = {
   soundcloud: {
     pathPrefix: 'https://soundcloud.com',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
 
@@ -94,16 +104,19 @@ const providers = {
   paypal: {
     pathPrefix: 'https://paypal.com',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   venmo: {
     pathPrefix: 'https://venmo.com',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
   cashapp: {
     pathPrefix: 'https://cash.app',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.free,
   },
 
@@ -111,6 +124,7 @@ const providers = {
   tiktok: {
     pathPrefix: 'https://tiktok.com',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.plus,
   },
   youtube: {
@@ -123,8 +137,6 @@ const providers = {
     isUrl: true,
     tier: Tiers.plus,
   },
-
-  // custom
   website: {
     pathPrefix: null,
     isUrl: true,
@@ -148,9 +160,13 @@ function getResourceUrl(provider, path) {
   }
 
   const providerData = providers[provider];
-  if (providerData.isUrl) {
-    return urljoin(providerData.pathPrefix, path);
+  if (providerData.isUrl && providerData.pathPrefix) {
+    if (providerData.asPathItem) {
+      return encodeURI(urljoin(providerData.pathPrefix, path));
+    }
+    return encodeURI([providerData.pathPrefix, path].join(''));
   }
+
   if (!providerData.isUrl && providerData.pathPrefix) {
     return [providerData.pathPrefix, path].join('');
   }
