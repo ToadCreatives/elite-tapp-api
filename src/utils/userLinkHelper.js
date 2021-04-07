@@ -48,7 +48,7 @@ const providers = {
     tier: Tiers.free,
   },
   email: {
-    pathPrefix: null,
+    pathPrefix: 'mailto:',
     isUrl: false,
     tier: Tiers.free,
   },
@@ -63,7 +63,7 @@ const providers = {
     tier: Tiers.free,
   },
   facetime: {
-    pathPrefix: null,
+    pathPrefix: 'facetime://',
     isUrl: true,
     tier: Tiers.free,
   },
