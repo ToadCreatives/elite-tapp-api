@@ -155,6 +155,10 @@ exports.providerNames = Object.keys(providers);
  * @returns
  */
 function getResourceUrl(provider, path) {
+  if (!path) {
+    return '';
+  }
+
   if (isUri(path)) {
     return path;
   }

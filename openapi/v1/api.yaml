@@ -666,6 +666,31 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /links/check:
+    summary: Check the link
+    get:
+      summary: Check the link
+      description: Check link and get resource url
+      operationId: checkLink
+      parameters:
+        - $ref: "#/components/parameters/ProviderQueryParam"
+        - $ref: "#/components/parameters/LinkPathQueryParam"
+      tags:
+        - UserLinks
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Resource url
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resourceUrl:
+                    type: string
+                    description: Resource url for given path
+                    example: https://facebook.com/jhondoe
   /connections/add:
     post:
       summary: Create a connection between a user and other user
@@ -1135,20 +1160,29 @@ components:
       type: string
       description: social providers
       enum:
-        - "facebook"
-        - "twitter"
-        - "instagram"
-        - "pinterest"
-        - "twitch"
-        - "snapchat"
-        - "linktree"
-        - "text"
-        - "email"
-        - "whatsapp"
-        - "address"
-        - "facetime"
-        - "call"
-        - "custom"
+        - facebook
+        - twitter
+        - instagram
+        - pinterest
+        - twitch
+        - snapchat
+        - linktree
+        - text
+        - email
+        - whatsapp
+        - address
+        - facetime
+        - call
+        - spotify
+        - applemusic
+        - soundcloud
+        - paypal
+        - venmo
+        - cashapp
+        - tiktok
+        - youtube
+        - podcasts
+        - website
     UserLinkBaseSchema:
       type: object
       properties:
@@ -1394,3 +1428,14 @@ components:
         type: string
         description: username
         example: jhondoe94
+    ProviderQueryParam:
+      in: query
+      name: provider
+      schema:
+        $ref: "#/components/schemas/SocialProvidersSchema"
+    LinkPathQueryParam:
+      in: query
+      name: path
+      schema:
+        type: string
+        example: jhondoe
