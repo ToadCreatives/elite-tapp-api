@@ -496,18 +496,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  id:
-                    description: device id
-                    allOf:
-                      - $ref: "#/components/schemas/IdSchema"
-                  token:
-                    type: string
-                    example: sldadasldkasldsakdladkal
-                    description: token for device(one time)
-                  url:
-                    type: string
-                    description: Resource url for tag. Write this to NFC directly
-                    example: https://elitetapp.co/u/1sldadasldkasldsakdladkal
+                  device:
+                    $ref: "#/components/schemas/DeviceSchema"
         "401":
           $ref: "#/components/responses/UnknownError"
         "500":
@@ -1007,6 +997,18 @@ components:
           type: boolean
           description: is this tag active
           example: true
+        token:
+          type: string
+          description: Token for nfc tag
+          example: a8868273082f6330d018e10970306a5dPRs2FtYx13VU5t6OZsGUg1xmw
+        url:
+          type: string
+          description: URL to elitetapp profile
+          example: https://elitetapp.com/u/a8868273082f6330d018e10970306a5dPRs2FtYx13VU5t6OZsGUg1xmw
+        createdAt:
+          $ref: "#/components/schemas/DateSchema"
+        updatedAt:
+          $ref: "#/components/schemas/DateSchema"
     OTPCode:
       type: string
       description: OTP code if present

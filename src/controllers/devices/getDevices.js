@@ -10,7 +10,7 @@ exports.getDevices = async (req, res, next) => {
         userId: user.id,
       },
       attributes: {
-        exclude: ['token', 'userId'],
+        exclude: ['userId'],
       },
       order: [['createdAt', 'DESC']],
     });
