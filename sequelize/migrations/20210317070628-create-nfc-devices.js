@@ -35,6 +35,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+    await queryInterface.addIndex('nfcDevices', ['token'], { fields: 'token', unique: true });
   },
 
   // eslint-disable-next-line no-unused-vars
