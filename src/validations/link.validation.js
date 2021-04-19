@@ -27,8 +27,8 @@ module.exports = {
       id: Joi.string().uuid().required(),
     }),
   },
-  check: {
-    query: Joi.object({
+  preview: {
+    body: Joi.object({
       provider: Joi.string().valid(...providerNames).required(),
       path: Joi.string().max(255).allow(null),
     }),

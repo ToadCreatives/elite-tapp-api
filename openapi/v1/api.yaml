@@ -703,19 +703,29 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /links/check:
-    summary: Check the link
-    get:
-      summary: Check the link
-      description: Check link and get resource url
-      operationId: checkLink
-      parameters:
-        - $ref: "#/components/parameters/ProviderQueryParam"
-        - $ref: "#/components/parameters/LinkPathQueryParam"
+  /links/preview:
+    summary: Preview the link
+    post:
+      summary: Preview the link
+      description: Preview link and get resource url
+      operationId: previewLink
       tags:
         - UserLinks
       security:
         - bearerAuth: []
+      requestBody:
+        description: preview
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                provider:
+                  $ref: "#/components/schemas/SocialProvidersSchema"
+                path:
+                  type: string
+                  description: path or link
+                  example: jhondoe
       responses:
         "200":
           description: Resource url

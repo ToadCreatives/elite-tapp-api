@@ -14,6 +14,6 @@ router.put('/:id', validate(validation.updateLink), auth(), controller.updateLin
 
 router.delete('/:id', validate(validation.deleteLink), auth(), controller.deleteLink);
 
-router.get('/check', validate(validation.check), auth(), controller.check);
+router.post('/preview', validate(validation.preview), auth(), controller.preview);
 
 module.exports = router;
