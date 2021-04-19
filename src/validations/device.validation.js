@@ -18,7 +18,12 @@ module.exports = {
   },
   registerNewDevice: {
     body: Joi.object({
-      serialNo: Joi.string().max(255).required(),
+      deviceUid: Joi.string().max(255).required(),
+    }),
+  },
+  getUser: {
+    params: Joi.object({
+      deviceUid: Joi.string().required(),
     }),
   },
 };

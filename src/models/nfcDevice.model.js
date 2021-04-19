@@ -14,7 +14,7 @@ NfcDevice.init({
     primaryKey: true,
     allowNull: false,
   },
-  serialNo: {
+  deviceUid: {
     type: Sequelize.STRING,
     unique: true,
   },

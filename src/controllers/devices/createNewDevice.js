@@ -4,10 +4,10 @@ const NfcDevice = require('../../models/nfcDevice.model');
 exports.registerNewDevice = async (req, res, next) => {
   try {
     const { user } = req;
-    const { serialNo } = req.body;
+    const { deviceUid } = req.body;
 
     const device = await NfcDevice.create({
-      serialNo,
+      deviceUid,
       userId: user.id,
       active: true,
     });

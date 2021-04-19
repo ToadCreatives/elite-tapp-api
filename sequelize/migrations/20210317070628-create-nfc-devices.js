@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true,
         allowNull: false,
       },
-      serialNo: {
+      deviceUid: {
         type: Sequelize.STRING,
         unique: true,
       },
@@ -34,7 +34,15 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
-    await queryInterface.addIndex('nfcDevices', ['serialNo'], { fields: 'serialNo', unique: true });
+
+    await queryInterface.addIndex(
+      'nfcDevices',
+      ['deviceUid'],
+      {
+        fields: 'deviceUid',
+        unique: true,
+      },
+    );
   },
 
   // eslint-disable-next-line no-unused-vars

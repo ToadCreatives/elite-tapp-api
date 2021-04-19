@@ -482,23 +482,34 @@ paths:
   /devices/register:
     post:
       summary: Register a new device
-      description: Register a new NFC device and register it in backend
+      description: >-
+        Register a new NFC device and register it in backend.
+
+        Unique id of tag should be calculated using `md5(userId+':'+nfcTagSerialNo)`
+        For example assume user id is `91a03727-85a2-4506-979d-11059e`
+        and nfc tag serial no is `04BD32B21B6F80`
+        calculate md5 as follows `md5("91a03727-85a2-4506-979d-11059e" + ":" + "04BD32B21B6F80")`
+        result should be `23b1983fe2508cd374b700298f0a136f`
       operationId: registerNewDevice
       tags:
         - Devices
       security:
         - bearerAuth: []
       requestBody:
-        description: creation
         content:
           application/json:
             schema:
               type: object
               properties:
-                serialNo:
+                deviceUid:
                   type: string
-                  description: Serial No of device
-                  example: asdfdfffsfsfsfd
+                  description: >-
+                    Unique id of tag. This should be calculated using `md5(userId+':'+nfcTagSerialNo)`
+                    For example assume user id is `91a03727-85a2-4506-979d-11059e`
+                    and nfc tag serial no is `04BD32B21B6F80`
+                    calculate md5 as follows md5("91a03727-85a2-4506-979d-11059e" + ":" + "04BD32B21B6F80")
+                    result should be `23b1983fe2508cd374b700298f0a136f`
+                  example: 23b1983fe2508cd374b700298f0a136f
       responses:
         "200":
           description: Device has been created
@@ -581,6 +592,36 @@ paths:
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
+  /devices/user/{deviceUid}:
+    get:
+      summary: Get user from device tag
+      description: Get user from device Tag
+      operationId: getUserFromDeviceTag
+      parameters:
+        - $ref: "#/components/parameters/DeviceUidPathParam"
+      tags:
+        - Devices
+      responses:
+        "200":
+          description: user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      username:
+                        $ref: "#/components/schemas/UsernameSchema"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "404":
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
@@ -1453,6 +1494,13 @@ components:
     IdPathParam:
       in: path
       name: id
+      schema:
+        type: string
+        example: 8e9d94dd-6c04-48bb-882e-01f77f5224e9
+      required: true
+    DeviceUidPathParam:
+      in: path
+      name: deviceUid
       schema:
         type: string
         example: 8e9d94dd-6c04-48bb-882e-01f77f5224e9

@@ -8,7 +8,7 @@ const validation = require('../../validations/device.validation');
 
 router.get('/list', auth(), controller.getDevices);
 
-router.get('/user/:token', auth(), controller.getUser);
+router.get('/user/:deviceUid', validate(validation.getUser), controller.getUser);
 
 router.patch('/:id', validate(validation.updateDevice), auth(), controller.updateDevice);
 

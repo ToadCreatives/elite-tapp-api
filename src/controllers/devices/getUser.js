@@ -6,14 +6,13 @@ const sequelize = require('../../services/sequelize');
 
 exports.getUser = async (req, res, next) => {
   try {
-    const { userId, serialNo } = req.params;
+    const { deviceUid } = req.params;
 
     const query = knex
       .select('username')
       .from('users')
       .leftJoin('nfcDevices', 'nfcDevices.userId', 'users.id')
-      .where('nfcDevices.serialNo', serialNo)
-      .andWhere('nfcDevices.userId', userId)
+      .where('nfcDevices.deviceUid', deviceUid)
       .andWhere('nfcDevices.active', true)
       .limit(1);
 
