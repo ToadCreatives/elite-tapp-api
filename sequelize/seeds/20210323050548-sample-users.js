@@ -4,6 +4,17 @@ const faker = require('faker');
 const bcrypt = require('bcrypt-nodejs');
 const { sampleSize } = require('lodash');
 
+function getAvatar(gender) {
+  switch (gender) {
+    case 'male':
+      return 'https://ik.imagekit.io/ghh7ufjctqp/elitetapp/avatars/sample/male.png';
+    case 'female':
+      return 'https://ik.imagekit.io/ghh7ufjctqp/elitetapp/avatars/sample/female.png';
+    default:
+      return null;
+  }
+}
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const genders = ['male', 'female', null];
@@ -25,15 +36,17 @@ module.exports = {
     }
 
     users.forEach((user) => {
+      const gender = genders[Math.floor(Math.random() * genders.length)];
+
       userProfiles.push({
         userId: user.id,
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
-        gender: genders[Math.floor(Math.random() * genders.length)],
+        gender,
         bio: faker.lorem.sentence(),
         dateOfBirth: faker.date.past(),
         updatedAt: new Date(),
-        avatar: faker.internet.avatar(),
+        avatar: getAvatar(gender),
       });
     });
 
