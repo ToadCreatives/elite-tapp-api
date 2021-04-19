@@ -501,6 +501,10 @@ paths:
             schema:
               type: object
               properties:
+                name:
+                  type: string
+                  description: name of the device
+                  example: my conn
                 deviceUid:
                   type: string
                   description: >-

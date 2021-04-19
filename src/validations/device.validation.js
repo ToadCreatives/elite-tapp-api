@@ -18,6 +18,7 @@ module.exports = {
   },
   registerNewDevice: {
     body: Joi.object({
+      name: Joi.string().max(255).allow(null).optional(),
       deviceUid: Joi.string().max(255).required(),
     }),
   },
