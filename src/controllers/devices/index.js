@@ -1,11 +1,11 @@
-const { createNewDevice } = require('./createNewDevice');
+const { registerNewDevice } = require('./createNewDevice');
 const { deleteDevice } = require('./deleteDevice');
 const { updateDevice } = require('./updateDevice');
 const { getDevices } = require('./getDevices');
 const { getUser } = require('./getUser');
 
 module.exports = {
-  createNewDevice,
+  registerNewDevice,
   deleteDevice,
   updateDevice,
   getDevices,

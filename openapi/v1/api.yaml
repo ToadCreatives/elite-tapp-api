@@ -479,15 +479,26 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
-  /devices/create:
+  /devices/register:
     post:
-      summary: Create a new device
-      description: Creates a new NFC device and register it in backend
-      operationId: createNewDevice
+      summary: Register a new device
+      description: Register a new NFC device and register it in backend
+      operationId: registerNewDevice
       tags:
         - Devices
       security:
         - bearerAuth: []
+      requestBody:
+        description: creation
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                serialNo:
+                  type: string
+                  description: Serial No of device
+                  example: asdfdfffsfsfsfd
       responses:
         "200":
           description: Device has been created
@@ -997,14 +1008,10 @@ components:
           type: boolean
           description: is this tag active
           example: true
-        token:
+        serialNo:
           type: string
-          description: Token for nfc tag
-          example: a8868273082f6330d018e10970306a5dPRs2FtYx13VU5t6OZsGUg1xmw
-        url:
-          type: string
-          description: URL to elitetapp profile
-          example: https://elitetapp.com/u/a8868273082f6330d018e10970306a5dPRs2FtYx13VU5t6OZsGUg1xmw
+          description: Serial no of nfc tag
+          example: abc2335kksdadad
         createdAt:
           $ref: "#/components/schemas/DateSchema"
         updatedAt:

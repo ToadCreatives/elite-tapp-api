@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize');
-const urljoin = require('url-join');
 const sequelize = require('../services/sequelize');
 const User = require('./user.model');
-const { frontendUrl } = require('../config');
 
 const { Model } = Sequelize;
 
@@ -16,7 +14,7 @@ NfcDevice.init({
     primaryKey: true,
     allowNull: false,
   },
-  token: {
+  serialNo: {
     type: Sequelize.STRING,
     unique: true,
   },
@@ -26,12 +24,6 @@ NfcDevice.init({
   active: {
     type: Sequelize.BOOLEAN,
     defaultValue: true,
-  },
-  url: {
-    type: Sequelize.VIRTUAL,
-    get() {
-      return urljoin(frontendUrl, 'u', this.getDataValue('token'));
-    },
   },
 }, {
   sequelize,

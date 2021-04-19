@@ -14,6 +14,6 @@ router.patch('/:id', validate(validation.updateDevice), auth(), controller.updat
 
 router.delete('/:id', validate(validation.deleteDevice), auth(), controller.deleteDevice);
 
-router.post('/create', auth(), controller.createNewDevice);
+router.post('/register', validate(validation.registerNewDevice), auth(), controller.registerNewDevice);
 
 module.exports = router;
