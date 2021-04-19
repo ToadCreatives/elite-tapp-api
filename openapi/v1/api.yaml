@@ -1217,6 +1217,11 @@ components:
           example: Lorem Ipsum Dor...
         gender:
           $ref: "#/components/schemas/GenderSchema"
+        avatar:
+          type: string
+          description: avatar
+          example: https://snapchat.io/img.png
+          nullable: true
     AvatarUploadSchema:
       type: object
       properties:

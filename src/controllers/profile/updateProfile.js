@@ -17,6 +17,7 @@ function getSafeProfileParams(original) {
       'dateOfBirth',
       'bio',
       'gender',
+      'avatar',
     ],
   );
 }

@@ -10,6 +10,7 @@ module.exports = {
       dateOfBirth: Joi.date().less('now'),
       bio: Joi.string().max(512).allow(null),
       gender: Joi.string().valid('male', 'female').allow(null),
+      avatar: Joi.string().allow(null),
     }),
   },
   uploadAvatar: {
