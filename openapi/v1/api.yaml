@@ -1063,7 +1063,7 @@ components:
           type: boolean
           description: is this tag active
           example: true
-        serialNo:
+        deviceUid:
           type: string
           description: Serial no of nfc tag
           example: abc2335kksdadad
