@@ -515,7 +515,7 @@ paths:
                     result should be `23b1983fe2508cd374b700298f0a136f`
                   example: 23b1983fe2508cd374b700298f0a136f
       responses:
-        "200":
+        "201":
           description: Device has been created
           content:
             application/json:
