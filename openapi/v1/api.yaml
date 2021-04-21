@@ -362,7 +362,7 @@ paths:
         $ref: "#/components/requestBodies/ProfileUpdateBody"
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/MyProfileResponse"
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":

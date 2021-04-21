@@ -33,7 +33,7 @@ exports.updateProfile = async (req, res, next) => {
     const safeProfileData = getSafeProfileParams(profile);
     await userProfile.update({ ...safeProfileData, userId });
 
-    return res.status(httpStatus.OK).json({ message: 'OK' });
+    return res.status(httpStatus.OK).json({ profile: userProfile.profileDto() });
   } catch (err) {
     next(err);
   }
