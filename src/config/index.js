@@ -1,7 +1,7 @@
 require('dotenv').config(); // load .env file
 const urljoin = require('url-join');
 
-const frontendUrl = process.env.FRONTEND_URL || 'https://elitetapp.com';
+const frontendUrl = process.env.FRONTEND_URL || 'https://elitetapp.me';
 const frontUrl = (path) => urljoin(frontendUrl, path);
 
 module.exports = {
