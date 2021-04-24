@@ -610,17 +610,7 @@ paths:
         - Devices
       responses:
         "200":
-          description: user
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  user:
-                    type: object
-                    properties:
-                      username:
-                        $ref: "#/components/schemas/UsernameSchema"
+          $ref: "#/components/responses/UsernameResponse"
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":
@@ -807,7 +797,7 @@ paths:
                   example: jhondoe94
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/UsernameResponse"
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":
@@ -840,7 +830,7 @@ paths:
                   example: assdskdslfskflsfkslk
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/UsernameResponse"
         "400":
           $ref: "#/components/responses/ValidationError"
         "401":
@@ -935,6 +925,18 @@ components:
       scheme: bearer
       bearerFormat: JWT
   responses:
+    UsernameResponse:
+      description: Contains username
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              user:
+                type: object
+                properties:
+                  username:
+                    $ref: "#/components/schemas/UsernameSchema"
     UserProfileViewResponse:
       description: User profile view
       content:
