@@ -6,4 +6,9 @@ module.exports = {
       username: Joi.string().required(),
     }),
   },
+  addByDevice: {
+    body: Joi.object({
+      deviceUid: Joi.string().required(),
+    }),
+  },
 };

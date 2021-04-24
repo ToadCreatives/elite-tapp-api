@@ -816,6 +816,39 @@ paths:
           $ref: "#/components/responses/UnknownError"
         "500":
           $ref: "#/components/responses/UnknownError"
+  /connections/add/device:
+    post:
+      summary: Create a connection between a user and other user with a device
+      description: >-
+        Create a connection between a user and other user. This usually happens when scanning **NFC tag**
+      operationId: addConnectionByDevice
+      tags:
+        - Connections
+      security:
+        - bearerAuth: []
+      requestBody:
+        description: create connection
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deviceUid:
+                  type: string
+                  description: uid of device
+                  example: assdskdslfskflsfkslk
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+        "400":
+          $ref: "#/components/responses/ValidationError"
+        "401":
+          $ref: "#/components/responses/UnknownError"
+        "404":
+          $ref: "#/components/responses/UnknownError"
+        "500":
+          $ref: "#/components/responses/UnknownError"
   /connections/list:
     get:
       summary: List user connections

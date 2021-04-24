@@ -9,6 +9,8 @@ const validation = require('../../validations/connection.validation');
 
 router.post('/add', validate(validation.addByUsername), auth(), controller.addByUsername);
 
+router.post('/add/device', validate(validation.addByDevice), auth(), controller.addByDevice);
+
 router.get('/list', auth(), controller.list);
 
 module.exports = router;
