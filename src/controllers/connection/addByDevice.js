@@ -57,7 +57,7 @@ exports.addByDevice = async (req, res, next) => {
       );
     });
 
-    return res.status(httpStatus.OK).json({ username: connectionUser.username });
+    return res.status(httpStatus.OK).json({ user: { username: connectionUser.username } });
   } catch (err) {
     next(err);
   }
