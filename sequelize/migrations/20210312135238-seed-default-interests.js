@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { v4: uuid } = require('uuid');
 
 const interests = [
@@ -26,14 +27,16 @@ const interests = [
 /* eslint-disable no-unused-vars */
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert(
-      'interests',
-      interests.map((interest) => ({ id: uuid(), title: interest })),
-      {},
-    );
+
+    // await queryInterface.bulkInsert(
+    //   'interests',
+    //   interests.map((interest) => ({ id: uuid(), title: interest })),
+    //   {},
+    // );
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('interests', null, {});
+
+    // await queryInterface.bulkDelete('interests', null, {});
   },
 };
