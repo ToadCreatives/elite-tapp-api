@@ -5,10 +5,10 @@ module.exports = async (req, res, next) => {
   try {
     const authHeader = req.header('Authorization');
     if (!authHeader) {
-      throw Error('Unauthorized');
+      return res.status(httpStatus.FORBIDDEN).end();
     }
     const [type, secret] = authHeader.split(' ');
-    if (type !== 'Bearer' && !secret) {
+    if (type !== 'Basic' && !secret) {
       return res.status(httpStatus.FORBIDDEN).end();
     }
 
