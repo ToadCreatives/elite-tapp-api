@@ -1,6 +1,7 @@
+const httpStatus = require('http-status');
 const { qonversion } = require('../config');
 
-module.exports = async (req, _res, next) => {
+module.exports = async (req, res, next) => {
   try {
     const authHeader = req.header('Authorization');
     if (!authHeader) {
@@ -8,11 +9,11 @@ module.exports = async (req, _res, next) => {
     }
     const [type, secret] = authHeader.split(' ');
     if (type !== 'Bearer' && !secret) {
-      throw Error('Unauthorized');
+      return res.status(httpStatus.FORBIDDEN).end();
     }
 
     if (qonversion.secret !== secret) {
-
+      return res.status(httpStatus.FORBIDDEN).end();
     }
 
     next();
