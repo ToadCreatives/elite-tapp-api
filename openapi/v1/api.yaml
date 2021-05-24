@@ -7,6 +7,8 @@ servers:
     description: Local
   - url: https://elite-tapp-api.herokuapp.com/api/v1
     description: Heroku Production
+  - url: https://elitetapp-api.herokuapp.com/api/v1
+    description: Syeta Production
 tags:
   - name: Auth
     description: Authentication related endpoints
