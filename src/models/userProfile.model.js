@@ -45,8 +45,7 @@ UserProfile.init({
     type: Sequelize.DATEONLY,
   },
   gender: {
-    type: Sequelize.ENUM,
-    values: ['male', 'female'],
+    type: Sequelize.STRING,
     allowNull: true,
   },
   avatar: {

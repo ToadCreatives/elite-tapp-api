@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const { NameRegex } = require('../utils/helpers');
 
+const genders = ['male', 'female', 'non-binary'];
+
 // User validation rules
 module.exports = {
   updateProfile: {
@@ -9,7 +11,7 @@ module.exports = {
       lastName: Joi.string().regex(NameRegex).max(255).allow(null),
       dateOfBirth: Joi.date().less('now'),
       bio: Joi.string().max(512).allow(null),
-      gender: Joi.string().valid('male', 'female').allow(null),
+      gender: Joi.string().valid(...genders).allow(null),
       avatar: Joi.string().allow(null),
     }),
   },

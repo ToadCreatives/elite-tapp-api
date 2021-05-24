@@ -1233,6 +1233,7 @@ components:
       enum:
         - male
         - female
+        - non-binary
       nullable: true
     ProfileBaseSchema:
       type: object
