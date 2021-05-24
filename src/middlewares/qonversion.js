@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const { qonversion } = require('../config');
 
-module.exports = async (req, res, next) => {
+module.exports = () => async (req, res, next) => {
   try {
     const authHeader = req.header('Authorization');
     if (!authHeader) {
