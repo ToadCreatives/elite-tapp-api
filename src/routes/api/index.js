@@ -10,6 +10,7 @@ const linksRoute = require('./link.route');
 const connectionRoute = require('./connection.route');
 const discoveryRoute = require('./discovery.route');
 const subscriptionRoute = require('./subscriptions.route');
+const qonversion = require('./qonversion.route');
 
 router.get('/status', (req, res) => { res.send({ status: 'OK' }); }); // api status
 
@@ -22,5 +23,6 @@ router.use('/links', linksRoute);
 router.use('/connections', connectionRoute);
 router.use('/discovery', discoveryRoute);
 router.use('/subscriptions', subscriptionRoute);
+router.use('/qonversion', qonversion);
 
 module.exports = router;

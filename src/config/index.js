@@ -67,6 +67,9 @@ module.exports = {
       },
     },
   },
+  qonversion: {
+    secret: process.env.QONVERSION_SECRET,
+  },
   isDevEnv: process.env.NODE_ENV === 'development',
   isProdEnv: process.env.NODE_ENV === 'production',
 };
