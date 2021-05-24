@@ -8,10 +8,10 @@ const validation = require('../../validations/profile.validation');
 
 router.get('/view/:username', controller.view);
 
-router.get('/me', auth(), controller.getMyProfile);
+router.get('/me', auth({ usernameRequired: false }), controller.getMyProfile);
 
-router.patch('/me', validate(validation.updateProfile), auth(), controller.updateProfile);
+router.patch('/me', validate(validation.updateProfile), auth({ usernameRequired: false }), controller.updateProfile);
 
-router.put('/me/avatar', validate(validation.uploadAvatar), auth(), controller.uploadAvatar);
+router.put('/me/avatar', validate(validation.uploadAvatar), auth({ usernameRequired: false }), controller.uploadAvatar);
 
 module.exports = router;
