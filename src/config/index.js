@@ -67,8 +67,8 @@ module.exports = {
       },
     },
   },
-  qonversion: {
-    secret: process.env.QONVERSION_SECRET,
+  revenueCat: {
+    secret: process.env.REVENUECAT_SECRET,
   },
   isDevEnv: process.env.NODE_ENV === 'development',
   isProdEnv: process.env.NODE_ENV === 'production',

@@ -12,6 +12,9 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
+      subscriptionTier: {
+        type: Sequelize.STRING,
+      },
       expiresAt: {
         type: Sequelize.DATE,
       },

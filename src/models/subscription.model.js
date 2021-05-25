@@ -21,6 +21,9 @@ Subscription.init({
   expiresAt: {
     type: Sequelize.DATE,
   },
+  subscriptionTier: {
+    type: Sequelize.STRING,
+  },
   isTrial: {
     type: Sequelize.BOOLEAN,
   },
