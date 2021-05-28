@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { NameRegex } = require('../utils/helpers');
 
-const genders = ['male', 'female', 'non-binary'];
+const genders = ['male', 'female', 'non-binary', 'not-specified'];
 
 // User validation rules
 module.exports = {
