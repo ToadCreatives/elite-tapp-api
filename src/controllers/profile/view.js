@@ -2,12 +2,32 @@ const httpStatus = require('http-status');
 const { Op } = require('sequelize');
 const APIError = require('../../errors/APIError');
 const errorCodes = require('../../errors/errorCodes');
+const Subscription = require('../../models/subscription.model');
 const User = require('../../models/user.model');
 const UserLink = require('../../models/userLink.model');
 const UserProfile = require('../../models/userProfile.model');
 const { getUserFromReq } = require('../../utils/auth');
 const { getConnectionVisibilityLevel, VisibilityLevels } = require('../../utils/social');
+const { Tiers } = require('../../utils/tiers');
 const { getAvatarUrl } = require('../../utils/url');
+
+async function hasValidSubscription(userId) {
+  const sub = await Subscription.findOne({
+    where: {
+      userId,
+      isActive: true,
+      expiresAt: {
+        [Op.gte]: new Date(),
+      },
+    },
+  });
+
+  if (sub) {
+    return true;
+  }
+
+  return false;
+}
 
 async function getProfileView(user, targetUsername) {
   let visibilityLevel = VisibilityLevels.public;
@@ -37,12 +57,24 @@ async function getProfileView(user, targetUsername) {
     attributes: ['firstName', 'lastName', 'bio', 'avatar'],
   });
 
+  let tier = {
+    [Op.eq]: Tiers.free,
+  };
+
+  const hasSub = await hasValidSubscription(userId);
+  if (hasSub) {
+    tier = {
+      [Op.in]: [Tiers.free, Tiers.plus],
+    };
+  }
+
   const linksDao = await UserLink.findAll({
     where: {
       userId,
       visibility: {
         [Op.gte]: visibilityLevel,
       },
+      tier,
     },
     attributes: ['provider', 'resourceUrl', 'path'],
     order: [['createdAt', 'asc']],

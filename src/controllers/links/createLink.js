@@ -48,6 +48,7 @@ exports.createLink = async (req, res, next) => {
       path,
       userId,
       visibility,
+      tier: providers[provider].tier,
       resourceUrl,
     });
 
@@ -58,6 +59,7 @@ exports.createLink = async (req, res, next) => {
         provider,
         resourceUrl,
         visibility,
+        tier: providers[provider].tier,
         createdAt: result.createdAt,
       },
     });
