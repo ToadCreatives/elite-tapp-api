@@ -1236,6 +1236,7 @@ components:
         - male
         - female
         - non-binary
+        - not-specified
       nullable: true
     ProfileBaseSchema:
       type: object
