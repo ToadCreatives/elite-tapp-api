@@ -12,7 +12,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
-      subscriptionTier: {
+      plan: {
         type: Sequelize.STRING,
       },
       expiresAt: {
@@ -23,6 +23,12 @@ module.exports = {
       },
       isActive: {
         type: Sequelize.BOOLEAN,
+      },
+      createdAt: {
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        type: Sequelize.DATE,
       },
     });
   },

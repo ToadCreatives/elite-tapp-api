@@ -21,7 +21,7 @@ Subscription.init({
   expiresAt: {
     type: Sequelize.DATE,
   },
-  subscriptionTier: {
+  plan: {
     type: Sequelize.STRING,
   },
   isTrial: {
@@ -32,7 +32,7 @@ Subscription.init({
   },
 }, {
   sequelize,
-  timestamps: false,
+  timestamps: true,
   modelName: 'subscription',
 });
 

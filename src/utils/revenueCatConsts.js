@@ -18,6 +18,12 @@ const PRICE_INCREASE = 'PRICE_INCREASE';
 const CUSTOMER_SUPPORT = 'CUSTOMER_SUPPORT';
 const UNKNOWN = 'UNKNOWN';
 
+// periods
+const TRIAL = 'TRIAL';
+const INTRO = 'INTRO';
+const NORMAL = 'NORMAL';
+const PROMOTIONAL = 'PROMOTIONAL';
+
 module.exports = {
   events: {
     TEST,
@@ -38,5 +44,11 @@ module.exports = {
     PRICE_INCREASE,
     CUSTOMER_SUPPORT,
     UNKNOWN,
+  },
+  periodTypes: {
+    TRIAL,
+    INTRO,
+    NORMAL,
+    PROMOTIONAL,
   },
 };
