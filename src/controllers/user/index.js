@@ -7,6 +7,7 @@ const {
 } = require('./isUsernameAvailable');
 const { setUsername } = require('./setUsername');
 const { changePassword } = require('./changePassword');
+const { deleteAccount } = require('./deleteAccount');
 
 module.exports = {
   register,
@@ -16,4 +17,5 @@ module.exports = {
   isUsernameAvailable,
   setUsername,
   changePassword,
+  deleteAccount,
 };

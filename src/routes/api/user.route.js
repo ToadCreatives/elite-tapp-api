@@ -20,4 +20,6 @@ router.get('/check/username', validate(validation.isUsernameAvailable), controll
 
 router.put('/username', validate(validation.setUsername), auth({ usernameRequired: false }), controller.setUsername);
 
+router.delete('/delete/account', auth({ usernameRequired: false }), controller.deleteAccount);
+
 module.exports = router;
