@@ -20,6 +20,7 @@ async function processor(job) {
       body: job.data.body,
       from: config.twilio.from,
       to: job.data.to,
+      messagingServiceSid: config.twilio.messagingServiceSid,
     });
     return true;
   } catch (error) {

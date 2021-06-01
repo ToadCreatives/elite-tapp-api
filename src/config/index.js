@@ -56,6 +56,7 @@ module.exports = {
     sid: process.env.TWILIO_SID,
     token: process.env.TWILIO_TOKEN,
     from: process.env.TWILIO_FROM,
+    messagingServiceSid: process.env.TWILLIO_MESSAGING_SERVICE_SID,
   },
   resources: {
     images: process.env.RESOURCES_IMAGES || 'https://ik.imagekit.io/ghh7ufjctqp/elitetapp',
