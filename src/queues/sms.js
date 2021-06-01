@@ -18,7 +18,6 @@ async function processor(job) {
     // }
     await twilio.messages.create({
       body: job.data.body,
-      from: config.twilio.from,
       to: job.data.to,
       messagingServiceSid: config.twilio.messagingServiceSid,
     });
