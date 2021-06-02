@@ -128,7 +128,7 @@ const providers = {
     tier: Tiers.plus,
   },
   youtube: {
-    pathPrefix: null,
+    pathPrefix: 'https://youtube.com/c/',
     isUrl: true,
     tier: Tiers.plus,
   },
