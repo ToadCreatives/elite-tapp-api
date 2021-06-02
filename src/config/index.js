@@ -70,6 +70,7 @@ module.exports = {
   },
   revenueCat: {
     secret: process.env.REVENUECAT_SECRET,
+    apiKey: process.env.REVENUECAT_API_KEY,
   },
   isDevEnv: process.env.NODE_ENV === 'development',
   isProdEnv: process.env.NODE_ENV === 'production',
