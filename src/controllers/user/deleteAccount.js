@@ -15,13 +15,16 @@ exports.deleteAccount = async (req, res, next) => {
       const resp = await axios.default.delete(`https://api.revenuecat.com/v1/subscribers/${userId}`, {
         headers: {
           Authorization: `Bearer ${rc.secretApiKey}`,
+          'Content-Type': 'application/json',
         },
       });
       if (resp.status === httpStatus.OK) {
         logger.info(`Deleted revenuecat user data for ${userId}`, { type: 'revenuecat', event: 'delete' });
       }
     } catch (error) {
-      logger.error(`Error deleting revenuecat user data for ${userId}`, { type: 'revenuecat', event: 'delete', error: error.stack || {} });
+      logger.error(`Error deleting revenuecat user data for ${userId}`, {
+        type: 'revenuecat', event: 'delete', response: error.response.data || {}, error: error.stack || {},
+      });
     }
 
     return res.status(httpStatus.OK).json({ message: 'ok' });
