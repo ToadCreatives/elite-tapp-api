@@ -9,7 +9,7 @@ module.exports = {
     body: Joi.object({
       firstName: Joi.string().regex(NameRegex).max(255).allow(null),
       lastName: Joi.string().regex(NameRegex).max(255).allow(null),
-      dateOfBirth: Joi.date().less('now'),
+      dateOfBirth: Joi.date().allow(null, ''),
       bio: Joi.string().max(512).allow(null),
       gender: Joi.string().valid(...genders).allow(null),
       avatar: Joi.string().allow(null),
