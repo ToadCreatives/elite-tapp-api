@@ -42,7 +42,7 @@ module.exports = {
   },
   isUsernameAvailable: {
     query: Joi.object({
-      value: Joi.string().required(),
+      value: Joi.string().regex(UsernameRegex).required(),
     }),
   },
   setUsername: {
