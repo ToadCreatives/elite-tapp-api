@@ -14,7 +14,7 @@ function isPhone(data) {
   return !result.error;
 }
 
-const UsernameRegex = /^(?=.{5,25}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![.-])$/;
+const UsernameRegex = /^(?=.{3,25}$)(?![_.-])(?!.*[_.]{2})[a-zA-Z0-9._-]+(?<![.-])$/;
 const NameRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u;
 
 module.exports = {
