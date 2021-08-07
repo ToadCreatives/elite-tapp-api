@@ -15,7 +15,7 @@
     "lint": "eslint --ext .js . ",
     "lint:fix": "eslint --fix --ext .js .",
     "swagger:validate": "swagger-cli validate openapi/v1/api.yaml",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "keywords": [],
   "author": "EliteTapp Team",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@apidevtools/swagger-cli": "^4.0.4",
+    "@types/jest": "^26.0.24",
     "@types/qs": "^6.9.4",
     "cross-env": "^5.1.3",
     "eslint": "^7.22.0",
@@ -34,6 +35,7 @@
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-standard": "^3.0.1",
+    "jest": "^27.0.6",
     "nodemon": "^2.0.7",
     "openapi-types": "^7.2.3"
   },
