@@ -126,6 +126,7 @@ const providers = {
     isUrl: true,
     asPathItem: true,
     tier: Tiers.plus,
+    pathFormatter: (path) => (path.charAt(0) === '@' ? path : `@${path}`),
   },
   youtube: {
     pathPrefix: 'https://youtube.com/c/',
@@ -178,10 +179,15 @@ function getResourceUrl(provider, path) {
 
   const providerData = providers[provider];
   if (providerData.isUrl && providerData.pathPrefix) {
-    if (providerData.asPathItem) {
-      return encodeURI(urljoin(providerData.pathPrefix, path));
+    let formattedPath = path;
+    if (providerData.pathFormatter) {
+      formattedPath = providerData.pathFormatter(path);
     }
-    return encodeURI([providerData.pathPrefix, path].join(''));
+
+    if (providerData.asPathItem) {
+      return encodeURI(urljoin(providerData.pathPrefix, formattedPath));
+    }
+    return encodeURI([providerData.pathPrefix, formattedPath].join(''));
   }
 
   if (!providerData.isUrl && providerData.pathPrefix) {
