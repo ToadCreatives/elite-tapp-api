@@ -130,6 +130,7 @@ const providers = {
   youtube: {
     pathPrefix: 'https://youtube.com/c/',
     isUrl: true,
+    asPathItem: true,
     tier: Tiers.plus,
   },
   podcasts: {
@@ -140,6 +141,18 @@ const providers = {
   website: {
     pathPrefix: null,
     isUrl: true,
+    tier: Tiers.plus,
+  },
+  linkedin: {
+    pathPrefix: 'https://www.linkedin.com/in/',
+    isUrl: true,
+    asPathItem: true,
+    tier: Tiers.plus,
+  },
+  onlyfans: {
+    pathPrefix: 'https://onlyfans.com/',
+    isUrl: true,
+    asPathItem: true,
     tier: Tiers.plus,
   },
 };
