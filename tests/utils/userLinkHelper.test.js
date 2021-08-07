@@ -15,7 +15,7 @@ test('should use the given username when multiple @ signs are provided', () => {
   expect(result).toBe('https://tiktok.com/@@@user');
 });
 
-test('should return url path when url is input', () => {
+test('should use the input if it is a url', () => {
   const result = getResourceUrl('tiktok', 'https://tiktok.com/@@@user');
   expect(result).toBe('https://tiktok.com/@@@user');
 });
