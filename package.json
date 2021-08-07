@@ -20,7 +20,7 @@
   "keywords": [],
   "author": "EliteTapp Team",
   "engines": {
-    "node": "12.x"
+    "node": "14.x"
   },
   "devDependencies": {
     "@apidevtools/swagger-cli": "^4.0.4",
