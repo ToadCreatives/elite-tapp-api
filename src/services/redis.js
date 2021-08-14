@@ -5,7 +5,11 @@ const log = require('../log');
 
 blueBird.promisifyAll(redis);
 
-const client = redis.createClient(config.redis.primary);
+const client = redis.createClient(config.redis.primary, {
+  tls: {
+    rejectUnauthorized: false,
+  },
+});
 
 client.on('error', (err) => {
   log.error('Redis Primary: ', err);
