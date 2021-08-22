@@ -25,10 +25,6 @@ exports.sendPasswordReset = async (req, res, next) => {
       throw new APIError('User account not found', httpStatus.NOT_FOUND, errorCodes.InvalidCredentials);
     }
 
-    if (!user.verified) {
-      throw new APIError('Account not verified', httpStatus.UNPROCESSABLE_ENTITY, errorCodes.AccountNotVerified);
-    }
-
     // resend activation
     const result = await sendPasswordReset(user);
 
