@@ -72,7 +72,7 @@
     "pg-hstore": "^2.3.3",
     "redis": "^3.1.2",
     "sequelize": "^6.5.0",
-    "sequelize-cli": "^6.2.0",
+    "sequelize-cli": "^6.6.3",
     "swagger-ui-express": "^4.1.6",
     "twilio": "^4.11.0",
     "url-join": "^4.0.1",
